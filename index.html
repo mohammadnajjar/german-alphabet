@@ -1275,6 +1275,7 @@
     <button class="rule-filter-btn" onclick="filterRules('vowel',this)">الحروف الصوتية</button>
     <button class="rule-filter-btn" onclick="filterRules('end',this)">نهاية الكلمة</button>
     <button class="rule-filter-btn" onclick="filterRules('combo',this)">تركيبات</button>
+    <button class="rule-filter-btn" onclick="filterRules('silent',this)">حروف صامتة</button>
   </div>
 
   <div id="rules-container"></div>
@@ -2155,7 +2156,7 @@ const dict = {
   'dunkel':   {t:'مظلم',     p:'دونكِل',     ty:'صفة',   n:'عكسها hell = مضيء'},
   // ف
   'Frau':     {t:'امرأة / سيدة', p:'فراو',  ty:'اسم',   n:'أيضاً لقب احترام = السيدة'},
-  'Freund':   {t:'صديق',     p:'فرويند',     ty:'اسم',   n:'Freundin = صديقة'},
+  'Freund':   {t:'صديق',     p:'فروينت',     ty:'اسم',   n:'Freundin = صديقة'},
   'Fenster':  {t:'شباك',     p:'فِنستِر',   ty:'اسم',   n:'جمعها Fenster — نفس المفرد'},
   'Feuer':    {t:'نار',      p:'فويِر',      ty:'اسم',   n:'eu تُنطق أوي'},
   'Fisch':    {t:'سمكة',     p:'فيش',        ty:'اسم',   n:'sch دائماً = ش'},
@@ -2244,7 +2245,7 @@ const dict = {
   // أ
   'über':     {t:'فوق / عبر', p:'أوبِر',     ty:'حرف جر', n:'ü = شفتيك دائرة مع صوت إي'},
   'Uhr':      {t:'ساعة',     p:'أور',        ty:'اسم',   n:'كم الساعة = Wie viel Uhr ist es?'},
-  'Urlaub':   {t:'إجازة',    p:'أورلاوب',    ty:'اسم',   n:'au = أو'},
+  'Urlaub':   {t:'إجازة',    p:'أورلاوپ',    ty:'اسم',   n:'au = أو'},
   'und':      {t:'و',        p:'أوند',       ty:'رابط',  n:'أكثر كلمة شائعة في الألمانية'},
   // ف
   'Vater':    {t:'أب',       p:'فاتِر',      ty:'اسم',   n:'V = ف وليس v الإنجليزية — جمعها Väter'},
@@ -2254,7 +2255,7 @@ const dict = {
   'vier':     {t:'أربعة',    p:'فير',        ty:'عدد',   n:'ie = إي طويلة'},
   // و
   'Wasser':   {t:'ماء',      p:'فاسِر',      ty:'اسم',   n:'W = ف أسنانية (مثل v الإنجليزية)'},
-  'Wind':     {t:'ريح',      p:'فيند',       ty:'اسم',   n:'d في النهاية = t'},
+  'Wind':     {t:'ريح',      p:'فينت',       ty:'اسم',   n:'d في النهاية = t'},
   'Wolf':     {t:'ذئب',      p:'فولف',       ty:'اسم',   n:'جمعها Wölfe'},
   'Wort':     {t:'كلمة',     p:'فورت',       ty:'اسم',   n:'جمعها Wörter'},
   'wohnen':   {t:'يسكن',     p:'فونِن',      ty:'فعل',   n:'W = ف'},
@@ -2284,7 +2285,7 @@ const dict = {
   'groß':     {t:'كبير',     p:'غروس',       ty:'صفة',   n:'ß = س'},
   'Glück':    {t:'حظ / سعادة', p:'غلوك',    ty:'اسم',   n:'ü + ck = ك'},
   'Tschüss':  {t:'مع السلامة', p:'تشوس',    ty:'تعبير', n:'tsch = تش — ü + ss = س'},
-  'Pferd':    {t:'حصان',     p:'بفيرد',      ty:'اسم',   n:'pf = بف — d في النهاية = t'},
+  'Pferd':    {t:'حصان',     p:'بفيرت',      ty:'اسم',   n:'pf = بف — d في النهاية = t'},
   // أرقام وكلمات شائعة
   'eins':     {t:'واحد',     p:'آينس',       ty:'عدد',   n:'ei = آي'},
   'zwei':     {t:'اثنان',    p:'تسفاي',      ty:'عدد',   n:'Z = تس'},
@@ -2312,8 +2313,8 @@ const dict = {
   'Wohnzimmer':{t:'غرفة جلوس',p:'فونتسيمِر', ty:'اسم', n:'Wohn + Zimmer = مكان + غرفة'},
   'Zimmer':   {t:'غرفة',     p:'تسيمِر',    ty:'اسم',   n:'Z = تس'},
   'Schrank':  {t:'خزانة',    p:'شرانك',      ty:'اسم',   n:'sch = ش'},
-  'Kleid':    {t:'فستان',    p:'كلايد',      ty:'اسم',   n:'ei = آي — d في النهاية = t'},
-  'Geld':     {t:'مال',      p:'غيلد',       ty:'اسم',   n:'d في النهاية = t'},
+  'Kleid':    {t:'فستان',    p:'كلايت',      ty:'اسم',   n:'ei = آي — d في النهاية = t'},
+  'Geld':     {t:'مال',      p:'غيلت',       ty:'اسم',   n:'d في النهاية = t'},
   'Garage':   {t:'مرآب / جراج', p:'غاراجِه', ty:'اسم', n:'مستعارة من الفرنسية'},
   'beachten': {t:'يلاحظ',    p:'بِآختِن',   ty:'فعل',   n:'ch بعد a = خ حلقي'},
   'Insel':    {t:'جزيرة',    p:'إنزِل',      ty:'اسم',   n:'جمعها Inseln'},
@@ -2370,7 +2371,7 @@ const dict = {
   // ===== ألوان =====
   'blau':      {t:'أزرق',      p:'بلاو',       ty:'صفة',   n:'au = أو'},
   'grün':      {t:'أخضر',      p:'غرون',       ty:'صفة',   n:'ü = شفتيك دائرة'},
-  'gelb':      {t:'أصفر',      p:'غيلب',       ty:'صفة',   n:'b في النهاية = p'},
+  'gelb':      {t:'أصفر',      p:'غيلپ',       ty:'صفة',   n:'b في النهاية = p'},
   'schwarz':   {t:'أسود',      p:'شفارتس',     ty:'صفة',   n:'sch = ش — z = تس'},
   'weiß':      {t:'أبيض',      p:'فايس',       ty:'صفة',   n:'ei = آي — ß = س'},
   'grau':      {t:'رمادي',     p:'غراو',       ty:'صفة',   n:'au = أو'},
@@ -2399,7 +2400,7 @@ const dict = {
   'Kopf':      {t:'رأس',       p:'كوبف',       ty:'اسم',   n:'pf = بف — جمعها Köpfe'},
   'Haar':      {t:'شعر',       p:'هار',        ty:'اسم',   n:'جمعها Haare'},
   'Auge':      {t:'عين',       p:'أوغِه',      ty:'اسم',   n:'جمعها Augen — au = أو'},
-  'Mund':      {t:'فم',        p:'موند',       ty:'اسم',   n:'d في النهاية = t'},
+  'Mund':      {t:'فم',        p:'مونت',       ty:'اسم',   n:'d في النهاية = t'},
   'Zahn':      {t:'سن',        p:'تسان',       ty:'اسم',   n:'z = تس — جمعها Zähne'},
   'Hals':      {t:'رقبة / حلق',p:'هالس',       ty:'اسم',   n:'جمعها Hälse'},
   'Schulter':  {t:'كتف',       p:'شولتِر',     ty:'اسم',   n:'sch = ش — جمعها Schultern'},
@@ -2720,7 +2721,7 @@ const dict = {
   'Bitte':     {t:'من فضلك / تفضل',p:'بيته',  ty:'تعبير',  n:''},
   'Danke schön':{t:'شكراً جزيلاً',p:'دانكِه شون',ty:'تعبير',n:'sch = ش'},
   'Bitte schön':{t:'عفواً / تفضل',p:'بيته شون',ty:'تعبير', n:'رد على شكر'},
-  'Es tut mir leid':{t:'آسف / معذرة',p:'إس توت مير لايد',ty:'تعبير',n:'ei = آي'},
+  'Es tut mir leid':{t:'آسف / معذرة',p:'إس توت مير لايت',ty:'تعبير',n:'ei = آي'},
   'Wie geht es Ihnen':{t:'كيف حالك (رسمي)',p:'في غيت إس إينِن',ty:'تعبير',n:''},
   'Wie geht\'s':{t:'كيف حالك؟',p:'في غيتس',  ty:'تعبير',  n:'عامية'},
   'Gut, danke': {t:'بخير، شكراً',p:'غوت دانكِه',ty:'تعبير',n:''},
@@ -2802,44 +2803,73 @@ const dict = {
   'Kamera':    {t:'كاميرا',    p:'كاميرا',   ty:'اسم',   n:''},
   'Fernseher': {t:'تلفزيون',   p:'فيرنزيهِر',ty:'اسم',   n:'Fern = بعيد + sehen = يرى'},
   'Radio':     {t:'راديو',     p:'راديو',    ty:'اسم',   n:''},
+
+  // ===== كلمات من ورقة د. بلال الشريف =====
+  'Käfer':     {t:'خنفساء',    p:'كيفِر',      ty:'اسم',   n:'ä = إيه + ch = خ ناعم'},
+  'Bäume':     {t:'أشجار',     p:'بويمِه',     ty:'اسم',   n:'äu = أوي — مفردها Baum'},
+  'Pfeffer':   {t:'فلفل',      p:'بفيفِر',     ty:'اسم',   n:'pf = بف + ff = ف مشددة'},
+  'Frieden':   {t:'سلام',      p:'فريدِن',     ty:'اسم',   n:'ie = إي'},
+  'Theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت دائماً في الألمانية'},
+  'theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت دائماً في الألمانية'},
+  'Blitz':     {t:'برق',       p:'بليتس',      ty:'اسم',   n:'tz = تس دائماً'},
+  'Position':  {t:'موقع / موضع',p:'بوزيتسيون', ty:'اسم',   n:'-tion = تسيون — t في -tion دائماً تُلفظ'},
+  'Spiegel':   {t:'مرآة',      p:'شبيغِل',     ty:'اسم',   n:'sp = شب في البداية + ie = إي'},
+  'Stufe':     {t:'مستوى / درجة',p:'شتوفِه',   ty:'اسم',   n:'st = شت في البداية'},
+  'Dach':      {t:'سقف',       p:'داخ',        ty:'اسم',   n:'ch بعد a = خ حلقي — جمعها Dächer'},
+  'Christ':    {t:'مسيح / مسيحي',p:'كريست',   ty:'اسم',   n:'ch في كلمات أجنبية = ك'},
+  'Fahrer':    {t:'سائق',      p:'فارِر',      ty:'اسم',   n:'r في نهاية المقطع = يندمج مع e → صوت /ɐ/'},
+  'Ich liebe dich':{t:'أحبك',  p:'إيخ ليبِه ديخ',ty:'تعبير',n:'ich = إيخ + dich = ديخ (ch = خ ناعم)'},
+  'ich liebe dich':{t:'أحبك',  p:'إيخ ليبِه ديخ',ty:'تعبير',n:'أشهر جملة! ich + dich الـ ch = خ ناعم'},
+  'Kuh':       {t:'بقرة',      p:'كو',         ty:'اسم',   n:'h في نهاية المقطع صامت — لا يُلفظ'},
+  'Theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت'},
+  'besser':    {t:'أفضل',      p:'بيسِر',      ty:'صفة',   n:'ss بين حرفين = س مشددة'},
+  'Wasser':    {t:'ماء',       p:'فاسِر',      ty:'اسم',   n:'ss بين حرفين = س — V = ف'},
+  'Entschuldigung':{t:'عذراً / آسف',p:'إنتشولديغونغ',ty:'تعبير',n:'tsch = تش + -ig = إيخ + -ung = ونغ'},
+  'Syrien':    {t:'سوريا',     p:'زوريِن',     ty:'اسم',   n:'S = ز + y = مقطعان Sy·ri·en'},
+  'Ferien':    {t:'عطلة (مدرسية)',p:'فيريِن',  ty:'اسم',   n:'ie = إي + مقطعان Fe·ri·en'},
+  'Stadt':     {t:'مدينة',     p:'شتات',       ty:'اسم',   n:'st = شت + dt = ت واحدة — جمعها Städte'},
+  'Tochter':   {t:'ابنة',      p:'توختِر',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
+  'Sechs':     {t:'ستة',       p:'زيكس',       ty:'عدد',   n:'chs = كس مثل حرف x — s = ز في البداية'},
 };
 
 
 // ======= GERMAN PHONETIC CONVERTER =======
+// ======= GERMAN PHONETIC CONVERTER =======
 function germanToArabicPron(word) {
   let w = word.toLowerCase();
-  let out = '';
-  let i = 0;
-  // endings first
+
   const endMap = [
-    [/ig$/, 'إيخ'], [/ung$/, 'ونغ'], [/heit$/, 'هايت'], [/keit$/, 'كايت'],
-    [/lich$/, 'ليخ'], [/isch$/, 'إش'], [/chen$/, 'خِن'], [/lein$/, 'لاين'],
-    [/tion$/, 'تسيون'], [/er$/, 'ِر'], [/en$/, 'ِن'], [/em$/, 'ِم'],
-    [/el$/, 'ِل'], [/e$/, 'ِه'],
+    [/ierung$/, 'يرونغ'], [/tion$/, 'تسيون'],  [/sion$/, 'زيون'],
+    [/keit$/, 'كايت'],    [/heit$/, 'هايت'],    [/schaft$/, 'شافت'],
+    [/lich$/, 'ليخ'],     [/isch$/, 'إيش'],     [/ling$/, 'لينغ'],
+    [/ung$/, 'ونغ'],      [/chen$/, 'خِن'],     [/lein$/, 'لاين'],
+    [/ig$/, 'إيخ'],       [/orie$/, 'وري'],     [/ien$/, 'يِن'],
+    [/ie$/, 'ي'],         [/er$/, 'ِر'],         [/en$/, 'ِن'],
+    [/em$/, 'ِم'],        [/el$/, 'ِل'],         [/e$/, 'ِه'],
   ];
-  // Apply ending transforms
   let ending = '';
   for (const [rx, rep] of endMap) {
     if (rx.test(w)) { ending = rep; w = w.replace(rx, ''); break; }
   }
-  // Main conversion map (order matters - longer patterns first)
+
   const map = [
-    ['tsch','تش'], ['sch','ش'], ['ch','خ'],
-    ['sp','شب'], ['st','شت'],
-    ['pf','بف'], ['qu','كف'], ['ng','نغ'],
-    ['ph','ف'], ['th','ت'],
-    ['äu','أوي'], ['au','أو'], ['eu','أوي'],
-    ['ei','آي'], ['ai','آي'],
-    ['ie','إي'], ['ee','إي'], ['aa','آ'], ['oo','أو'],
-    ['ck','ك'], ['tz','تس'],
-    ['ss','س'], ['ß','س'],
-    ['ä','إيه'], ['ö','أوه'], ['ü','أوه'],
-    ['a','آ'], ['e','إيه'], ['i','إي'], ['o','أو'], ['u','أو'],
+    ['tsch','تش'], ['sch','ش'], ['str','شتر'], ['spr','شبر'], ['cht','خت'],
+    ['th','ت'], ['ph','ف'], ['qu','كف'], ['pf','بف'],
+    ['ng','نغ'], ['ck','ك'], ['tz','تس'], ['ch','خ'],
+    ['sp','شب'], ['st','شت'], ['ss','س'], ['ß','س'],
+    ['tt','ت'], ['dd','د'], ['nn','ن'], ['mm','م'], ['ll','ل'],
+    ['rr','ر'], ['ff','ف'], ['pp','ب'], ['gg','غ'],
+    ['äu','وي'], ['eu','وي'], ['au','او'],
+    ['ei','اي'], ['ai','اي'],
+    ['ie','ي'], ['ee','ي'], ['aa','ا'],
+    ['ä','ا'], ['ö','و'], ['ü','و'],
+    ['a','ا'], ['e','ِ'], ['i','ِي'], ['o','و'], ['u','و'],
     ['b','ب'], ['c','ك'], ['d','د'], ['f','ف'], ['g','غ'],
-    ['h','ه'], ['j','ي'], ['k','ك'], ['l','ل'], ['m','م'],
+    ['h',''], ['j','ي'], ['k','ك'], ['l','ل'], ['m','م'],
     ['n','ن'], ['p','ب'], ['r','ر'], ['s','ز'], ['t','ت'],
     ['v','ف'], ['w','ف'], ['x','كس'], ['y','ي'], ['z','تس'],
   ];
+
   let result = '';
   let src = w;
   while (src.length > 0) {
@@ -2848,12 +2878,14 @@ function germanToArabicPron(word) {
       if (src.startsWith(pat)) {
         result += rep;
         src = src.slice(pat.length);
-        matched = true;
-        break;
+        matched = true; break;
       }
     }
-    if (!matched) { result += src[0]; src = src.slice(1); }
+    if (!matched) src = src.slice(1);
   }
+  // تصليح الكلمات اللي تبدأ بكسرة (حرف علة في البداية)
+  if (result.startsWith('ِ')) result = 'إِ' + result.slice(1);
+  if (result.startsWith('ِي')) result = 'إي' + result.slice(2);
   return result + ending;
 }
 
@@ -3228,7 +3260,7 @@ const pronRules = [
   { id:'c3', cat:'combo', trigger:'pf', short:'= بف معاً', badge:'special', badgeText:'تركيب',
     desc:'pf يُنطقان معاً كصوت واحد — بف. شائع في الألمانية.',
     examples:[
-      {de:'Pferd', ar:'حصان', pron:'بفيرد'},
+      {de:'Pferd', ar:'حصان', pron:'بفيرت'},
       {de:'Apfel', ar:'تفاحة', pron:'أبفل'},
       {de:'Pfanne', ar:'مقلاة', pron:'بفانه'},
     ]},
@@ -3238,6 +3270,76 @@ const pronRules = [
       {de:'Deutsch', ar:'ألماني', pron:'دويتش'},
       {de:'Tschüss', ar:'مع السلامة', pron:'تشوس'},
       {de:'Matsch', ar:'وحل', pron:'ماتش'},
+    ]},
+
+  // ===== قواعد جديدة من ورقة د. بلال =====
+
+  { id:'th1', cat:'combo', trigger:'th', short:'= ت دائماً في الألمانية', badge:'special', badgeText:'تركيب',
+    desc:'في الألمانية، th يُنطق دائماً كالتاء العربية — مختلف عن الإنجليزية تماماً! لا يوجد صوت ث.',
+    examples:[
+      {de:'Theorie', ar:'نظرية', pron:'تيوريه'},
+      {de:'Theater', ar:'مسرح', pron:'تياتِر'},
+      {de:'Thema', ar:'موضوع', pron:'تيما'},
+      {de:'Thomas', ar:'توماس', pron:'توماس'},
+    ]},
+
+  { id:'dt1', cat:'combo', trigger:'dt', short:'= ت واحدة فقط', badge:'special', badgeText:'تركيب',
+    desc:'التركيب dt يُنطق كتاء واحدة فقط — مثال واحد مشهور: Stadt.',
+    examples:[
+      {de:'Stadt', ar:'مدينة', pron:'شتات'},
+      {de:'Stadtpark', ar:'حديقة المدينة', pron:'شتات بارك'},
+    ]},
+
+  { id:'chs1', cat:'combo', trigger:'chs', short:'= كس (مثل حرف x)', badge:'special', badgeText:'تركيب',
+    desc:'التركيب chs يُنطق مثل حرف x تماماً — كس.',
+    examples:[
+      {de:'Sechs', ar:'ستة', pron:'زيكس'},
+      {de:'Fuchs', ar:'ثعلب', pron:'فوكس'},
+      {de:'wachsen', ar:'ينمو', pron:'فاكسِن'},
+    ]},
+
+  { id:'ch4', cat:'ch', trigger:'ch (أجنبي)', short:'في كلمات أجنبية = ك', badge:'special', badgeText:'خاص',
+    desc:'عندما تكون الكلمة من أصل غير ألماني (يوناني أو لاتيني أو إنجليزي)، ch تُنطق مثل الكاف.',
+    examples:[
+      {de:'Christ', ar:'مسيح', pron:'كريست'},
+      {de:'Charakter', ar:'شخصية', pron:'كاراكتِر'},
+      {de:'Chaos', ar:'فوضى', pron:'كاوس'},
+      {de:'Chronik', ar:'سجل تاريخي', pron:'كرونيك'},
+    ]},
+
+  { id:'h1', cat:'silent', trigger:'h', short:'صامت في وسط ونهاية الكلمة', badge:'special', badgeText:'صامت',
+    desc:'في الألمانية، h تُنطق فقط في بداية المقطع الصوتي (Anlaut). في وسط ونهاية الكلمة تكون صامتة وتطيل الحرف الصوتي قبلها.',
+    examples:[
+      {de:'Hund', ar:'كلب', pron:'هونت ✅ (بداية)'},
+      {de:'Kuh', ar:'بقرة', pron:'كو ❌ h صامتة'},
+      {de:'Zahn', ar:'سن', pron:'تسان ❌ h صامتة'},
+      {de:'sehen', ar:'يرى', pron:'زيِن ❌ h صامتة'},
+    ]},
+
+  { id:'r1', cat:'end', trigger:'-r (آخر مقطع)', short:'r في النهاية = يندمج مع e → /ɐ/', badge:'special', badgeText:'خاص',
+    desc:'R في نهاية المقطع الصوتي لا تُنطق r واضحة — بل تندمج مع حرف e الخفيف لتعطي صوت /ɐ/ (مثل "ِر" خفيفة جداً). مثال: Fahrer ❌ لا تُنطق الـ r الأخيرة.',
+    examples:[
+      {de:'Fahrer', ar:'سائق', pron:'فارِر (r الأخيرة خفيفة)'},
+      {de:'Mutter', ar:'أم', pron:'موتِر (r خفيفة)'},
+      {de:'Vater', ar:'أب', pron:'فاتِر (r خفيفة)'},
+      {de:'Wasser', ar:'ماء', pron:'فاسِر (r خفيفة)'},
+    ]},
+
+  { id:'v1end', cat:'end', trigger:'v → f', short:'v في النهاية = ف مهموسة', badge:'stimmlos', badgeText:'تصلّب',
+    desc:'قاعدة Auslautverhärtung كاملة: v في نهاية المقطع تتحول لـ f. مثل b→p وd→t وg→k.',
+    examples:[
+      {de:'aktiv', ar:'نشيط', pron:'أكتيف'},
+      {de:'brav', ar:'مطيع', pron:'براف'},
+      {de:'naiv', ar:'ساذج', pron:'نايف'},
+    ]},
+
+  { id:'tz1', cat:'combo', trigger:'tz', short:'= تس (مثل z)', badge:'special', badgeText:'تركيب',
+    desc:'tz يُنطق مثل z تماماً — "تس". دائماً بعد حرف صوتي قصير.',
+    examples:[
+      {de:'Blitz', ar:'برق', pron:'بليتس'},
+      {de:'Platz', ar:'ساحة', pron:'بلاتس'},
+      {de:'Katze', ar:'قطة', pron:'كاتسِه'},
+      {de:'jetzt', ar:'الآن', pron:'يِتست'},
     ]},
 ];
 
