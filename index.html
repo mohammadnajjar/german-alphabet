@@ -1,0 +1,3307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعلم الألمانية - الأبجدية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D14;
+    --surface: #16161F;
+    --surface2: #1E1E2C;
+    --border: #2A2A3E;
+    --accent: #F5C842;
+    --accent2: #4ECDC4;
+    --accent3: #FF6B6B;
+    --text: #F0EFF8;
+    --text2: #9895B5;
+    --green: #2ECC71;
+    --red: #E74C3C;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 24px 20px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: 'Aa Bb Cc';
+    position: absolute;
+    font-size: 80px;
+    font-family: 'Playfair Display', serif;
+    color: rgba(245,200,66,0.07);
+    top: -10px; left: -10px;
+    pointer-events: none;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .header p { font-size: 0.9rem; color: var(--text2); margin-top: 4px; }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: var(--surface);
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+  .stars-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .star-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    color: var(--text2);
+  }
+  .star-badge.earned {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(245,200,66,0.08);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 1;
+    min-width: 90px;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text2);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: rgba(245,200,66,0.04);
+  }
+  .tab-icon { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .content { padding: 16px; max-width: 800px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ALPHABET GRID */
+  .alpha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .alpha-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 4px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .alpha-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .alpha-btn.active { border-color: var(--accent); background: rgba(245,200,66,0.08); }
+  .alpha-btn.learned { border-color: var(--accent2); }
+  .alpha-btn.learned::after {
+    content: '✓';
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    font-size: 9px;
+    color: var(--accent2);
+  }
+  .alpha-letter { font-size: 20px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+  .alpha-name { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+  /* DETAIL CARD */
+  .detail-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .detail-card.visible { display: block; animation: slideIn 0.3s ease; }
+  @keyframes slideIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+  .detail-top {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .detail-big-letter {
+    font-size: 64px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 72px;
+    text-align: center;
+  }
+  .detail-info { flex: 1; }
+  .detail-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .info-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+  .info-chip span { color: var(--text2); font-size: 0.72rem; display: block; }
+  .info-chip strong { color: var(--text); }
+  .play-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+  }
+  .play-btn:hover { background: #e0b530; transform: scale(1.03); }
+  .play-btn2 {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+  }
+  .play-btn2:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* EXAMPLES GRID */
+  .examples-title { font-size: 0.82rem; color: var(--text2); margin-bottom: 10px; }
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .example-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .example-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .example-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    display: block;
+    background: var(--border);
+  }
+  .example-body { padding: 8px; }
+  .example-word { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+  .example-mean { font-size: 0.75rem; color: var(--text2); margin-top: 2px; }
+
+  .mark-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(78,205,196,0.1);
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+  .mark-btn:hover { background: rgba(78,205,196,0.2); }
+  .mark-btn.done { background: rgba(78,205,196,0.2); }
+
+  /* QUIZ */
+  .quiz-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-score { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px 18px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .quiz-question { font-size: 0.85rem; color: var(--text2); margin-bottom: 12px; }
+  .quiz-letter-display {
+    font-size: 80px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .quiz-hint { font-size: 0.8rem; color: var(--text2); margin-bottom: 20px; }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .quiz-opt {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+  }
+  .quiz-opt:hover { border-color: var(--accent); background: rgba(245,200,66,0.05); }
+  .quiz-opt.correct { border-color: var(--green); background: rgba(46,204,113,0.12); color: var(--green); }
+  .quiz-opt.wrong { border-color: var(--red); background: rgba(231,76,60,0.12); color: var(--red); }
+  .quiz-feedback {
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none;
+    text-align: center;
+  }
+  .quiz-feedback.show { display: block; animation: popIn 0.3s ease; }
+  @keyframes popIn { from { transform: scale(0.9); opacity:0; } to { transform: scale(1); opacity:1; } }
+  .quiz-feedback.correct { background: rgba(46,204,113,0.12); color: var(--green); border: 1px solid var(--green); }
+  .quiz-feedback.wrong { background: rgba(231,76,60,0.12); color: var(--red); border: 1px solid var(--red); }
+  .next-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    display: none;
+    margin: 0 auto;
+    transition: all 0.2s;
+  }
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: #e0b530; }
+  .quiz-type-btns {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .quiz-type-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: 'Tajawal', sans-serif;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .quiz-type-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.06); }
+  .quiz-results {
+    text-align: center;
+    padding: 30px 20px;
+    display: none;
+  }
+  .quiz-results.show { display: block; animation: slideIn 0.4s ease; }
+  .results-emoji { font-size: 60px; margin-bottom: 16px; }
+  .results-score { font-size: 2rem; font-weight: 800; color: var(--accent); }
+  .results-text { color: var(--text2); font-size: 0.9rem; margin-top: 6px; }
+  .restart-btn {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    margin-top: 16px;
+    transition: all 0.2s;
+  }
+  .restart-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SAVED */
+  .saved-section { }
+  .saved-empty { text-align: center; padding: 40px 20px; color: var(--text2); }
+  .saved-empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .saved-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+  }
+  .saved-letter-card {
+    background: var(--surface);
+    border: 1.5px solid var(--accent2);
+    border-radius: 12px;
+    padding: 12px 6px;
+    text-align: center;
+    position: relative;
+  }
+  .saved-letter { font-size: 24px; font-family: 'Playfair Display', serif; color: var(--accent); }
+  .saved-name { font-size: 10px; color: var(--text2); margin-top: 3px; }
+  .remove-saved {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 2px;
+  }
+  .remove-saved:hover { color: var(--red); }
+  .saved-stats {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+  .stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+  .stat-label { font-size: 0.75rem; color: var(--text2); }
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--red);
+    color: var(--red);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    margin-top: 12px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .voice-info {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+    color: var(--text2);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .special-note {
+    background: rgba(78,205,196,0.07);
+    border: 1px solid rgba(78,205,196,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+
+  /* PHONETICS SECTION */
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .fact-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .fact-num {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .fact-label { font-size: 0.75rem; color: var(--text2); margin-top: 4px; }
+  .fact-sub { font-size: 0.7rem; color: var(--accent2); margin-top: 3px; }
+
+  .vokal-box {
+    background: var(--surface);
+    border: 1.5px solid rgba(245,200,66,0.3);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .vokal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .vokal-badge {
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    padding: 3px 10px;
+  }
+  .vokal-name { font-size: 1rem; font-weight: 700; }
+  .vokal-desc { font-size: 0.78rem; color: var(--text2); margin-bottom: 12px; }
+  .letters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .letter-pill {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .letter-pill:hover { transform: scale(1.12); box-shadow: 0 2px 8px rgba(245,200,66,0.25); }
+  .letter-pill:active { transform: scale(0.95); }
+  .letter-pill.vokal { border-color: var(--accent); background: rgba(245,200,66,0.08); }
+  .letter-pill.konsonant { border-color: #8B5CF6; color: #a78bfa; background: rgba(139,92,246,0.08); }
+
+  .konsonant-box {
+    background: var(--surface);
+    border: 1.5px solid rgba(139,92,246,0.3);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .merkmal-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .merkmal-item {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .merkmal-num {
+    background: #8B5CF6;
+    color: white;
+    font-weight: 800;
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .merkmal-de { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+  .merkmal-ar { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+
+  .umlaut-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .umlaut-card {
+    background: var(--surface2);
+    border: 1.5px solid rgba(78,205,196,0.3);
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+  }
+  .umlaut-big { font-size: 2rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--accent2); }
+  .umlaut-eq { font-size: 0.85rem; color: var(--text2); margin-top: 6px; direction: ltr; }
+  .umlaut-eq strong { color: var(--text); font-size: 1rem; }
+
+  .y-note {
+    background: rgba(255,107,107,0.07);
+    border: 1px solid rgba(255,107,107,0.25);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    margin-bottom: 14px;
+  }
+  .y-note strong { color: var(--accent3); }
+
+  /* VOCAB & TRANSLATOR */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .vocab-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .vocab-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .vocab-card.playing { border-color: var(--accent2); background: rgba(78,205,196,0.08); }
+  .vocab-de { font-size: 1rem; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+  .vocab-ar { font-size: 0.82rem; color: var(--text2); margin-top: 2px; }
+  .vocab-sound-icon { font-size: 1rem; opacity: 0.5; flex-shrink: 0; }
+  .vocab-card:hover .vocab-sound-icon { opacity: 1; }
+
+  .color-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* TRANSLATOR */
+  .translator-box {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .translator-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .translator-input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .translator-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    direction: ltr;
+  }
+  .translator-input:focus { border-color: var(--accent); }
+  .translator-input::placeholder { color: var(--text2); direction: rtl; }
+  .translate-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .translate-btn:hover { background: #e0b530; }
+  .translate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .translator-result {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .translator-result.visible { display: block; }
+  .result-word {
+    font-size: 1.4rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .result-translation {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .result-pron {
+    font-size: 0.82rem;
+    color: var(--accent2);
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background: rgba(78,205,196,0.08);
+    border-radius: 8px;
+    display: inline-block;
+  }
+  .result-note {
+    font-size: 0.8rem;
+    color: var(--text2);
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+  .result-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .loading-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .loading-dots span {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+  }
+  .history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .history-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .history-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* NOTES */
+  .notes-section {
+    background: var(--surface2);
+    border: 1.5px solid rgba(245,200,66,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 12px 0;
+  }
+  .notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .notes-saved-badge {
+    background: rgba(46,204,113,0.15);
+    color: var(--green);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.72rem;
+  }
+  .notes-textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.88rem;
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    transition: border-color 0.2s;
+    direction: rtl;
+  }
+  .notes-textarea:focus { border-color: var(--accent); }
+  .notes-textarea::placeholder { color: var(--text2); font-size: 0.8rem; }
+  .notes-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .notes-hint { font-size: 0.72rem; color: var(--text2); }
+  .note-clear-btn {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  .note-clear-btn:hover { color: var(--red); }
+  .alpha-btn.has-note::before {
+    content: '📝';
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    font-size: 8px;
+  }
+
+  /* EXPORT/IMPORT */
+  .backup-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .backup-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+  .backup-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .backup-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .backup-btn-export {
+    background: rgba(245,200,66,0.1);
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+  }
+  .backup-btn-export:hover { background: rgba(245,200,66,0.2); }
+  .backup-btn-import {
+    background: rgba(78,205,196,0.1);
+    border: 1.5px solid var(--accent2);
+    color: var(--accent2);
+  }
+  .backup-btn-import:hover { background: rgba(78,205,196,0.2); }
+  .backup-note { font-size: 0.75rem; color: var(--text2); margin-top: 8px; }
+
+  /* NOTES in saved tab */
+  .saved-note-preview {
+    font-size: 0.72rem;
+    color: var(--text2);
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* PRONUNCIATION RULES */
+  .rules-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .rule-filter-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.18s;
+  }
+  .rule-filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(245,200,66,0.07);
+    font-weight: 700;
+  }
+  .rule-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .rule-card:hover { border-color: rgba(245,200,66,0.4); }
+  .rule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    cursor: pointer;
+    gap: 10px;
+  }
+  .rule-trigger {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: 'Playfair Display', serif;
+    color: var(--accent);
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 8px;
+    padding: 4px 12px;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rule-short {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .rule-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  .rule-badge.stimmhaft { background: rgba(46,204,113,0.15); color: var(--green); }
+  .rule-badge.stimmlos  { background: rgba(231,76,60,0.12); color: var(--red); }
+  .rule-badge.special   { background: rgba(78,205,196,0.12); color: var(--accent2); }
+  .rule-arrow { color: var(--text2); font-size: 0.8rem; transition: transform 0.2s; }
+  .rule-card.open .rule-arrow { transform: rotate(180deg); }
+  .rule-body {
+    display: none;
+    padding: 0 14px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .rule-card.open .rule-body { display: block; animation: slideIn 0.2s ease; }
+  .rule-desc { font-size: 0.82rem; color: var(--text2); margin: 10px 0 10px; line-height: 1.6; }
+  .rule-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .rule-ex {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .rule-ex:hover { border-color: var(--accent2); }
+  .rule-ex-de { font-size: 0.9rem; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+  .rule-ex-ar { font-size: 0.72rem; color: var(--text2); margin-top: 1px; }
+  .rule-ex-pron { font-size: 0.7rem; color: var(--accent2); margin-top: 1px; }
+
+  /* SAVE TO FILE BANNER */
+  .save-banner {
+    background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(78,205,196,0.08));
+    border: 1.5px solid rgba(245,200,66,0.35);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .save-banner-text { flex: 1; min-width: 180px; }
+  .save-banner-title { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+  .save-banner-sub { font-size: 0.75rem; color: var(--text2); margin-top: 2px; }
+  .save-file-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .save-file-btn:hover { background: #e0b530; transform: scale(1.03); }</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🇩🇪 Das Alphabet</h1>
+  <p>تعلم الحروف الألمانية خطوة بخطوة</p>
+</div>
+
+<div class="progress-section">
+  <div class="progress-label">
+    <span>تقدمك في الأبجدية</span>
+    <span id="prog-text">0 / 30 حرف</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+  </div>
+  <div class="stars-row">
+    <div class="star-badge" id="badge-10">⭐ 10 حروف</div>
+    <div class="star-badge" id="badge-20">🌟 20 حرف</div>
+    <div class="star-badge" id="badge-30">🏆 كل الحروف!</div>
+    <div class="star-badge" id="badge-quiz">🎯 أول اختبار</div>
+    <div class="star-badge" id="badge-perfect">💎 اختبار كامل</div>
+  </div>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;">
+    <button class="save-file-btn" style="width:100%;" onclick="pickAutoSaveFile()">🔗 ربط ملف — للحفظ التلقائي عند كل تغيير</button>
+    <button class="save-file-btn" style="width:100%;background:var(--surface2);color:var(--text);border:1.5px solid var(--border);" onclick="saveToFile()">💾 حفظ يدوي الآن</button>
+    <div id="autosave-status" style="font-size:0.72rem;color:var(--accent2);text-align:center;transition:opacity 0.5s;opacity:0.7;" id="last-saved-label"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('letters', this)">
+    <span class="tab-icon">🔤</span>الحروف
+  </div>
+  <div class="tab" onclick="switchTab('phonetics', this)">
+    <span class="tab-icon">🎵</span>الأصوات
+  </div>
+  <div class="tab" onclick="switchTab('vocab', this)">
+    <span class="tab-icon">📖</span>مفردات + ترجمة
+  </div>
+  <div class="tab" onclick="switchTab('quiz', this)">
+    <span class="tab-icon">❓</span>اختبار
+  </div>
+  <div class="tab" onclick="switchTab('saved', this)">
+    <span class="tab-icon">💾</span>محفوظاتي
+  </div>
+</div>
+
+<!-- LETTERS TAB -->
+<div class="content">
+<div id="sec-letters" class="section active">
+  <div class="voice-info" id="voice-info">🔊 جاري تحميل الصوت...</div>
+
+  <div class="section-title">الحروف الأساسية (A–Z)</div>
+  <div class="alpha-grid" id="alpha-grid"></div>
+
+  <div class="section-title">الحروف الخاصة</div>
+  <div class="special-note">⚠️ هذه الحروف موجودة فقط في الألمانية — مهمة جداً!</div>
+  <div class="alpha-grid" id="special-grid"></div>
+
+  <div class="detail-card" id="detail-card">
+    <p style="color:var(--text2);font-size:14px;margin:0;text-align:center;">اضغط على أي حرف لتشوف تفاصيله 👆</p>
+  </div>
+</div>
+
+<!-- QUIZ TAB -->
+<div id="sec-quiz" class="section">
+  <div class="quiz-type-btns">
+    <div class="quiz-type-btn active" onclick="setQuizType('sound', this)">🔤 ما اسم الحرف؟</div>
+    <div class="quiz-type-btn" onclick="setQuizType('letter', this)">🔊 أي حرف هذا الصوت؟</div>
+    <div class="quiz-type-btn" onclick="setQuizType('word', this)">📖 ما معنى الكلمة؟</div>
+  </div>
+
+  <div class="quiz-header">
+    <div>
+      <div style="font-size:0.8rem;color:var(--text2);">السؤال</div>
+      <div class="quiz-score" id="q-counter">1 / 10</div>
+    </div>
+    <div style="text-align:left;">
+      <div style="font-size:0.8rem;color:var(--text2);">النقاط</div>
+      <div class="quiz-score" id="q-score">0</div>
+    </div>
+  </div>
+
+  <div id="quiz-main">
+    <div class="quiz-card" id="quiz-card">
+      <div class="quiz-question" id="q-question">ما اسم هذا الحرف؟</div>
+      <div class="quiz-letter-display" id="q-letter">A</div>
+      <div class="quiz-hint" id="q-hint">اختر الإجابة الصحيحة</div>
+      <div class="quiz-options" id="q-options"></div>
+    </div>
+    <div class="quiz-feedback" id="q-feedback"></div>
+    <div style="text-align:center;">
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">التالي ←</button>
+    </div>
+  </div>
+
+  <div class="quiz-results" id="quiz-results">
+    <div class="results-emoji" id="results-emoji">🎉</div>
+    <div class="results-score" id="results-score"></div>
+    <div class="results-text" id="results-text"></div>
+    <br>
+    <button class="play-btn" onclick="startQuiz()" style="margin:0 auto;display:block;">🔄 مرة ثانية</button>
+    <button class="restart-btn" onclick="switchTab('letters', document.querySelector('.tab'))">📚 راجع الحروف</button>
+  </div>
+</div>
+
+<!-- PHONETICS TAB -->
+<div id="sec-phonetics" class="section">
+
+  <div class="section-title">📋 معلومات أساسية — Das deutsche Alphabet hat</div>
+  <div class="facts-grid">
+    <div class="fact-card">
+      <div class="fact-num">26</div>
+      <div class="fact-label">Buchstaben</div>
+      <div class="fact-sub">حرفاً أساسياً</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-num">3</div>
+      <div class="fact-label">Umlaute</div>
+      <div class="fact-sub">حروف خاصة (أوملاوت)</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-num">ß</div>
+      <div class="fact-label">Eszett</div>
+      <div class="fact-sub">= ss مشددة</div>
+    </div>
+  </div>
+
+  <div class="section-title">🔄 بدائل الأوملاوت في الكتابة</div>
+  <div class="umlaut-grid">
+    <div class="umlaut-card" onclick="speak('ä')" style="cursor:pointer;" title="اضغط للاستماع">
+      <div class="umlaut-big">Ä</div>
+      <div class="umlaut-eq"><strong>Ä</strong> = ae</div>
+    </div>
+    <div class="umlaut-card" onclick="speak('ö')" style="cursor:pointer;" title="اضغط للاستماع">
+      <div class="umlaut-big">Ö</div>
+      <div class="umlaut-eq"><strong>Ö</strong> = oe</div>
+    </div>
+    <div class="umlaut-card" onclick="speak('ü')" style="cursor:pointer;" title="اضغط للاستماع">
+      <div class="umlaut-big">Ü</div>
+      <div class="umlaut-eq"><strong>Ü</strong> = ue</div>
+    </div>
+  </div>
+  <div class="special-note" style="margin-bottom:18px;">💡 إذا ما عندك لوحة مفاتيح ألمانية، تكتب Ä كـ ae وÖ كـ oe وÜ كـ ue</div>
+
+  <div class="section-title">🔵 Die Vokale — حروف العلة</div>
+  <div class="vokal-box">
+    <div class="vokal-title">
+      <div class="vokal-badge">8 حروف</div>
+      <div class="vokal-name">Die Vokale (العِلَّة)</div>
+    </div>
+    <div class="vokal-desc">✅ keine Hindernis = لا عائق — الهواء يخرج بحرية بدون عائق</div>
+    <div class="letters-row">
+      <div class="letter-pill vokal" onclick="speak('a')" title="اضغط للاستماع">a</div>
+      <div class="letter-pill vokal" onclick="speak('e')" title="اضغط للاستماع">e</div>
+      <div class="letter-pill vokal" onclick="speak('i')" title="اضغط للاستماع">i</div>
+      <div class="letter-pill vokal" onclick="speak('o')" title="اضغط للاستماع">o</div>
+      <div class="letter-pill vokal" onclick="speak('u')" title="اضغط للاستماع">u</div>
+      <div class="letter-pill vokal" onclick="speak('ä')" title="اضغط للاستماع">ä</div>
+      <div class="letter-pill vokal" onclick="speak('ö')" title="اضغط للاستماع">ö</div>
+      <div class="letter-pill vokal" onclick="speak('ü')" title="اضغط للاستماع">ü</div>
+    </div>
+  </div>
+
+  <div class="y-note">
+    <strong>⚠️ حرف Y الخاص:</strong><br>
+    — في كلمة <strong style="color:var(--accent)">Baby</strong> → Y = <strong style="color:var(--accent)">Vokal</strong> (حرف علة)<br>
+    — في كلمة <strong style="color:#a78bfa">Yoga</strong> → Y = <strong style="color:#a78bfa">Konsonant</strong> (حرف صحيح)<br>
+    <span style="color:var(--text2);font-size:0.78rem;">حسب موقعه في الكلمة يتغير نوعه!</span>
+  </div>
+
+  <div class="section-title">🟣 Die Konsonanten — الحروف الصحيحة</div>
+  <div class="konsonant-box">
+    <div class="vokal-title">
+      <div class="vokal-badge" style="background:#8B5CF6;color:white;">22 حرفاً</div>
+      <div class="vokal-name">Die Konsonanten (الصحيحة)</div>
+    </div>
+    <div class="vokal-desc">🚧 Hindernis = عائق — الهواء يصطدم بعائق عند النطق</div>
+    <div class="letters-row">
+      <div class="letter-pill konsonant" onclick="speak('be')">b</div>
+      <div class="letter-pill konsonant" onclick="speak('tse')">c</div>
+      <div class="letter-pill konsonant" onclick="speak('de')">d</div>
+      <div class="letter-pill konsonant" onclick="speak('ef')">f</div>
+      <div class="letter-pill konsonant" onclick="speak('ge')">g</div>
+      <div class="letter-pill konsonant" onclick="speak('ha')">h</div>
+      <div class="letter-pill konsonant" onclick="speak('jot')">j</div>
+      <div class="letter-pill konsonant" onclick="speak('ka')">k</div>
+      <div class="letter-pill konsonant" onclick="speak('el')">l</div>
+      <div class="letter-pill konsonant" onclick="speak('em')">m</div>
+      <div class="letter-pill konsonant" onclick="speak('en')">n</div>
+      <div class="letter-pill konsonant" onclick="speak('pe')">p</div>
+      <div class="letter-pill konsonant" onclick="speak('ku')">q</div>
+      <div class="letter-pill konsonant" onclick="speak('er')">r</div>
+      <div class="letter-pill konsonant" onclick="speak('es')">s</div>
+      <div class="letter-pill konsonant" onclick="speak('te')">t</div>
+      <div class="letter-pill konsonant" onclick="speak('fau')">v</div>
+      <div class="letter-pill konsonant" onclick="speak('ve')">w</div>
+      <div class="letter-pill konsonant" onclick="speak('iks')">x</div>
+      <div class="letter-pill konsonant" onclick="speak('üpsilon')">y</div>
+      <div class="letter-pill konsonant" onclick="speak('tset')">z</div>
+      <div class="letter-pill konsonant" onclick="speak('scharfes s')">ß</div>
+    </div>
+
+    <div style="font-size:0.85rem;font-weight:700;color:var(--text);margin-top:14px;margin-bottom:8px;">
+      🔍 Drei Merkmale — ثلاث صفات لكل حرف صحيح:
+    </div>
+    <div class="merkmal-list">
+      <div class="merkmal-item">
+        <div class="merkmal-num">1</div>
+        <div>
+          <div class="merkmal-de">Ort — المكان</div>
+          <div class="merkmal-ar">أين ينتج الصوت؟ (الشفتين، الأسنان، الحلق...)</div>
+        </div>
+      </div>
+      <div class="merkmal-item">
+        <div class="merkmal-num">2</div>
+        <div>
+          <div class="merkmal-de">Art — الطريقة</div>
+          <div class="merkmal-ar">كيف يُنتج الصوت؟ (انفجاري، احتكاكي، أنفي...)</div>
+        </div>
+      </div>
+      <div class="merkmal-item">
+        <div class="merkmal-num">3</div>
+        <div>
+          <div class="merkmal-de">stimmhaft / stimmlos — الجهر / الهمس</div>
+          <div class="merkmal-ar">هل الحبال الصوتية تهتز؟ <br>
+            <span style="color:var(--green)">stimmhaft = مجهور</span> مثل: b, d, g, v, z<br>
+            <span style="color:var(--accent3)">stimmlos = مهموس</span> مثل: p, t, k, f, s
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="special-note">
+    💡 هالمعلومات من كتاب مقدمة في أصوات اللغة الألمانية — Die Vokale und Konsonanten
+  </div>
+
+  <!-- PRONUNCIATION RULES -->
+  <div class="section-title" style="margin-top:20px;">📐 قواعد النطق — Ausspracheregeln</div>
+  <div class="special-note" style="color:var(--text);">اضغط على أي قاعدة لتشوف التفاصيل والأمثلة 🔊</div>
+
+  <div class="rules-filter">
+    <button class="rule-filter-btn active" onclick="filterRules('all',this)">الكل</button>
+    <button class="rule-filter-btn" onclick="filterRules('s',this)">حرف S</button>
+    <button class="rule-filter-btn" onclick="filterRules('ch',this)">مجموعة CH</button>
+    <button class="rule-filter-btn" onclick="filterRules('vowel',this)">الحروف الصوتية</button>
+    <button class="rule-filter-btn" onclick="filterRules('end',this)">نهاية الكلمة</button>
+    <button class="rule-filter-btn" onclick="filterRules('combo',this)">تركيبات</button>
+  </div>
+
+  <div id="rules-container"></div>
+</div>
+
+<!-- VOCAB + TRANSLATOR TAB -->
+<div id="sec-vocab" class="section">
+
+  <!-- TRANSLATOR -->
+  <div class="translator-box">
+    <div class="translator-title">🔍 اكتب أي كلمة ألمانية — رح تطلعلك الترجمة والنطق</div>
+    <div class="translator-input-row">
+      <input class="translator-input" id="trans-input" type="text" placeholder="اكتب كلمة ألمانية مثلاً: Haus" onkeydown="if(event.key==='Enter') doTranslate()">
+      <button class="translate-btn" id="trans-btn" onclick="doTranslate()">▶ ترجم</button>
+    </div>
+    <div id="trans-result" class="translator-result"></div>
+    <div id="trans-history" style="display:none;">
+      <div style="font-size:0.75rem;color:var(--text2);margin-top:10px;">السابقة:</div>
+      <div class="history-list" id="history-chips"></div>
+    </div>
+  </div>
+
+  <!-- VOCAB LIST -->
+  <div class="section-title">🔊 مفردات A1 — اضغط للاستماع</div>
+  <div class="voice-info" id="voice-info">اضغط على أي كلمة لتسمع نطقها</div>
+  <div id="voice-selector-row" style="margin-bottom:10px;display:none;">
+    <select id="voice-select" onchange="changeVoice(this.value)"
+      style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+      padding:8px 12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.82rem;cursor:pointer;">
+    </select>
+  </div>
+  <div class="vocab-grid" id="vocab-grid"></div>
+
+</div>
+
+<!-- SAVED TAB -->
+<div id="sec-saved" class="section">
+  <div class="backup-box">
+    <div class="backup-title">💾 احتياطي البيانات — منشان ما تضيع</div>
+    <div class="backup-btns">
+      <button class="backup-btn backup-btn-export" onclick="exportData()">📤 تصدير تقدمي (JSON)</button>
+      <label class="backup-btn backup-btn-import" style="cursor:pointer;">
+        📥 استيراد ملف
+        <input type="file" accept=".json" style="display:none" onchange="importData(this.files[0])">
+      </label>
+    </div>
+    <div class="backup-note">⚠️ البيانات محفوظة في المتصفح — صدّر الملف دورياً منشان ما تضيع لو مسحت الكاش</div>
+  </div>
+
+  <div class="saved-stats">
+    <div><div class="stat-num" id="stat-learned">0</div><div class="stat-label">حرف تعلمته</div></div>
+    <div><div class="stat-num" id="stat-quiz-score">0</div><div class="stat-label">أفضل نتيجة</div></div>
+    <div><div class="stat-num" id="stat-sessions">0</div><div class="stat-label">جلسة تعلم</div></div>
+  </div>
+
+  <div class="section-title">الحروف المحفوظة</div>
+  <div id="saved-content"></div>
+
+  <div class="section-title" style="margin-top:16px;">📝 ملاحظاتي</div>
+  <div id="notes-content"></div>
+
+  <div style="text-align:center;">
+    <button class="clear-btn" onclick="clearSaved()">🗑️ مسح كل شي</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ======= DATA =======
+const letters = [
+  { l:'A', sound:'آ', ipa:'aː', speak:'a', name:'آ',
+    examples:[
+      {word:'Auto', mean:'سيارة', img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=200&h=120&fit=crop'},
+      {word:'Apfel', mean:'تفاحة', img:'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=200&h=120&fit=crop'},
+      {word:'Arm', mean:'ذراع', img:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=200&h=120&fit=crop'},
+    ]},
+  { l:'B', sound:'بي', ipa:'beː', speak:'be', name:'بي',
+    examples:[
+      {word:'Buch', mean:'كتاب', img:'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=120&fit=crop'},
+      {word:'Ball', mean:'كرة', img:'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=200&h=120&fit=crop'},
+      {word:'Baum', mean:'شجرة', img:'https://images.unsplash.com/photo-1542601906897-d1c3dd99449d?w=200&h=120&fit=crop'},
+    ]},
+  { l:'C', sound:'تسي', ipa:'tseː', speak:'tse', name:'تسي',
+    examples:[
+      {word:'Computer', mean:'كمبيوتر', img:'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=200&h=120&fit=crop'},
+      {word:'Café', mean:'مقهى', img:'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=200&h=120&fit=crop'},
+      {word:'Cola', mean:'كولا', img:'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=200&h=120&fit=crop'},
+    ]},
+  { l:'D', sound:'دي', ipa:'deː', speak:'de', name:'دي',
+    examples:[
+      {word:'Danke', mean:'شكراً', img:'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=200&h=120&fit=crop'},
+      {word:'Dach', mean:'سقف', img:'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=200&h=120&fit=crop'},
+      {word:'Deutsch', mean:'اللغة الألمانية', img:'https://images.unsplash.com/photo-1527866512907-a35012df5d06?w=200&h=120&fit=crop'},
+    ]},
+  { l:'E', sound:'إي', ipa:'eː', speak:'e', name:'إي',
+    examples:[
+      {word:'Essen', mean:'طعام / أكل', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=120&fit=crop'},
+      {word:'Ei', mean:'بيضة', img:'https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=200&h=120&fit=crop'},
+      {word:'Esel', mean:'حمار', img:'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=200&h=120&fit=crop'},
+    ]},
+  { l:'F', sound:'إف', ipa:'ɛf', speak:'ef', name:'إف',
+    examples:[
+      {word:'Fisch', mean:'سمكة', img:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200&h=120&fit=crop'},
+      {word:'Frau', mean:'امرأة', img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=120&fit=crop'},
+      {word:'Feuer', mean:'نار', img:'https://images.unsplash.com/photo-1496196614460-48988a57fccf?w=200&h=120&fit=crop'},
+    ]},
+  { l:'G', sound:'غي', ipa:'ɡeː', speak:'ge', name:'غي',
+    examples:[
+      {word:'Geld', mean:'مال', img:'https://images.unsplash.com/photo-1554768804-50c1e2b50a6e?w=200&h=120&fit=crop'},
+      {word:'Garten', mean:'حديقة', img:'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=120&fit=crop'},
+      {word:'Gut', mean:'جيد', img:'https://images.unsplash.com/photo-1520809227329-2b3d13cc5738?w=200&h=120&fit=crop'},
+    ]},
+  { l:'H', sound:'ها', ipa:'haː', speak:'ha', name:'ها',
+    examples:[
+      {word:'Haus', mean:'بيت', img:'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=200&h=120&fit=crop'},
+      {word:'Hund', mean:'كلب', img:'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=200&h=120&fit=crop'},
+      {word:'Herz', mean:'قلب', img:'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=200&h=120&fit=crop'},
+    ]},
+  { l:'I', sound:'إي', ipa:'iː', speak:'i', name:'إي',
+    examples:[
+      {word:'Insel', mean:'جزيرة', img:'https://images.unsplash.com/photo-1559628129-67cf63b72248?w=200&h=120&fit=crop'},
+      {word:'Ich', mean:'أنا', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=120&fit=crop'},
+      {word:'Igel', mean:'قنفذ', img:'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=200&h=120&fit=crop'},
+    ]},
+  { l:'J', sound:'يوت', ipa:'jɔt', speak:'jot', name:'يوت', note:'⚠️ تُنطق "ي" مثل Yes - وليس جيم!',
+    examples:[
+      {word:'Jahr', mean:'سنة', img:'https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=200&h=120&fit=crop'},
+      {word:'Jacke', mean:'جاكيت', img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&h=120&fit=crop'},
+      {word:'Jogurt', mean:'زبادي', img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=200&h=120&fit=crop'},
+    ]},
+  { l:'K', sound:'كا', ipa:'kaː', speak:'ka', name:'كا',
+    examples:[
+      {word:'Katze', mean:'قطة', img:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200&h=120&fit=crop'},
+      {word:'Kind', mean:'طفل', img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=200&h=120&fit=crop'},
+      {word:'Küche', mean:'مطبخ', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=120&fit=crop'},
+    ]},
+  { l:'L', sound:'إل', ipa:'ɛl', speak:'el', name:'إل',
+    examples:[
+      {word:'Liebe', mean:'حب', img:'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=200&h=120&fit=crop'},
+      {word:'Lampe', mean:'مصباح', img:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=200&h=120&fit=crop'},
+      {word:'Löwe', mean:'أسد', img:'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=200&h=120&fit=crop'},
+    ]},
+  { l:'M', sound:'إم', ipa:'ɛm', speak:'em', name:'إم',
+    examples:[
+      {word:'Mutter', mean:'أم', img:'https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=200&h=120&fit=crop'},
+      {word:'Mond', mean:'قمر', img:'https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=200&h=120&fit=crop'},
+      {word:'Milch', mean:'حليب', img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=200&h=120&fit=crop'},
+    ]},
+  { l:'N', sound:'إن', ipa:'ɛn', speak:'en', name:'إن',
+    examples:[
+      {word:'Name', mean:'اسم', img:'https://images.unsplash.com/photo-1517849845537-4d257902454a?w=200&h=120&fit=crop'},
+      {word:'Nacht', mean:'ليل', img:'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=200&h=120&fit=crop'},
+      {word:'Nase', mean:'أنف', img:'https://images.unsplash.com/photo-1552642986-ccb41e7059e7?w=200&h=120&fit=crop'},
+    ]},
+  { l:'O', sound:'أو', ipa:'oː', speak:'o', name:'أو',
+    examples:[
+      {word:'Obst', mean:'فاكهة', img:'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=120&fit=crop'},
+      {word:'Oma', mean:'جدة', img:'https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=200&h=120&fit=crop'},
+      {word:'Ohr', mean:'أذن', img:'https://images.unsplash.com/photo-1589307357824-b99a40773f7b?w=200&h=120&fit=crop'},
+    ]},
+  { l:'P', sound:'بي', ipa:'peː', speak:'pe', name:'بي',
+    examples:[
+      {word:'Pizza', mean:'بيتزا', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=120&fit=crop'},
+      {word:'Pass', mean:'جواز سفر', img:'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=200&h=120&fit=crop'},
+      {word:'Papier', mean:'ورق', img:'https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=200&h=120&fit=crop'},
+    ]},
+  { l:'Q', sound:'كو', ipa:'kuː', speak:'ku', name:'كو', note:'دائماً مع U — تُنطق "كف"',
+    examples:[
+      {word:'Quelle', mean:'مصدر / ينبوع', img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=120&fit=crop'},
+    ]},
+  { l:'R', sound:'إر', ipa:'ɛʁ', speak:'er', name:'إر', note:'⚠️ راء حلقية — من الحلق مثل الفرنسية',
+    examples:[
+      {word:'Rot', mean:'أحمر', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=120&fit=crop'},
+      {word:'Regen', mean:'مطر', img:'https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=200&h=120&fit=crop'},
+      {word:'Rose', mean:'وردة', img:'https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?w=200&h=120&fit=crop'},
+    ]},
+  { l:'S', sound:'إس', ipa:'ɛs', speak:'es', name:'إس', note:'في بداية الكلمة أمام حرف متحرك تُنطق "ز"',
+    examples:[
+      {word:'Sonne', mean:'شمس', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=120&fit=crop'},
+      {word:'Schule', mean:'مدرسة', img:'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=200&h=120&fit=crop'},
+      {word:'Salz', mean:'ملح', img:'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=200&h=120&fit=crop'},
+    ]},
+  { l:'T', sound:'تي', ipa:'teː', speak:'te', name:'تي',
+    examples:[
+      {word:'Tag', mean:'يوم', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=120&fit=crop'},
+      {word:'Tisch', mean:'طاولة', img:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&h=120&fit=crop'},
+      {word:'Tee', mean:'شاي', img:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=200&h=120&fit=crop'},
+    ]},
+  { l:'U', sound:'أو', ipa:'uː', speak:'u', name:'أو',
+    examples:[
+      {word:'Uhr', mean:'ساعة', img:'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=200&h=120&fit=crop'},
+      {word:'Urlaub', mean:'إجازة', img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&h=120&fit=crop'},
+      {word:'Universum', mean:'كون', img:'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=200&h=120&fit=crop'},
+    ]},
+  { l:'V', sound:'فاو', ipa:'faʊ', speak:'fau', name:'فاو', note:'⚠️ تُنطق "ف" وليس "ف" خفيفة!',
+    examples:[
+      {word:'Vater', mean:'أب', img:'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=120&fit=crop'},
+      {word:'Vogel', mean:'طائر', img:'https://images.unsplash.com/photo-1444464666168-49d633b86797?w=200&h=120&fit=crop'},
+      {word:'Visum', mean:'تأشيرة', img:'https://images.unsplash.com/photo-1499856871958-5b9357a1bcdc?w=200&h=120&fit=crop'},
+    ]},
+  { l:'W', sound:'فيه', ipa:'veː', speak:'ve', name:'فيه', note:'⚠️ تُنطق "ف" أسنانية (مثل v الإنجليزية)',
+    examples:[
+      {word:'Wasser', mean:'ماء', img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=200&h=120&fit=crop'},
+      {word:'Wind', mean:'ريح', img:'https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=200&h=120&fit=crop'},
+      {word:'Wolf', mean:'ذئب', img:'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=200&h=120&fit=crop'},
+    ]},
+  { l:'X', sound:'إكس', ipa:'ɪks', speak:'iks', name:'إكس',
+    examples:[
+      {word:'Xylophon', mean:'إكسيلوفون', img:'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&h=120&fit=crop'},
+    ]},
+  { l:'Y', sound:'إبسيلون', ipa:'ˈʏpsilɔn', speak:'üpsilon', name:'إبسيلون',
+    examples:[
+      {word:'Yoga', mean:'يوغا', img:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&h=120&fit=crop'},
+    ]},
+  { l:'Z', sound:'تسيت', ipa:'tsɛt', speak:'tset', name:'تسيت', note:'⚠️ دائماً "تس" — مثل كلمة "پيتزا" بالضبط',
+    examples:[
+      {word:'Zeit', mean:'وقت', img:'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=200&h=120&fit=crop'},
+      {word:'Zucker', mean:'سكر', img:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=200&h=120&fit=crop'},
+      {word:'Zug', mean:'قطار', img:'https://images.unsplash.com/photo-1474487548417-781cb6d646b9?w=200&h=120&fit=crop'},
+    ]},
+];
+
+const special = [
+  { l:'Ä', sound:'إيه', ipa:'ɛː', speak:'ä', name:'آ-أوملاوت', note:'مثل "إيه" المطولة في "أيه هو"',
+    examples:[
+      {word:'Mädchen', mean:'بنت', img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=200&h=120&fit=crop'},
+      {word:'Käse', mean:'جبنة', img:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=200&h=120&fit=crop'},
+      {word:'Ärger', mean:'غضب', img:'https://images.unsplash.com/photo-1541199249251-f713e6145474?w=200&h=120&fit=crop'},
+    ]},
+  { l:'Ö', sound:'أوه', ipa:'øː', speak:'ö', name:'أو-أوملاوت', note:'لا يوجد في العربية — شفتيك كـ O وانطق إيه',
+    examples:[
+      {word:'Öl', mean:'زيت', img:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=200&h=120&fit=crop'},
+      {word:'Löwe', mean:'أسد', img:'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=200&h=120&fit=crop'},
+      {word:'Österreich', mean:'النمسا', img:'https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=200&h=120&fit=crop'},
+    ]},
+  { l:'Ü', sound:'أوه', ipa:'yː', speak:'ü', name:'يو-أوملاوت', note:'لا يوجد في العربية — شفتيك للأمام وانطق إي',
+    examples:[
+      {word:'über', mean:'فوق / عبر', img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=120&fit=crop'},
+      {word:'Tür', mean:'باب', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=120&fit=crop'},
+      {word:'Küche', mean:'مطبخ', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=120&fit=crop'},
+    ]},
+  { l:'ß', sound:'إس-إس', ipa:'sː', speak:'scharfes s', name:'إسزيت', note:'مثل SS مشددة — تكتب فقط بعد الحروف الطويلة',
+    examples:[
+      {word:'Straße', mean:'شارع', img:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=200&h=120&fit=crop'},
+      {word:'Fuß', mean:'قدم', img:'https://images.unsplash.com/photo-1539185441755-769473a23570?w=200&h=120&fit=crop'},
+      {word:'Weiß', mean:'أبيض', img:'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=200&h=120&fit=crop'},
+    ]},
+];
+
+const allLetters = [...letters, ...special];
+
+// ======= STORAGE — محسّن =======
+const STORAGE_KEY_LEARNED = 'de_learned_v2';
+const STORAGE_KEY_NOTES   = 'de_notes_v2';
+const STORAGE_KEY_BEST    = 'de_best_score_v2';
+const STORAGE_KEY_SESS    = 'de_sessions_v2';
+
+function safeGet(key, fallback) {
+  try {
+    const v = localStorage.getItem(key);
+    return v !== null ? JSON.parse(v) : fallback;
+  } catch { return fallback; }
+}
+function safeSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; }
+  catch { return false; }
+}
+
+function getSaved()    { return safeGet(STORAGE_KEY_LEARNED, []); }
+function saveLearned(a){ safeSet(STORAGE_KEY_LEARNED, a); }
+function getNotes()    { return safeGet(STORAGE_KEY_NOTES, {}); }
+function saveNote(letter, text) {
+  const notes = getNotes();
+  if (text.trim() === '') { delete notes[letter]; }
+  else { notes[letter] = text; }
+  safeSet(STORAGE_KEY_NOTES, notes);
+}
+function getNote(letter) { return getNotes()[letter] || ''; }
+function getBestScore()  { return safeGet(STORAGE_KEY_BEST, 0); }
+function setBestScore(s) { safeSet(STORAGE_KEY_BEST, s); }
+function getSessions()   { return safeGet(STORAGE_KEY_SESS, 0); }
+function incSessions()   { safeSet(STORAGE_KEY_SESS, getSessions() + 1); }
+
+// تصدير واستيراد البيانات
+function exportData() {
+  const data = {
+    learned: getSaved(),
+    notes: getNotes(),
+    bestScore: getBestScore(),
+    sessions: getSessions(),
+    exportedAt: new Date().toLocaleDateString('ar')
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'german_progress.json';
+  a.click();
+}
+function importData(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.learned) saveLearned(data.learned);
+      if (data.notes) safeSet(STORAGE_KEY_NOTES, data.notes);
+      if (data.bestScore) setBestScore(data.bestScore);
+      if (data.sessions) safeSet(STORAGE_KEY_SESS, data.sessions);
+      updateProgress();
+      renderSaved();
+      renderGrid_refresh();
+      alert('✅ تم استيراد بياناتك بنجاح!');
+    } catch { alert('⚠️ الملف غير صحيح'); }
+  };
+  reader.readAsText(file);
+}
+function renderGrid_refresh() {
+  const learned = getSaved();
+  document.querySelectorAll('.alpha-btn').forEach(btn => {
+    const l = btn.querySelector('.alpha-letter')?.textContent;
+    if (l) btn.classList.toggle('learned', learned.includes(l));
+  });
+}
+
+// ======= VOICE =======
+let voices = [];
+let deVoice = null;
+let voiceReady = false;
+
+// أسماء الأصوات الأنثوية الشائعة
+const femaleNames = ['anna','petra','marlene','helga','female','woman','weiblich','steffi','vicki','google deutsch'];
+
+function pickBestVoice(list) {
+  const de = list.filter(v => v.lang && (v.lang.startsWith('de-') || v.lang.startsWith('de')));
+  if (!de.length) return null;
+  // أفضل: صوت أنثى ألماني
+  const female = de.find(v => femaleNames.some(n => v.name.toLowerCase().includes(n)));
+  if (female) return female;
+  // ثاني: Google Deutsch
+  const google = de.find(v => v.name.toLowerCase().includes('google'));
+  if (google) return google;
+  // أي صوت ألماني
+  return de[0];
+}
+
+function loadVoices() {
+  voices = window.speechSynthesis.getVoices();
+  deVoice = pickBestVoice(voices);
+  voiceReady = voices.length > 0;
+  const el = document.getElementById('voice-info');
+  if (el) el.textContent = deVoice
+    ? `🔊 الصوت: ${deVoice.name} — اضغط على أي حرف لتسمعه`
+    : voiceReady
+      ? '🔈 ما في صوت ألماني — بيستخدم الصوت الافتراضي'
+      : '🔕 الصوت غير متوفر على هذا المتصفح';
+}
+
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => { loadVoices(); populateVoiceSelector(); };
+  loadVoices();
+  setTimeout(() => { loadVoices(); populateVoiceSelector(); }, 800);
+  setTimeout(() => { loadVoices(); populateVoiceSelector(); }, 2000);
+}
+
+function populateVoiceSelector() {
+  const sel = document.getElementById('voice-select');
+  const row = document.getElementById('voice-selector-row');
+  if (!sel || !row) return;
+  const deVoices = voices.filter(v => v.lang && (v.lang.startsWith('de-') || v.lang.startsWith('de')));
+  if (deVoices.length <= 1) return;
+  sel.innerHTML = deVoices.map((v,i) =>
+    `<option value="${i}" ${v===deVoice?'selected':''}>${v.name} (${v.lang})</option>`
+  ).join('');
+  row.style.display = 'block';
+}
+
+function changeVoice(idx) {
+  const deVoices = voices.filter(v => v.lang && (v.lang.startsWith('de-') || v.lang.startsWith('de')));
+  if (deVoices[idx]) {
+    deVoice = deVoices[idx];
+    speak(deVoice.name.split(' ')[0]); // test
+  }
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  if (!voiceReady) { loadVoices(); setTimeout(() => speak(text), 700); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  if (deVoice) u.voice = deVoice;
+  u.lang = 'de-DE';
+  u.rate = 0.82;
+  u.pitch = deVoice ? 1 : 1;
+  window.speechSynthesis.speak(u);
+}
+
+// ======= RENDER =======
+function renderGrid(data, containerId) {
+  const g = document.getElementById(containerId);
+  const learned = getSaved();
+  data.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'alpha-btn' + (learned.includes(item.l) ? ' learned' : '');
+    btn.id = 'btn-' + item.l;
+    btn.innerHTML = `<div class="alpha-letter">${item.l}</div><div class="alpha-name">${item.sound}</div>`;
+    btn.onclick = () => showDetail(item, btn);
+    g.appendChild(btn);
+  });
+}
+
+let currentItem = null;
+function showDetail(item, btn) {
+  currentItem = item;
+  document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  speak(item.speak || item.l);
+
+  const learned = getSaved();
+  const isLearned = learned.includes(item.l);
+  const savedNote = getNote(item.l);
+
+  const card = document.getElementById('detail-card');
+  card.classList.add('visible');
+  card.innerHTML = `
+    <!-- بطاقة النطق الكبيرة -->
+    <div style="
+      background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(78,205,196,0.07));
+      border: 1.5px solid rgba(245,200,66,0.3);
+      border-radius: 14px;
+      padding: 16px 14px;
+      margin-bottom: 14px;
+      text-align: center;
+    ">
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+        <div style="font-size:72px;font-family:'Playfair Display',serif;font-weight:700;color:var(--accent);line-height:1;">
+          ${item.l}<span style="font-size:44px;color:rgba(245,200,66,0.5);margin-right:6px;">${item.l.toLowerCase()}</span>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.72rem;color:var(--text2);margin-bottom:2px;">اسم الحرف</div>
+          <div style="font-size:1.6rem;font-weight:800;color:var(--text);line-height:1.1;">${item.name || item.sound}</div>
+          <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+            <div style="background:rgba(78,205,196,0.15);border:1px solid rgba(78,205,196,0.4);border-radius:8px;padding:4px 12px;">
+              <div style="font-size:0.65rem;color:var(--text2);">النطق</div>
+              <div style="font-size:1rem;font-weight:700;color:var(--accent2);">${item.sound}</div>
+            </div>
+            <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:4px 12px;">
+              <div style="font-size:0.65rem;color:var(--text2);">IPA</div>
+              <div style="font-size:0.95rem;font-weight:700;color:#a78bfa;direction:ltr;">[${item.ipa}]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${item.note ? `<div style="font-size:0.8rem;color:var(--accent3);margin-top:10px;background:rgba(255,107,107,0.08);border-radius:8px;padding:6px 10px;">${item.note}</div>` : ''}
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+        <button class="play-btn" onclick="speak('${item.speak || item.l}')">🔊 استمع للحرف</button>
+        ${item.examples && item.examples[0] ? `<button class="play-btn2" onclick="speak('${item.examples[0].word}')">▶ ${item.examples[0].word}</button>` : ''}
+      </div>
+    </div>
+
+    <div class="examples-title">أمثلة بالصور — اضغط للاستماع:</div>
+    <div class="examples-grid">
+      ${(item.examples || []).map(ex => {
+        const dictKey = Object.keys(dict||{}).find(k=>k.toLowerCase()===ex.word.toLowerCase());
+        const pron = dictKey ? dict[dictKey].p : '';
+        return `
+        <div class="example-card" onclick="speak('${ex.word}')">
+          <img class="example-img" src="${ex.img}" alt="${ex.word}" onerror="this.style.background='var(--border)';this.style.display='block';this.style.height='50px'">
+          <div class="example-body">
+            <div class="example-word">${ex.word}</div>
+            <div class="example-mean">${ex.mean}</div>
+            ${pron ? `<div style="font-size:0.68rem;color:var(--accent2);margin-top:2px;">🗣️ ${pron}</div>` : ''}
+          </div>
+        </div>
+      `}).join('')}
+    </div>
+
+    <div class="notes-section">
+      <div class="notes-header">
+        <span>📝 ملاحظاتي على حرف ${item.l}</span>
+        ${savedNote ? '<span class="notes-saved-badge">✓ محفوظة</span>' : ''}
+      </div>
+      <textarea
+        class="notes-textarea"
+        id="note-${item.l}"
+        placeholder="اكتب ملاحظاتك هنا... مثلاً: صعبة النطق، تشبه حرف باء..."
+        oninput="autoSaveNote('${item.l}')"
+      >${savedNote}</textarea>
+      <div class="notes-footer">
+        <span class="notes-hint" id="note-status-${item.l}">${savedNote ? '✅ محفوظة' : 'بتتحفظ تلقائياً'}</span>
+        ${savedNote ? `<button class="note-clear-btn" onclick="clearNote('${item.l}')">🗑️ مسح</button>` : ''}
+      </div>
+    </div>
+
+    <button class="mark-btn ${isLearned ? 'done' : ''}" id="mark-btn-${item.l}" onclick="toggleLearned('${item.l}')">
+      ${isLearned ? '✅ تعلمته — اضغط لإلغاء' : '📌 وضّعه كـ "تعلمته"'}
+    </button>
+  `;
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+let noteTimer = {};
+function autoSaveNote(letter) {
+  const status = document.getElementById('note-status-' + letter);
+  if (status) status.textContent = '...جاري الحفظ';
+  clearTimeout(noteTimer[letter]);
+  noteTimer[letter] = setTimeout(() => {
+    const ta = document.getElementById('note-' + letter);
+    if (ta) {
+      saveNote(letter, ta.value);
+      if (status) status.textContent = ta.value.trim() ? '✅ محفوظة' : 'بتتحفظ تلقائياً';
+      // Update note badge on alpha button
+      const alphaBtn = document.getElementById('btn-' + letter);
+      if (alphaBtn && ta.value.trim()) alphaBtn.classList.add('has-note');
+      else if (alphaBtn) alphaBtn.classList.remove('has-note');
+      scheduleAutoSave();
+    }
+  }, 600);
+}
+function clearNote(letter) {
+  saveNote(letter, '');
+  const ta = document.getElementById('note-' + letter);
+  if (ta) ta.value = '';
+  const status = document.getElementById('note-status-' + letter);
+  if (status) status.textContent = 'بتتحفظ تلقائياً';
+  const alphaBtn = document.getElementById('btn-' + letter);
+  if (alphaBtn) alphaBtn.classList.remove('has-note');
+}
+
+function toggleLearned(letter) {
+  let learned = getSaved();
+  if (learned.includes(letter)) {
+    learned = learned.filter(l => l !== letter);
+  } else {
+    learned.push(letter);
+  }
+  saveLearned(learned);
+  updateProgress();
+  renderSaved();
+  scheduleAutoSave();
+  // Update button state
+  const btn = document.getElementById('mark-btn-' + letter);
+  if (btn) {
+    const isNowLearned = learned.includes(letter);
+    btn.textContent = isNowLearned ? '✅ تعلمته — اضغط لإلغاء' : '📌 وضّعه كـ "تعلمته"';
+    btn.classList.toggle('done', isNowLearned);
+  }
+  const alphaBtn = document.getElementById('btn-' + letter);
+  if (alphaBtn) alphaBtn.classList.toggle('learned', learned.includes(letter));
+}
+
+// ======= PROGRESS =======
+function updateProgress() {
+  const learned = getSaved();
+  const n = learned.length;
+  const total = 30;
+  document.getElementById('prog-text').textContent = `${n} / ${total} حرف`;
+  document.getElementById('prog-fill').style.width = `${(n/total)*100}%`;
+  document.getElementById('stat-learned').textContent = n;
+  document.getElementById('stat-quiz-score').textContent = getBestScore() + '/10';
+  document.getElementById('stat-sessions').textContent = getSessions();
+  // Badges
+  if (n >= 10) document.getElementById('badge-10').classList.add('earned');
+  if (n >= 20) document.getElementById('badge-20').classList.add('earned');
+  if (n >= 30) document.getElementById('badge-30').classList.add('earned');
+  if (getBestScore() > 0) document.getElementById('badge-quiz').classList.add('earned');
+  if (getBestScore() >= 10) document.getElementById('badge-perfect').classList.add('earned');
+}
+
+// ======= QUIZ =======
+let quizType = 'sound';
+let quizQuestions = [];
+let qIndex = 0;
+let qScore = 0;
+let answered = false;
+
+function setQuizType(type, btn) {
+  quizType = type;
+  document.querySelectorAll('.quiz-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  startQuiz();
+}
+
+function startQuiz() {
+  incSessions();
+  updateProgress();
+  qIndex = 0; qScore = 0; answered = false;
+  document.getElementById('quiz-results').classList.remove('show');
+  document.getElementById('quiz-main').style.display = '';
+  document.getElementById('badge-quiz').classList.add('earned');
+  buildQuestions();
+  showQuestion();
+}
+
+function buildQuestions() {
+  const shuffled = [...allLetters].sort(() => Math.random() - 0.5).slice(0, 10);
+  quizQuestions = shuffled;
+}
+
+function showQuestion() {
+  answered = false;
+  document.getElementById('q-feedback').classList.remove('show', 'correct', 'wrong');
+  document.getElementById('next-btn').classList.remove('show');
+
+  const q = quizQuestions[qIndex];
+  document.getElementById('q-counter').textContent = `${qIndex+1} / 10`;
+  document.getElementById('q-score').textContent = qScore;
+
+  let displayLetter = q.l;
+  let question = '';
+  let hint = '';
+  let correctAnswer = '';
+  let wrongPool = [];
+
+  if (quizType === 'sound') {
+    question = 'ما اسم هذا الحرف؟';
+    displayLetter = q.l;
+    correctAnswer = q.sound;
+    hint = 'اختر النطق الصحيح';
+    wrongPool = allLetters.filter(x => x.l !== q.l).map(x => x.sound);
+  } else if (quizType === 'letter') {
+    question = `أي حرف يُنطق: "${q.sound}" ؟`;
+    displayLetter = '?';
+    correctAnswer = q.l;
+    hint = 'اختر الحرف الصحيح';
+    wrongPool = allLetters.filter(x => x.l !== q.l).map(x => x.l);
+  } else {
+    if (!q.examples || q.examples.length === 0) {
+      nextQuestion(); return;
+    }
+    const ex = q.examples[0];
+    question = `ما معنى كلمة: "${ex.word}" ؟`;
+    displayLetter = ex.word;
+    correctAnswer = ex.mean;
+    hint = 'اختر الترجمة الصحيحة';
+    wrongPool = allLetters.filter(x => x.l !== q.l && x.examples && x.examples.length > 0).map(x => x.examples[0].mean);
+  }
+
+  document.getElementById('q-question').textContent = question;
+  document.getElementById('q-letter').textContent = displayLetter;
+  document.getElementById('q-hint').textContent = hint;
+
+  const wrongs = wrongPool.sort(() => Math.random() - 0.5).slice(0, 3);
+  const opts = [correctAnswer, ...wrongs].sort(() => Math.random() - 0.5);
+
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt, correctAnswer, btn);
+    container.appendChild(btn);
+  });
+
+  if (deVoice && quizType !== 'word') speak(q.speak || q.l);
+}
+
+function checkAnswer(chosen, correct, btn) {
+  if (answered) return;
+  answered = true;
+
+  const feedback = document.getElementById('q-feedback');
+  const allOpts = document.querySelectorAll('.quiz-opt');
+  allOpts.forEach(b => {
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+
+  if (chosen === correct) {
+    qScore++;
+    btn.classList.add('correct');
+    feedback.textContent = '✅ ممتاز! إجابة صحيحة 🎉';
+    feedback.className = 'quiz-feedback show correct';
+  } else {
+    btn.classList.add('wrong');
+    feedback.textContent = `❌ الإجابة الصحيحة: ${correct}`;
+    feedback.className = 'quiz-feedback show wrong';
+  }
+  document.getElementById('q-score').textContent = qScore;
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextQuestion() {
+  qIndex++;
+  if (qIndex >= 10) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-main').style.display = 'none';
+  const res = document.getElementById('quiz-results');
+  res.classList.add('show');
+
+  if (qScore > getBestScore()) setBestScore(qScore);
+  if (qScore >= 10) document.getElementById('badge-perfect').classList.add('earned');
+  updateProgress();
+
+  let emoji = qScore >= 8 ? '🏆' : qScore >= 5 ? '😊' : '💪';
+  let text = qScore >= 8 ? 'ممتاز! أنت بتتعلم بسرعة 🚀' : qScore >= 5 ? 'كويس! استمر وراجع الحروف' : 'لا بأس، راجع الحروف وجرب مرة ثانية 😊';
+
+  document.getElementById('results-emoji').textContent = emoji;
+  document.getElementById('results-score').textContent = `${qScore} / 10`;
+  document.getElementById('results-text').textContent = text;
+}
+
+// ======= SAVED TAB =======
+function renderSaved() {
+  const learned = getSaved();
+  const notes = getNotes();
+  const allData = [...letters, ...special];
+
+  // Learned letters
+  const container = document.getElementById('saved-content');
+  if (learned.length === 0) {
+    container.innerHTML = `<div class="saved-empty"><div class="saved-empty-icon">📖</div><div>ما حفظت حروف بعد!<br><small style="font-size:0.8rem">اذهب للحروف واضغط "وضّعه كـ تعلمته"</small></div></div>`;
+  } else {
+    container.innerHTML = `<div class="saved-grid">
+      ${learned.map(l => {
+        const item = allData.find(x => x.l === l);
+        if (!item) return '';
+        const note = notes[l];
+        return `<div class="saved-letter-card">
+          <button class="remove-saved" onclick="toggleLearned('${l}')">✕</button>
+          <div class="saved-letter">${l}</div>
+          <div class="saved-name">${item.sound}</div>
+          ${note ? `<div class="saved-note-preview">📝 ${note}</div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // Notes section
+  const notesContainer = document.getElementById('notes-content');
+  const noteEntries = Object.entries(notes);
+  if (noteEntries.length === 0) {
+    notesContainer.innerHTML = `<div style="color:var(--text2);font-size:0.82rem;padding:10px 0;">ما كتبت ملاحظات بعد — افتح أي حرف واكتب ملاحظاتك</div>`;
+  } else {
+    notesContainer.innerHTML = noteEntries.map(([l, text]) => `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:1.1rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">${l}</span>
+          <button onclick="clearNote('${l}');renderSaved();" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.75rem;">🗑️ مسح</button>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);line-height:1.5;">${text.replace(/\n/g,'<br>')}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function clearSaved() {
+  if (confirm('هل تريد مسح كل شي؟ (الحروف + الملاحظات + الإحصائيات)')) {
+    try {
+      localStorage.removeItem(STORAGE_KEY_LEARNED);
+      localStorage.removeItem(STORAGE_KEY_NOTES);
+      localStorage.removeItem(STORAGE_KEY_BEST);
+      localStorage.removeItem(STORAGE_KEY_SESS);
+    } catch {}
+    document.querySelectorAll('.alpha-btn.learned').forEach(b => b.classList.remove('learned'));
+    document.querySelectorAll('.alpha-btn.has-note').forEach(b => b.classList.remove('has-note'));
+    updateProgress();
+    renderSaved();
+  }
+}
+
+// ======= TABS =======
+function switchTab(name, clickedTab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const names = ['letters', 'phonetics', 'vocab', 'quiz', 'saved'];
+  const idx = names.indexOf(name);
+  if (idx >= 0) tabs[idx].classList.add('active');
+
+  if (name === 'quiz') startQuiz();
+  if (name === 'saved') { renderSaved(); updateProgress(); }
+  if (name === 'phonetics') {
+    // Re-render rules when tab is opened (ensures DOM element exists)
+    setTimeout(() => renderRules(currentRuleFilter || 'all'), 50);
+  }
+}
+
+// Fix tab click handlers
+document.querySelectorAll('.tab').forEach((tab, i) => {
+  const names = ['letters', 'phonetics', 'vocab', 'quiz', 'saved'];
+  tab.onclick = () => switchTab(names[i], tab);
+});
+
+// ======= VOCAB DATA =======
+const vocabList = [
+  { de:'Papier', ar:'ورق',        pron:'بابير',      color:'#F5C842' },
+  { de:'Band',   ar:'شريط',       pron:'بانت',       color:'#FF6B6B' },
+  { de:'Fenster',ar:'شباك',       pron:'فينستِر',    color:'#4ECDC4' },
+  { de:'Wasser', ar:'ماء',        pron:'فاسِر',      color:'#4ECDC4' },
+  { de:'Bus',    ar:'باص',        pron:'بوس',        color:'#FF6B6B' },
+  { de:'Sohn',   ar:'ابن',        pron:'زون',        color:'#F5C842' },
+  { de:'Auto',   ar:'سيارة',      pron:'أوتو',       color:'#4ECDC4' },
+  { de:'du',     ar:'أنت',        pron:'دو',         color:'#F5C842' },
+  { de:'Kind',   ar:'طفل',        pron:'كينت',       color:'#4ECDC4' },
+  { de:'gut',    ar:'جيد',        pron:'غوت',        color:'#2ECC71' },
+  { de:'Garage', ar:'مراب / جراج',pron:'غاراجِه',    color:'#FF6B6B' },
+  { de:'Schule', ar:'مدرسة',      pron:'شولِه',      color:'#4ECDC4' },
+  { de:'König',  ar:'ملك',        pron:'كونيخ',      color:'#F5C842' },
+  { de:'beachten',ar:'يلاحظ',     pron:'بِآختِن',    color:'#2ECC71' },
+  { de:'Hand',   ar:'يد',         pron:'هانت',       color:'#4ECDC4' },
+  { de:'nein',   ar:'لا',         pron:'ناين',       color:'#FF6B6B' },
+  { de:'Mutter', ar:'أم',         pron:'موتِر',      color:'#F5C842' },
+  { de:'lang',   ar:'طويل',       pron:'لانغ',       color:'#2ECC71' },
+  { de:'Lärm',   ar:'ضجيج',       pron:'ليرم',       color:'#FF6B6B' },
+  { de:'ja',     ar:'نعم',        pron:'يا',         color:'#2ECC71' },
+  { de:'Buch',   ar:'كتاب',       pron:'بوخ',        color:'#F5C842' },
+  { de:'rot',    ar:'أحمر',       pron:'روت',        color:'#FF6B6B' },
+];
+
+function renderVocab() {
+  const g = document.getElementById('vocab-grid');
+  if (!g || g.children.length > 0) return;
+  vocabList.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div style="flex:1;min-width:0;">
+        <div class="vocab-de">${item.de}</div>
+        <div class="vocab-ar">${item.ar}</div>
+        <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ${item.pron}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <div class="color-dot" style="background:${item.color}"></div>
+        <span class="vocab-sound-icon">🔊</span>
+      </div>
+    `;
+    card.onclick = () => {
+      document.querySelectorAll('.vocab-card').forEach(c => c.classList.remove('playing'));
+      card.classList.add('playing');
+      speak(item.de);
+      setTimeout(() => card.classList.remove('playing'), 1500);
+    };
+    g.appendChild(card);
+  });
+}
+
+// ======= OFFLINE DICTIONARY =======
+const dict = {
+  // أ
+  'Apfel':    {t:'تفاحة',    p:'أَبْفِل',    ty:'اسم',   n:'Apfel = تفاحة، جمعها Äpfel'},
+  'Auto':     {t:'سيارة',    p:'أَوتو',      ty:'اسم',   n:'محايد der Wagen أيضاً تعني سيارة'},
+  'Arbeit':   {t:'عمل',      p:'أَربايت',    ty:'اسم',   n:'arbeiten = فعل "يعمل"'},
+  'Arm':      {t:'ذراع',     p:'أَرم',       ty:'اسم',   n:'جمعها Arme'},
+  'Abend':    {t:'مساء',     p:'آبِنت',      ty:'اسم',   n:'Guten Abend = مساء الخير'},
+  'alt':      {t:'قديم / كبير في السن', p:'ألت', ty:'صفة', n:'عكسها jung = شاب'},
+  'auch':     {t:'أيضاً',    p:'أوخ',        ty:'ظرف',   n:'أو = auch على معنى "كذلك"'},
+  'alle':     {t:'الكل / جميع', p:'ألِه',   ty:'ضمير',  n:'alle Kinder = كل الأطفال'},
+  // ب
+  'Buch':     {t:'كتاب',     p:'بوخ',        ty:'اسم',   n:'جمعها Bücher — لا تنطق G في نهاية Buch'},
+  'Ball':     {t:'كرة',      p:'بال',        ty:'اسم',   n:'جمعها Bälle'},
+  'Baum':     {t:'شجرة',     p:'باوم',       ty:'اسم',   n:'جمعها Bäume'},
+  'Brot':     {t:'خبز',      p:'بروت',       ty:'اسم',   n:'في ألمانيا الخبز أساسي جداً!'},
+  'Bruder':   {t:'أخ',       p:'بروودِر',    ty:'اسم',   n:'جمعها Brüder'},
+  'Bus':      {t:'باص',      p:'بوس',        ty:'اسم',   n:'جمعها Busse'},
+  'Bett':     {t:'سرير',     p:'بيت',        ty:'اسم',   n:'جمعها Betten'},
+  'blau':     {t:'أزرق',     p:'بلاو',       ty:'صفة',   n:'لون السماء بالألماني'},
+  'bitte':    {t:'من فضلك',  p:'بِته',       ty:'تعبير', n:'Bitte = من فضلك / تفضل'},
+  // ت
+  'Tag':      {t:'يوم',      p:'تاك',        ty:'اسم',   n:'Guten Tag = مرحباً، g في النهاية = k'},
+  'Tisch':    {t:'طاولة',    p:'تيش',        ty:'اسم',   n:'جمعها Tische'},
+  'Tee':      {t:'شاي',      p:'تي',         ty:'اسم',   n:'ee تُنطق ii طويلة'},
+  'Tür':      {t:'باب',      p:'تور',        ty:'اسم',   n:'جمعها Türen — ü مثل شفتيك دائرة مع صوت i'},
+  'trinken':  {t:'يشرب',     p:'ترينكن',     ty:'فعل',   n:'ich trinke = أنا أشرب'},
+  'Tochter':  {t:'ابنة',     p:'توختِر',     ty:'اسم',   n:'جمعها Töchter'},
+  'Telefon':  {t:'هاتف',     p:'تيليفون',    ty:'اسم',   n:'مستعار من اليونانية'},
+  // د
+  'Danke':    {t:'شكراً',    p:'دانكِه',     ty:'تعبير', n:'Danke schön = شكراً جزيلاً'},
+  'Deutsch':  {t:'ألماني',   p:'دويتش',      ty:'صفة/اسم',n:'eu تُنطق أوي — tsch تُنطق تش'},
+  'Dach':     {t:'سقف',      p:'داخ',        ty:'اسم',   n:'ch بعد a تُنطق خ حلقية'},
+  'du':       {t:'أنت',      p:'دو',         ty:'ضمير',  n:'صيغة غير رسمية — Sie = أنت الرسمية'},
+  'drei':     {t:'ثلاثة',    p:'دراي',       ty:'عدد',   n:'ei تُنطق مثل "آي"'},
+  'dunkel':   {t:'مظلم',     p:'دونكِل',     ty:'صفة',   n:'عكسها hell = مضيء'},
+  // ف
+  'Frau':     {t:'امرأة / سيدة', p:'فراو',  ty:'اسم',   n:'أيضاً لقب احترام = السيدة'},
+  'Freund':   {t:'صديق',     p:'فرويند',     ty:'اسم',   n:'Freundin = صديقة'},
+  'Fenster':  {t:'شباك',     p:'فِنستِر',   ty:'اسم',   n:'جمعها Fenster — نفس المفرد'},
+  'Feuer':    {t:'نار',      p:'فويِر',      ty:'اسم',   n:'eu تُنطق أوي'},
+  'Fisch':    {t:'سمكة',     p:'فيش',        ty:'اسم',   n:'sch دائماً = ش'},
+  'fahren':   {t:'يسافر / يقود', p:'فارِن', ty:'فعل',  n:'ich fahre = أنا أسافر'},
+  'Farbe':    {t:'لون',      p:'فاربِه',     ty:'اسم',   n:'جمعها Farben'},
+  'fertig':   {t:'جاهز',     p:'فيرتيخ',    ty:'صفة',   n:'-ig في النهاية = إيخ'},
+  // هـ
+  'Haus':     {t:'بيت',      p:'هاوس',       ty:'اسم',   n:'au تُنطق مثل أو في "أو لا" — جمعها Häuser'},
+  'Hund':     {t:'كلب',      p:'هونت',       ty:'اسم',   n:'d في النهاية = t — جمعها Hunde'},
+  'Herz':     {t:'قلب',      p:'هيرتس',      ty:'اسم',   n:'z دائماً = تس'},
+  'Hallo':    {t:'مرحباً',   p:'هالو',       ty:'تعبير', n:'تحية غير رسمية'},
+  'Hand':     {t:'يد',       p:'هانت',       ty:'اسم',   n:'d في النهاية = t — جمعها Hände'},
+  'Hunger':   {t:'جوع',      p:'هونغر',      ty:'اسم',   n:'ng = نغ بدون g منفصلة'},
+  'heute':    {t:'اليوم',    p:'هويته',      ty:'ظرف',   n:'eu تُنطق أوي'},
+  'hören':    {t:'يسمع',     p:'هورِن',      ty:'فعل',   n:'ö = شفتيك دائرة مع صوت إيه'},
+  // ك
+  'Kind':     {t:'طفل',      p:'كينت',       ty:'اسم',   n:'d في النهاية = t — جمعها Kinder'},
+  'Katze':    {t:'قطة',      p:'كاتسِه',     ty:'اسم',   n:'z = تس — جمعها Katzen'},
+  'Küche':    {t:'مطبخ',     p:'كوشِه',      ty:'اسم',   n:'ü = شفتيك دائرة مع صوت إي'},
+  'kommen':   {t:'يأتي',     p:'كومِن',      ty:'فعل',   n:'ich komme = أنا آتي'},
+  'kaufen':   {t:'يشتري',    p:'كاوفِن',     ty:'فعل',   n:'au = أو'},
+  'kalt':     {t:'بارد',     p:'كالت',       ty:'صفة',   n:'عكسها warm = دافئ'},
+  'König':    {t:'ملك',      p:'كونيخ',      ty:'اسم',   n:'-ig في النهاية = إيخ — جمعها Könige'},
+  'Krankenhaus':{t:'مستشفى', p:'كرانكِنهاوس',ty:'اسم',  n:'kranken = مرضى + Haus = بيت'},
+  // ل
+  'Liebe':    {t:'حب',       p:'ليبِه',      ty:'اسم',   n:'ie = إي طويلة'},
+  'Lampe':    {t:'مصباح',    p:'لامبِه',     ty:'اسم',   n:'جمعها Lampen'},
+  'Löwe':     {t:'أسد',      p:'لوفِه',      ty:'اسم',   n:'ö = شفتيك دائرة'},
+  'lesen':    {t:'يقرأ',     p:'ليزِن',      ty:'فعل',   n:'s بين حرفين صوتيين = ز'},
+  'lang':     {t:'طويل',     p:'لانغ',       ty:'صفة',   n:'ng = نغ — عكسها kurz = قصير'},
+  'Lärm':     {t:'ضجيج',     p:'ليرم',       ty:'اسم',   n:'ä = إيه'},
+  // م
+  'Mutter':   {t:'أم',       p:'موتِر',      ty:'اسم',   n:'جمعها Mütter'},
+  'Mann':     {t:'رجل',      p:'مان',        ty:'اسم',   n:'جمعها Männer'},
+  'Milch':    {t:'حليب',     p:'ميلخ',       ty:'اسم',   n:'ch بعد i = خ ناعم'},
+  'Mond':     {t:'قمر',      p:'مونت',       ty:'اسم',   n:'d في النهاية = t'},
+  'Morgen':   {t:'صباح / غداً', p:'مورغن',  ty:'اسم/ظرف',n:'Guten Morgen = صباح الخير'},
+  'machen':   {t:'يفعل / يصنع', p:'ماخن',   ty:'فعل',  n:'ch بعد a = خ حلقي'},
+  'mehr':     {t:'أكثر',     p:'مير',        ty:'ظرف',   n:'مقارنة — eh = إي طويلة'},
+  // ن
+  'Name':     {t:'اسم',      p:'نامِه',      ty:'اسم',   n:'جمعها Namen'},
+  'Nacht':    {t:'ليل',      p:'ناخت',       ty:'اسم',   n:'ch بعد a = خ حلقي — جمعها Nächte'},
+  'Nase':     {t:'أنف',      p:'نازِه',      ty:'اسم',   n:'s بين حرفين = ز'},
+  'nein':     {t:'لا',       p:'ناين',       ty:'تعبير', n:'ei = آي — عكسها ja'},
+  'neu':      {t:'جديد',     p:'نوي',        ty:'صفة',   n:'eu = أوي — عكسها alt'},
+  'nicht':    {t:'لا / ليس', p:'نيخت',       ty:'نفي',   n:'أداة النفي الأساسية — ch بعد i = خ ناعم'},
+  'noch':     {t:'لا يزال / بعد', p:'نوخ',  ty:'ظرف',  n:'ch بعد o = خ حلقي'},
+  // هـ
+  'Obst':     {t:'فاكهة',    p:'أوبست',      ty:'اسم',   n:'لا تُعد، دائماً مفرد'},
+  'Oma':      {t:'جدة',      p:'أوما',       ty:'اسم',   n:'عامية دافئة — الرسمية: Großmutter'},
+  'Ohr':      {t:'أذن',      p:'أور',        ty:'اسم',   n:'جمعها Ohren'},
+  'Opa':      {t:'جد',       p:'أوبا',       ty:'اسم',   n:'عامية دافئة'},
+  'oben':     {t:'فوق',      p:'أوبِن',      ty:'ظرف',   n:'عكسها unten = تحت'},
+  // ب (فارسي / بيتزا)
+  'Papa':     {t:'أبو / بابا', p:'بابا',     ty:'اسم',   n:'عامية — الرسمية: Vater'},
+  'Pass':     {t:'جواز سفر', p:'باس',        ty:'اسم',   n:'ss دائماً = س مشددة'},
+  'Papier':   {t:'ورق',      p:'بابير',      ty:'اسم',   n:'ie = إي طويلة'},
+  'Pizza':    {t:'بيتزا',    p:'بيتسا',      ty:'اسم',   n:'مستعارة من الإيطالية'},
+  // كـ
+  'Quelle':   {t:'مصدر / ينبوع', p:'كفيلِه', ty:'اسم',  n:'qu = كف دائماً'},
+  // ر
+  'Rot':      {t:'أحمر',     p:'روت',        ty:'صفة',   n:'ot = أوت'},
+  'Regen':    {t:'مطر',      p:'ريغِن',      ty:'اسم',   n:'R = راء حلقية من الحلق'},
+  'Rose':     {t:'وردة',     p:'روزِه',      ty:'اسم',   n:'s بين حرفين = ز'},
+  'rot':      {t:'أحمر',     p:'روت',        ty:'صفة',   n:''},
+  'richtig':  {t:'صحيح',     p:'ريختيخ',    ty:'صفة',   n:'ch بعد i = خ ناعم + -ig = إيخ'},
+  // س
+  'Sonne':    {t:'شمس',      p:'زونِه',      ty:'اسم',   n:'S قبل o = ز — جمعها Sonnen'},
+  'Schule':   {t:'مدرسة',    p:'شولِه',      ty:'اسم',   n:'sch = ش دائماً'},
+  'Salz':     {t:'ملح',      p:'زالتس',      ty:'اسم',   n:'S في البداية = ز، z = تس'},
+  'Sohn':     {t:'ابن',      p:'زون',        ty:'اسم',   n:'S = ز — جمعها Söhne'},
+  'schön':    {t:'جميل',     p:'شون',        ty:'صفة',   n:'sch = ش — ö = شفتيك دائرة'},
+  'sprechen': {t:'يتكلم',    p:'شبريخِن',    ty:'فعل',   n:'sp في البداية = شب'},
+  'spielen':  {t:'يلعب',     p:'شبيلِن',     ty:'فعل',   n:'sp = شب — ie = إي طويلة'},
+  'Straße':   {t:'شارع',     p:'شتراسِه',    ty:'اسم',   n:'st = شت — ß = س مشددة'},
+  'sein':     {t:'يكون',     p:'زاين',       ty:'فعل',   n:'أهم فعل — ich bin = أنا'},
+  'sie':      {t:'هي / هم / أنت رسمي', p:'زي', ty:'ضمير', n:'ie = إي طويلة'},
+  'Stadt':    {t:'مدينة',    p:'شتات',       ty:'اسم',   n:'st = شت — جمعها Städte'},
+  'Stuhl':    {t:'كرسي',     p:'شتول',       ty:'اسم',   n:'st = شت'},
+  'Sprache':  {t:'لغة',      p:'شبراخِه',    ty:'اسم',   n:'sp = شب — ch بعد a = خ'},
+  // ت
+  'Tag':      {t:'يوم',      p:'تاك',        ty:'اسم',   n:'g في النهاية = k'},
+  'Tisch':    {t:'طاولة',    p:'تيش',        ty:'اسم',   n:'sch = ش'},
+  'Tee':      {t:'شاي',      p:'تي',         ty:'اسم',   n:'ee = إي طويلة'},
+  'trinken':  {t:'يشرب',     p:'ترينكِن',    ty:'فعل',   n:''},
+  // أ
+  'über':     {t:'فوق / عبر', p:'أوبِر',     ty:'حرف جر', n:'ü = شفتيك دائرة مع صوت إي'},
+  'Uhr':      {t:'ساعة',     p:'أور',        ty:'اسم',   n:'كم الساعة = Wie viel Uhr ist es?'},
+  'Urlaub':   {t:'إجازة',    p:'أورلاوب',    ty:'اسم',   n:'au = أو'},
+  'und':      {t:'و',        p:'أوند',       ty:'رابط',  n:'أكثر كلمة شائعة في الألمانية'},
+  // ف
+  'Vater':    {t:'أب',       p:'فاتِر',      ty:'اسم',   n:'V = ف وليس v الإنجليزية — جمعها Väter'},
+  'Vogel':    {t:'طائر',     p:'فوغِل',      ty:'اسم',   n:'V = ف'},
+  'verstehen':{t:'يفهم',     p:'فيرشتيين',  ty:'فعل',   n:'ver + stehen — st = شت'},
+  'viel':     {t:'كثير',     p:'فيل',        ty:'صفة',   n:'ie = إي طويلة'},
+  'vier':     {t:'أربعة',    p:'فير',        ty:'عدد',   n:'ie = إي طويلة'},
+  // و
+  'Wasser':   {t:'ماء',      p:'فاسِر',      ty:'اسم',   n:'W = ف أسنانية (مثل v الإنجليزية)'},
+  'Wind':     {t:'ريح',      p:'فيند',       ty:'اسم',   n:'d في النهاية = t'},
+  'Wolf':     {t:'ذئب',      p:'فولف',       ty:'اسم',   n:'جمعها Wölfe'},
+  'Wort':     {t:'كلمة',     p:'فورت',       ty:'اسم',   n:'جمعها Wörter'},
+  'wohnen':   {t:'يسكن',     p:'فونِن',      ty:'فعل',   n:'W = ف'},
+  'weiß':     {t:'أبيض',     p:'فايس',       ty:'صفة',   n:'ei = آي — ß = س'},
+  'wie':      {t:'كيف',      p:'في',         ty:'استفهام',n:'ie = إي طويلة'},
+  'wo':       {t:'أين',      p:'فو',         ty:'استفهام',n:'W = ف'},
+  'was':      {t:'ماذا',     p:'فاس',        ty:'استفهام',n:'W = ف — s في النهاية = س'},
+  'wer':      {t:'من',       p:'فير',        ty:'استفهام',n:'W = ف'},
+  'wann':     {t:'متى',      p:'فان',        ty:'استفهام',n:'nn مشددة'},
+  // إكس
+  'Xylophon': {t:'إكسيلوفون', p:'كسولوفون',  ty:'اسم',  n:'X = كس'},
+  // ي
+  'Yoga':     {t:'يوغا',     p:'يوغا',       ty:'اسم',   n:'Y = ي وليس ج'},
+  // ز
+  'Zeit':     {t:'وقت',      p:'تسايت',      ty:'اسم',   n:'Z دائماً = تس — ei = آي'},
+  'Zucker':   {t:'سكر',      p:'تسوكِر',     ty:'اسم',   n:'Z = تس — ck = ك'},
+  'Zug':      {t:'قطار',     p:'تسوك',       ty:'اسم',   n:'Z = تس — g في النهاية = k'},
+  'zehn':     {t:'عشرة',     p:'تسين',       ty:'عدد',   n:'Z = تس'},
+  'zwei':     {t:'اثنان',    p:'تسفاي',      ty:'عدد',   n:'Z = تس — ei = آي'},
+  // أوملاوت وخاص
+  'Käse':     {t:'جبنة',     p:'كيزِه',      ty:'اسم',   n:'ä = إيه'},
+  'Mädchen':  {t:'بنت',      p:'ميدخِن',     ty:'اسم',   n:'ä + ch بعد ä = خ ناعم'},
+  'Öl':       {t:'زيت',      p:'أول',        ty:'اسم',   n:'ö = شفتيك دائرة مع صوت إيه'},
+  'Österreich':{t:'النمسا',  p:'أُستِرايخ',  ty:'اسم',  n:'ö + ei = آي + ch = خ'},
+  'Fuß':      {t:'قدم',      p:'فوس',        ty:'اسم',   n:'ß = س مشددة'},
+  'Straße':   {t:'شارع',     p:'شتراسِه',    ty:'اسم',   n:'ß = س'},
+  'groß':     {t:'كبير',     p:'غروس',       ty:'صفة',   n:'ß = س'},
+  'Glück':    {t:'حظ / سعادة', p:'غلوك',    ty:'اسم',   n:'ü + ck = ك'},
+  'Tschüss':  {t:'مع السلامة', p:'تشوس',    ty:'تعبير', n:'tsch = تش — ü + ss = س'},
+  'Pferd':    {t:'حصان',     p:'بفيرد',      ty:'اسم',   n:'pf = بف — d في النهاية = t'},
+  // أرقام وكلمات شائعة
+  'eins':     {t:'واحد',     p:'آينس',       ty:'عدد',   n:'ei = آي'},
+  'zwei':     {t:'اثنان',    p:'تسفاي',      ty:'عدد',   n:'Z = تس'},
+  'drei':     {t:'ثلاثة',    p:'دراي',       ty:'عدد',   n:'ei = آي'},
+  'vier':     {t:'أربعة',    p:'فير',        ty:'عدد',   n:'ie = إي'},
+  'fünf':     {t:'خمسة',     p:'فونف',       ty:'عدد',   n:'ü + nf'},
+  'sechs':    {t:'ستة',      p:'زيكس',       ty:'عدد',   n:'s = ز في البداية'},
+  'sieben':   {t:'سبعة',     p:'زيبِن',      ty:'عدد',   n:'s = ز — ie = إي'},
+  'acht':     {t:'ثمانية',   p:'أخت',        ty:'عدد',   n:'ch بعد a = خ حلقي'},
+  'neun':     {t:'تسعة',     p:'نوين',       ty:'عدد',   n:'eu = أوي'},
+  'zehn':     {t:'عشرة',     p:'تسين',       ty:'عدد',   n:'Z = تس'},
+  'Alphabet': {t:'أبجدية',   p:'ألفابيت',    ty:'اسم',   n:'Das Alphabet = الأبجدية'},
+  'gut':      {t:'جيد',      p:'غوت',        ty:'صفة',   n:'Guten Morgen = صباح الخير'},
+  'ja':       {t:'نعم',      p:'يا',         ty:'تعبير', n:'J = ي وليس ج'},
+  'nein':     {t:'لا',       p:'ناين',       ty:'تعبير', n:'ei = آي'},
+  'Guten Tag':{t:'مرحباً (نهار)',p:'غوتِن تاك',ty:'تعبير',n:'تحية نهارية رسمية'},
+  'Entschuldigung':{t:'عذراً / آسف',p:'إنتشولديغونغ',ty:'تعبير',n:'tsch = تش — -ig = إيخ'},
+  'Ich':      {t:'أنا',      p:'إيخ',        ty:'ضمير',  n:'ch بعد i = خ ناعم'},
+  'ich':      {t:'أنا',      p:'إيخ',        ty:'ضمير',  n:'ch بعد i = خ ناعم'},
+  'bin':      {t:'أنا (فعل كون)', p:'بين',  ty:'فعل',   n:'ich bin = أنا'},
+  'haben':    {t:'يملك / عنده', p:'هابِن',   ty:'فعل',  n:'ich habe = عندي'},
+  'gehen':    {t:'يمشي / يذهب', p:'غيين',   ty:'فعل',  n:'ich gehe = أنا أذهب'},
+  'essen':    {t:'يأكل',     p:'إسِن',       ty:'فعل',   n:'s بين حرفين = ز'},
+  'Essen':    {t:'طعام / أكل', p:'إسِن',    ty:'اسم',   n:'ss = س مشددة هنا'},
+  'Wohnzimmer':{t:'غرفة جلوس',p:'فونتسيمِر', ty:'اسم', n:'Wohn + Zimmer = مكان + غرفة'},
+  'Zimmer':   {t:'غرفة',     p:'تسيمِر',    ty:'اسم',   n:'Z = تس'},
+  'Schrank':  {t:'خزانة',    p:'شرانك',      ty:'اسم',   n:'sch = ش'},
+  'Kleid':    {t:'فستان',    p:'كلايد',      ty:'اسم',   n:'ei = آي — d في النهاية = t'},
+  'Geld':     {t:'مال',      p:'غيلد',       ty:'اسم',   n:'d في النهاية = t'},
+  'Garage':   {t:'مرآب / جراج', p:'غاراجِه', ty:'اسم', n:'مستعارة من الفرنسية'},
+  'beachten': {t:'يلاحظ',    p:'بِآختِن',   ty:'فعل',   n:'ch بعد a = خ حلقي'},
+  'Insel':    {t:'جزيرة',    p:'إنزِل',      ty:'اسم',   n:'جمعها Inseln'},
+  'Igel':     {t:'قنفذ',     p:'إغِل',       ty:'اسم',   n:'جمعها Igel'},
+  'lustig':   {t:'مضحك',     p:'لوستيخ',    ty:'صفة',   n:'-ig في النهاية = إيخ'},
+
+  // ===== أيام الأسبوع =====
+  'Montag':    {t:'الاثنين',   p:'مونتاك',     ty:'اسم',   n:'g في النهاية = k'},
+  'Dienstag':  {t:'الثلاثاء',  p:'دينستاك',    ty:'اسم',   n:''},
+  'Mittwoch':  {t:'الأربعاء',  p:'ميتفوخ',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
+  'Donnerstag':{t:'الخميس',    p:'دونرستاك',   ty:'اسم',   n:''},
+  'Freitag':   {t:'الجمعة',    p:'فراي تاك',   ty:'اسم',   n:'ei = آي'},
+  'Samstag':   {t:'السبت',     p:'زامستاك',    ty:'اسم',   n:'s = ز في البداية'},
+  'Sonntag':   {t:'الأحد',     p:'زونتاك',     ty:'اسم',   n:'s = ز'},
+  'Wochenende':{t:'نهاية الأسبوع',p:'فوخِنِنده',ty:'اسم', n:'Woche = أسبوع + Ende = نهاية'},
+  'Woche':     {t:'أسبوع',     p:'فوخِه',      ty:'اسم',   n:'ch بعد o = خ حلقي'},
+
+  // ===== الأشهر =====
+  'Januar':    {t:'يناير',     p:'يانوار',     ty:'اسم',   n:''},
+  'Februar':   {t:'فبراير',    p:'فيبروار',    ty:'اسم',   n:''},
+  'März':      {t:'مارس',      p:'ميرتس',      ty:'اسم',   n:'ä = إيه + z = تس'},
+  'April':     {t:'أبريل',     p:'أبريل',      ty:'اسم',   n:''},
+  'Mai':       {t:'مايو',      p:'ماي',        ty:'اسم',   n:'ai = آي'},
+  'Juni':      {t:'يونيو',     p:'يوني',       ty:'اسم',   n:''},
+  'Juli':      {t:'يوليو',     p:'يولي',       ty:'اسم',   n:''},
+  'August':    {t:'أغسطس',     p:'أوغوست',     ty:'اسم',   n:''},
+  'September': {t:'سبتمبر',    p:'زيبتيمبر',   ty:'اسم',   n:'s = ز'},
+  'Oktober':   {t:'أكتوبر',    p:'أوكتوبر',    ty:'اسم',   n:''},
+  'November':  {t:'نوفمبر',    p:'نوفيمبر',    ty:'اسم',   n:'v = ف'},
+  'Dezember':  {t:'ديسمبر',    p:'ديتسيمبر',   ty:'اسم',   n:'z = تس'},
+
+  // ===== أرقام =====
+  'elf':       {t:'أحد عشر',   p:'إلف',        ty:'عدد',   n:''},
+  'zwölf':     {t:'اثنا عشر',  p:'تسفولف',     ty:'عدد',   n:'ö + z = تس'},
+  'dreizehn':  {t:'ثلاثة عشر', p:'دراي تسين',  ty:'عدد',   n:'ei + z = تس'},
+  'vierzehn':  {t:'أربعة عشر', p:'فير تسين',   ty:'عدد',   n:'ie = إي'},
+  'fünfzehn':  {t:'خمسة عشر',  p:'فونف تسين',  ty:'عدد',   n:'ü'},
+  'sechzehn':  {t:'ستة عشر',   p:'زيختسين',    ty:'عدد',   n:''},
+  'siebzehn':  {t:'سبعة عشر',  p:'زيب تسين',   ty:'عدد',   n:''},
+  'achtzehn':  {t:'ثمانية عشر',p:'أخت تسين',   ty:'عدد',   n:''},
+  'neunzehn':  {t:'تسعة عشر',  p:'نوين تسين',  ty:'عدد',   n:'eu = أوي'},
+  'zwanzig':   {t:'عشرون',     p:'تسفانتسيخ',  ty:'عدد',   n:'z = تس — ig = إيخ'},
+  'dreißig':   {t:'ثلاثون',    p:'دراي سيخ',   ty:'عدد',   n:'ß = س'},
+  'vierzig':   {t:'أربعون',    p:'فيرتسيخ',    ty:'عدد',   n:''},
+  'fünfzig':   {t:'خمسون',     p:'فونف تسيخ',  ty:'عدد',   n:''},
+  'sechzig':   {t:'ستون',      p:'زيختسيخ',    ty:'عدد',   n:''},
+  'siebzig':   {t:'سبعون',     p:'زيبتسيخ',    ty:'عدد',   n:''},
+  'achtzig':   {t:'ثمانون',    p:'أختسيخ',     ty:'عدد',   n:''},
+  'neunzig':   {t:'تسعون',     p:'نوينتسيخ',   ty:'عدد',   n:''},
+  'hundert':   {t:'مئة',       p:'هوندِرت',    ty:'عدد',   n:''},
+  'tausend':   {t:'ألف',       p:'تاوزِنت',    ty:'عدد',   n:'au = أو'},
+  'Million':   {t:'مليون',     p:'ميليون',     ty:'عدد',   n:''},
+
+  // ===== ألوان =====
+  'blau':      {t:'أزرق',      p:'بلاو',       ty:'صفة',   n:'au = أو'},
+  'grün':      {t:'أخضر',      p:'غرون',       ty:'صفة',   n:'ü = شفتيك دائرة'},
+  'gelb':      {t:'أصفر',      p:'غيلب',       ty:'صفة',   n:'b في النهاية = p'},
+  'schwarz':   {t:'أسود',      p:'شفارتس',     ty:'صفة',   n:'sch = ش — z = تس'},
+  'weiß':      {t:'أبيض',      p:'فايس',       ty:'صفة',   n:'ei = آي — ß = س'},
+  'grau':      {t:'رمادي',     p:'غراو',       ty:'صفة',   n:'au = أو'},
+  'braun':     {t:'بني',       p:'براون',      ty:'صفة',   n:'au = أو'},
+  'rosa':      {t:'وردي',      p:'روزا',       ty:'صفة',   n:''},
+  'lila':      {t:'بنفسجي',    p:'ليلا',       ty:'صفة',   n:''},
+  'orange':    {t:'برتقالي',   p:'أورانجِه',   ty:'صفة',   n:'مستعارة من الفرنسية'},
+
+  // ===== العائلة =====
+  'Bruder':    {t:'أخ',        p:'برودِر',     ty:'اسم',   n:'جمعها Brüder'},
+  'Schwester': {t:'أخت',       p:'شفيستِر',    ty:'اسم',   n:'sch = ش — جمعها Schwestern'},
+  'Tochter':   {t:'ابنة',      p:'توختِر',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
+  'Onkel':     {t:'عم / خال',  p:'أونكِل',     ty:'اسم',   n:''},
+  'Tante':     {t:'عمة / خالة',p:'تانته',      ty:'اسم',   n:''},
+  'Cousin':    {t:'ابن العم',  p:'كوزين',      ty:'اسم',   n:'مستعارة من الفرنسية'},
+  'Cousine':   {t:'ابنة العم', p:'كوزينِه',    ty:'اسم',   n:''},
+  'Großvater': {t:'جد',        p:'غروسفاتِر',  ty:'اسم',   n:'groß = كبير + Vater = أب'},
+  'Großmutter':{t:'جدة',       p:'غروسموتِر',  ty:'اسم',   n:''},
+  'Enkel':     {t:'حفيد',      p:'إنكِل',      ty:'اسم',   n:'جمعها Enkel'},
+  'Enkelin':   {t:'حفيدة',     p:'إنكِلين',    ty:'اسم',   n:''},
+  'Baby':      {t:'رضيع / طفل صغير',p:'بيبي',  ty:'اسم',  n:'Y هنا Vokal'},
+  'Ehemann':   {t:'زوج',       p:'إيه مان',    ty:'اسم',   n:'Ehe = زواج'},
+  'Ehefrau':   {t:'زوجة',      p:'إيه فراو',   ty:'اسم',   n:''},
+
+  // ===== أجزاء الجسم =====
+  'Kopf':      {t:'رأس',       p:'كوبف',       ty:'اسم',   n:'pf = بف — جمعها Köpfe'},
+  'Haar':      {t:'شعر',       p:'هار',        ty:'اسم',   n:'جمعها Haare'},
+  'Auge':      {t:'عين',       p:'أوغِه',      ty:'اسم',   n:'جمعها Augen — au = أو'},
+  'Mund':      {t:'فم',        p:'موند',       ty:'اسم',   n:'d في النهاية = t'},
+  'Zahn':      {t:'سن',        p:'تسان',       ty:'اسم',   n:'z = تس — جمعها Zähne'},
+  'Hals':      {t:'رقبة / حلق',p:'هالس',       ty:'اسم',   n:'جمعها Hälse'},
+  'Schulter':  {t:'كتف',       p:'شولتِر',     ty:'اسم',   n:'sch = ش — جمعها Schultern'},
+  'Ellbogen':  {t:'كوع',       p:'إل بوغِن',   ty:'اسم',   n:''},
+  'Finger':    {t:'إصبع',      p:'فينغر',      ty:'اسم',   n:'ng = نغ'},
+  'Brust':     {t:'صدر',       p:'بروست',      ty:'اسم',   n:''},
+  'Bauch':     {t:'بطن',       p:'باوخ',       ty:'اسم',   n:'au = أو + ch = خ حلقي'},
+  'Rücken':    {t:'ظهر',       p:'روكِن',      ty:'اسم',   n:'ü = شفتيك دائرة'},
+  'Bein':      {t:'ساق',       p:'باين',       ty:'اسم',   n:'ei = آي — جمعها Beine'},
+  'Knie':      {t:'ركبة',      p:'كني',        ty:'اسم',   n:'ie = إي — جمعها Knie'},
+  'Zehe':      {t:'إصبع القدم',p:'تسيهِه',     ty:'اسم',   n:'z = تس'},
+  'Herz':      {t:'قلب',       p:'هيرتس',      ty:'اسم',   n:'z = تس'},
+
+  // ===== طعام وشراب =====
+  'Brot':      {t:'خبز',       p:'بروت',       ty:'اسم',   n:'جمعها Brote'},
+  'Brötchen':  {t:'خبزة صغيرة',p:'بروتخِن',    ty:'اسم',   n:'ch بعد t = خ ناعم'},
+  'Butter':    {t:'زبدة',      p:'بوتِر',      ty:'اسم',   n:''},
+  'Marmelade': {t:'مربى',      p:'مارمِلادِه',  ty:'اسم',   n:''},
+  'Honig':     {t:'عسل',       p:'هونيخ',      ty:'اسم',   n:'-ig = إيخ'},
+  'Fleisch':   {t:'لحم',       p:'فلايش',      ty:'اسم',   n:'ei = آي + sch = ش'},
+  'Wurst':     {t:'نقانق / سجق',p:'فورست',     ty:'اسم',   n:''},
+  'Hähnchen':  {t:'دجاج',      p:'هينخِن',     ty:'اسم',   n:'ä + ch = خ ناعم'},
+  'Rindfleisch':{t:'لحم بقر',  p:'ريند فلايش', ty:'اسم',   n:'ei = آي'},
+  'Kartoffel': {t:'بطاطا',     p:'كارتوفِل',   ty:'اسم',   n:'جمعها Kartoffeln'},
+  'Tomate':    {t:'طماطم',     p:'توماتِه',    ty:'اسم',   n:'جمعها Tomaten'},
+  'Gurke':     {t:'خيار',      p:'غوركِه',     ty:'اسم',   n:'جمعها Gurken'},
+  'Karotte':   {t:'جزرة',      p:'كاروتِه',    ty:'اسم',   n:'جمعها Karotten'},
+  'Zwiebel':   {t:'بصل',       p:'تسفيبِل',    ty:'اسم',   n:'z = تس'},
+  'Knoblauch': {t:'ثوم',       p:'كنوبلاوخ',   ty:'اسم',   n:'au = أو + ch = خ'},
+  'Salat':     {t:'سلطة / خس', p:'زالات',      ty:'اسم',   n:'s = ز'},
+  'Suppe':     {t:'حساء',      p:'زوبِه',      ty:'اسم',   n:'s = ز'},
+  'Nudeln':    {t:'معكرونة',   p:'نودِلن',     ty:'اسم',   n:''},
+  'Reis':      {t:'رز',        p:'رايس',       ty:'اسم',   n:'ei = آي'},
+  'Kuchen':    {t:'كعكة',      p:'كوخِن',      ty:'اسم',   n:'ch بعد u = خ حلقي'},
+  'Torte':     {t:'تورتة',     p:'تورتِه',     ty:'اسم',   n:''},
+  'Schokolade':{t:'شوكولاتة',  p:'شوكولادِه',  ty:'اسم',   n:'sch = ش'},
+  'Zucker':    {t:'سكر',       p:'تسوكِر',     ty:'اسم',   n:'z = تس'},
+  'Salz':      {t:'ملح',       p:'زالتس',      ty:'اسم',   n:'z = تس'},
+  'Pfeffer':   {t:'فلفل',      p:'بفيفِر',     ty:'اسم',   n:'pf = بف'},
+  'Kaffee':    {t:'قهوة',      p:'كافيه',      ty:'اسم',   n:'ee = إي طويلة'},
+  'Saft':      {t:'عصير',      p:'زافت',       ty:'اسم',   n:'s = ز'},
+  'Bier':      {t:'بيرة',      p:'بير',        ty:'اسم',   n:'ie = إي'},
+  'Wein':      {t:'نبيذ',      p:'فاين',       ty:'اسم',   n:'ei = آي'},
+
+  // ===== الملابس =====
+  'Hemd':      {t:'قميص',      p:'هيمت',       ty:'اسم',   n:'d في النهاية = t'},
+  'Hose':      {t:'بنطلون',    p:'هوزِه',      ty:'اسم',   n:'جمعها Hosen'},
+  'Rock':      {t:'تنورة',     p:'روك',        ty:'اسم',   n:'جمعها Röcke'},
+  'Jacke':     {t:'جاكيت',     p:'ياكِه',      ty:'اسم',   n:'j = ي'},
+  'Mantel':    {t:'معطف',      p:'مانتِل',     ty:'اسم',   n:'جمعها Mäntel'},
+  'Schuhe':    {t:'أحذية',     p:'شوهِه',      ty:'اسم',   n:'sch = ش'},
+  'Socken':    {t:'جوارب',     p:'زوكِن',      ty:'اسم',   n:'s = ز'},
+  'Mütze':     {t:'قبعة صغيرة',p:'موتسِه',     ty:'اسم',   n:'ü + z = تس'},
+  'Schal':     {t:'وشاح',      p:'شال',        ty:'اسم',   n:'sch = ش'},
+  'Handschuhe':{t:'قفازات',    p:'هاند شوهِه', ty:'اسم',   n:'Hand = يد + Schuhe = أحذية'},
+  'Anzug':     {t:'بدلة',      p:'أنتسوك',     ty:'اسم',   n:'z = تس — جمعها Anzüge'},
+  'Kleidung':  {t:'ملابس',     p:'كلايدونغ',   ty:'اسم',   n:'ei = آي — اسم جماعي'},
+
+  // ===== المنزل والأثاث =====
+  'Wohnung':   {t:'شقة',       p:'فونونغ',     ty:'اسم',   n:'جمعها Wohnungen'},
+  'Küche':     {t:'مطبخ',      p:'كوشِه',      ty:'اسم',   n:'ü = شفتيك دائرة'},
+  'Badezimmer':{t:'حمام',      p:'بادِه تسيمِر',ty:'اسم', n:'Z = تس'},
+  'Schlafzimmer':{t:'غرفة نوم',p:'شلاف تسيمِر',ty:'اسم', n:'sch = ش'},
+  'Bett':      {t:'سرير',      p:'بيت',        ty:'اسم',   n:'tt = t مشددة'},
+  'Sofa':      {t:'كنبة',      p:'زوفا',       ty:'اسم',   n:'s = ز'},
+  'Stuhl':     {t:'كرسي',      p:'شتول',       ty:'اسم',   n:'st = شت — جمعها Stühle'},
+  'Regal':     {t:'رف',        p:'ريغال',      ty:'اسم',   n:'جمعها Regale'},
+  'Wand':      {t:'جدار',      p:'فانت',       ty:'اسم',   n:'d في النهاية = t — جمعها Wände'},
+  'Boden':     {t:'أرضية',     p:'بودِن',      ty:'اسم',   n:''},
+  'Decke':     {t:'سقف / لحاف',p:'ديكِه',      ty:'اسم',   n:'ck = ك'},
+  'Treppe':    {t:'سلّم / درج', p:'تريبِه',     ty:'اسم',   n:'جمعها Treppen'},
+  'Aufzug':    {t:'مصعد',      p:'أوف تسوك',   ty:'اسم',   n:'z = تس'},
+  'Schlüssel': {t:'مفتاح',     p:'شلوسِل',     ty:'اسم',   n:'sch = ش + ü'},
+
+  // ===== الطبيعة =====
+  'Baum':      {t:'شجرة',      p:'باوم',       ty:'اسم',   n:'au = أو — جمعها Bäume'},
+  'Blume':     {t:'زهرة',      p:'بلومِه',     ty:'اسم',   n:'جمعها Blumen'},
+  'Gras':      {t:'عشب',       p:'غراس',       ty:'اسم',   n:''},
+  'Berg':      {t:'جبل',       p:'بيرك',       ty:'اسم',   n:'g في النهاية = k — جمعها Berge'},
+  'Fluss':     {t:'نهر',       p:'فلوس',       ty:'اسم',   n:'ss = س — جمعها Flüsse'},
+  'See':       {t:'بحيرة',     p:'زيه',        ty:'اسم',   n:'s = ز — ee = إي'},
+  'Meer':      {t:'بحر',       p:'مير',        ty:'اسم',   n:'ee = إي'},
+  'Strand':    {t:'شاطئ',      p:'شترانت',     ty:'اسم',   n:'st = شت'},
+  'Wald':      {t:'غابة',      p:'فالت',       ty:'اسم',   n:'d في النهاية = t — جمعها Wälder'},
+  'Feld':      {t:'حقل',       p:'فيلت',       ty:'اسم',   n:'d في النهاية = t'},
+  'Himmel':    {t:'سماء',      p:'هيمِل',      ty:'اسم',   n:''},
+  'Wolke':     {t:'سحابة',     p:'فولكِه',     ty:'اسم',   n:'جمعها Wolken'},
+  'Regen':     {t:'مطر',       p:'ريغِن',      ty:'اسم',   n:''},
+  'Schnee':    {t:'ثلج',       p:'شني',        ty:'اسم',   n:'sch = ش + ee = إي'},
+  'Eis':       {t:'جليد / آيس كريم',p:'آيس',  ty:'اسم',   n:'ei = آي'},
+  'Sonne':     {t:'شمس',       p:'زونِه',      ty:'اسم',   n:'s = ز'},
+  'Mond':      {t:'قمر',       p:'مونت',       ty:'اسم',   n:'d = t'},
+  'Stern':     {t:'نجمة',      p:'شتيرن',      ty:'اسم',   n:'st = شت — جمعها Sterne'},
+
+  // ===== الحيوانات =====
+  'Hund':      {t:'كلب',       p:'هونت',       ty:'اسم',   n:'d = t — جمعها Hunde'},
+  'Katze':     {t:'قطة',       p:'كاتسِه',     ty:'اسم',   n:'z = تس'},
+  'Vogel':     {t:'طائر',      p:'فوغِل',      ty:'اسم',   n:'جمعها Vögel'},
+  'Kuh':       {t:'بقرة',      p:'كو',         ty:'اسم',   n:'جمعها Kühe'},
+  'Schwein':   {t:'خنزير',     p:'شفاين',      ty:'اسم',   n:'sch = ش + ei = آي'},
+  'Schaf':     {t:'خروف',      p:'شاف',        ty:'اسم',   n:'sch = ش — جمعها Schafe'},
+  'Huhn':      {t:'دجاجة',     p:'هون',        ty:'اسم',   n:'جمعها Hühner'},
+  'Maus':      {t:'فأر',       p:'ماوس',       ty:'اسم',   n:'au = أو — جمعها Mäuse'},
+  'Schlange':  {t:'ثعبان',     p:'شلانغِه',    ty:'اسم',   n:'sch = ش'},
+  'Frosch':    {t:'ضفدع',      p:'فروش',       ty:'اسم',   n:'sch = ش'},
+  'Biene':     {t:'نحلة',      p:'بينِه',      ty:'اسم',   n:'ie = إي'},
+  'Schmetterling':{t:'فراشة',  p:'شمِترلينغ',  ty:'اسم',   n:'sch = ش + ng = نغ'},
+  'Elefant':   {t:'فيل',       p:'إليفانت',    ty:'اسم',   n:''},
+  'Löwe':      {t:'أسد',       p:'لوفِه',      ty:'اسم',   n:'ö'},
+  'Tiger':     {t:'نمر',       p:'تيغر',       ty:'اسم',   n:''},
+  'Bär':       {t:'دب',        p:'بير',        ty:'اسم',   n:'ä = إيه'},
+  'Affe':      {t:'قرد',       p:'أفِه',       ty:'اسم',   n:'جمعها Affen'},
+
+  // ===== المهن =====
+  'Arzt':      {t:'طبيب',      p:'أرتست',      ty:'اسم',   n:'z = تس — المؤنث: Ärztin'},
+  'Ärztin':    {t:'طبيبة',     p:'إرتستين',    ty:'اسم',   n:'ä = إيه + z = تس'},
+  'Lehrer':    {t:'معلم',      p:'ليرِر',      ty:'اسم',   n:'المؤنث: Lehrerin'},
+  'Lehrerin':  {t:'معلمة',     p:'ليرِرين',    ty:'اسم',   n:''},
+  'Schüler':   {t:'تلميذ',     p:'شولِر',      ty:'اسم',   n:'sch = ش'},
+  'Student':   {t:'طالب جامعي',p:'شتودِنت',    ty:'اسم',   n:'st = شت'},
+  'Ingenieur': {t:'مهندس',     p:'إنجينير',    ty:'اسم',   n:'مستعارة من الفرنسية'},
+  'Koch':      {t:'طباخ',      p:'كوخ',        ty:'اسم',   n:'ch بعد o = خ حلقي'},
+  'Bäcker':    {t:'خباز',      p:'بيكِر',      ty:'اسم',   n:'ä = إيه + ck = ك'},
+  'Verkäufer': {t:'بائع',      p:'فير كويفِر', ty:'اسم',   n:'äu = أوي'},
+  'Polizist':  {t:'شرطي',      p:'بوليتسيست',  ty:'اسم',   n:'z = تس'},
+  'Feuerwehr': {t:'إطفاء الحريق',p:'فويرفير',  ty:'اسم',   n:'eu = أوي'},
+  'Kellner':   {t:'نادل',      p:'كيلنِر',     ty:'اسم',   n:''},
+  'Programmierer':{t:'مبرمج',  p:'بروغراميرِر', ty:'اسم',  n:''},
+
+  // ===== أماكن =====
+  'Apotheke':  {t:'صيدلية',    p:'أبوتيكِه',   ty:'اسم',   n:''},
+  'Supermarkt':{t:'سوبرماركت', p:'زوبِر مارك', ty:'اسم',   n:'s = ز'},
+  'Bäckerei':  {t:'مخبز',      p:'بيكِرآي',    ty:'اسم',   n:'ei = آي'},
+  'Restaurant':{t:'مطعم',      p:'ريستوران',   ty:'اسم',   n:'مستعارة من الفرنسية'},
+  'Hotel':     {t:'فندق',      p:'هوتيل',      ty:'اسم',   n:''},
+  'Bahnhof':   {t:'محطة قطار', p:'بانهوف',     ty:'اسم',   n:'Bahn = قطار + Hof = ساحة'},
+  'Flughafen': {t:'مطار',      p:'فلوك هافِن', ty:'اسم',   n:'Flug = طيران + Hafen = ميناء'},
+  'Krankenhaus':{t:'مستشفى',   p:'كرانكِن هاوس',ty:'اسم', n:''},
+  'Rathaus':   {t:'بلدية',     p:'راتهاوس',    ty:'اسم',   n:'Rat = مجلس + Haus = بيت'},
+  'Kirche':    {t:'كنيسة',     p:'كيرشِه',     ty:'اسم',   n:''},
+  'Moschee':   {t:'مسجد',      p:'موشيه',      ty:'اسم',   n:'sch = ش'},
+  'Museum':    {t:'متحف',      p:'موزيوم',     ty:'اسم',   n:''},
+  'Bibliothek':{t:'مكتبة',     p:'بيبليوتيك',  ty:'اسم',   n:''},
+  'Markt':     {t:'سوق',       p:'مارك',       ty:'اسم',   n:''},
+  'Strand':    {t:'شاطئ',      p:'شترانت',     ty:'اسم',   n:'st = شت'},
+  'Stadion':   {t:'ملعب',      p:'شتاديون',    ty:'اسم',   n:'st = شت'},
+  'Schwimmbad':{t:'مسبح',      p:'شفيم بات',   ty:'اسم',   n:'sch = ش + mm'},
+
+  // ===== وسائل النقل =====
+  'Fahrrad':   {t:'دراجة هوائية',p:'فارات',    ty:'اسم',   n:'fahren = يقود + Rad = عجلة'},
+  'Motorrad':  {t:'دراجة نارية',p:'موتورات',   ty:'اسم',   n:'Motor + Rad'},
+  'Flugzeug':  {t:'طائرة',     p:'فلوك تسوك',  ty:'اسم',   n:'z = تس — Flug = طيران'},
+  'Schiff':    {t:'سفينة',     p:'شيف',        ty:'اسم',   n:'sch = ش'},
+  'Taxi':      {t:'تاكسي',     p:'تاكسي',      ty:'اسم',   n:''},
+  'Straßenbahn':{t:'ترام',     p:'شتراسِن بان',ty:'اسم',   n:'ß + st = شت'},
+
+  // ===== أفعال شائعة =====
+  'arbeiten':  {t:'يعمل',      p:'أربايتِن',   ty:'فعل',   n:'ei = آي'},
+  'wohnen':    {t:'يسكن',      p:'فونِن',      ty:'فعل',   n:'ich wohne = أسكن'},
+  'leben':     {t:'يعيش',      p:'ليبِن',      ty:'فعل',   n:''},
+  'trinken':   {t:'يشرب',      p:'ترينكِن',    ty:'فعل',   n:''},
+  'schlafen':  {t:'ينام',      p:'شلافِن',     ty:'فعل',   n:'sch = ش'},
+  'aufwachen': {t:'يصحى',      p:'أوف فاخِن',  ty:'فعل',   n:'au = أو + ch = خ'},
+  'aufstehen': {t:'يقوم / ينهض',p:'أوف شتيهِن', ty:'فعل',  n:'st = شت'},
+  'anziehen':  {t:'يرتدي',     p:'أن تسيهِن',  ty:'فعل',   n:'z = تس + ie = إي'},
+  'waschen':   {t:'يغسل',      p:'فاشِن',      ty:'فعل',   n:'sch = ش'},
+  'kochen':    {t:'يطبخ',      p:'كوخِن',      ty:'فعل',   n:'ch بعد o = خ حلقي'},
+  'kaufen':    {t:'يشتري',     p:'كاوفِن',     ty:'فعل',   n:'au = أو'},
+  'bezahlen':  {t:'يدفع',      p:'بِتسالِن',   ty:'فعل',   n:'z = تس'},
+  'lernen':    {t:'يتعلم',     p:'ليرنِن',     ty:'فعل',   n:''},
+  'lesen':     {t:'يقرأ',      p:'ليزِن',      ty:'فعل',   n:'s بين حرفين = ز'},
+  'schreiben': {t:'يكتب',      p:'شرايبِن',    ty:'فعل',   n:'sch = ش + ei = آي'},
+  'spielen':   {t:'يلعب',      p:'شبيلِن',     ty:'فعل',   n:'sp = شب + ie = إي'},
+  'tanzen':    {t:'يرقص',      p:'تانتسِن',    ty:'فعل',   n:'z = تس'},
+  'singen':    {t:'يغني',      p:'زينغِن',     ty:'فعل',   n:'s = ز + ng = نغ'},
+  'reisen':    {t:'يسافر',     p:'رايزِن',     ty:'فعل',   n:'ei = آي'},
+  'fliegen':   {t:'يطير',      p:'فليغِن',     ty:'فعل',   n:'ie = إي'},
+  'fahren':    {t:'يقود / يسافر',p:'فارِن',    ty:'فعل',   n:'ich fahre = أقود'},
+  'schwimmen': {t:'يسبح',      p:'شفيمِن',     ty:'فعل',   n:'sch = ش'},
+  'laufen':    {t:'يجري',      p:'لاوفِن',     ty:'فعل',   n:'au = أو'},
+  'treffen':   {t:'يقابل',     p:'تريفِن',     ty:'فعل',   n:''},
+  'besuchen':  {t:'يزور',      p:'بِزوخِن',    ty:'فعل',   n:'ch بعد u = خ حلقي'},
+  'einladen':  {t:'يدعو',      p:'آين لادِن',  ty:'فعل',   n:'ei = آي'},
+  'feiern':    {t:'يحتفل',     p:'فايِرن',     ty:'فعل',   n:'ei = آي'},
+  'sprechen':  {t:'يتكلم',     p:'شبريخِن',    ty:'فعل',   n:'sp = شب + ch = خ'},
+  'fragen':    {t:'يسأل',      p:'فراغِن',     ty:'فعل',   n:''},
+  'antworten': {t:'يجيب',      p:'أنت فورتِن', ty:'فعل',   n:''},
+  'erklären':  {t:'يشرح',      p:'إر كليرِن',  ty:'فعل',   n:'ä = إيه'},
+  'verstehen': {t:'يفهم',      p:'فير شتيهِن', ty:'فعل',   n:'st = شت'},
+  'hören':     {t:'يسمع',      p:'هورِن',      ty:'فعل',   n:'ö = شفتيك دائرة'},
+  'schauen':   {t:'يشاهد / ينظر',p:'شاوِن',   ty:'فعل',   n:'sch = ش + au = أو'},
+  'suchen':    {t:'يبحث',      p:'زوخِن',      ty:'فعل',   n:'s = ز + ch = خ'},
+  'finden':    {t:'يجد',       p:'فيندِن',     ty:'فعل',   n:'d في النهاية = t'},
+  'verlieren': {t:'يخسر / يضيع',p:'فير ليرِن', ty:'فعل',   n:'ie = إي'},
+  'gewinnen':  {t:'يفوز / يكسب',p:'غِفينِن',  ty:'فعل',   n:''},
+  'helfen':    {t:'يساعد',     p:'هيلفِن',     ty:'فعل',   n:''},
+  'brauchen':  {t:'يحتاج',     p:'براوخِن',    ty:'فعل',   n:'au = أو + ch = خ'},
+  'öffnen':    {t:'يفتح',      p:'أوفنِن',     ty:'فعل',   n:'ö'},
+  'schließen': {t:'يغلق',      p:'شليسِن',     ty:'فعل',   n:'sch = ش + ß = س'},
+  'beginnen':  {t:'يبدأ',      p:'بِغينِن',    ty:'فعل',   n:''},
+  'enden':     {t:'ينتهي',     p:'إندِن',      ty:'فعل',   n:''},
+  'warten':    {t:'ينتظر',     p:'فارتِن',     ty:'فعل',   n:''},
+  'bleiben':   {t:'يبقى',      p:'بلايبِن',    ty:'فعل',   n:'ei = آي'},
+  'werden':    {t:'يصبح',      p:'فيردِن',     ty:'فعل',   n:'فعل مساعد مهم'},
+  'können':    {t:'يستطيع',    p:'كونِن',      ty:'فعل',   n:'فعل مودال — ich kann'},
+  'müssen':    {t:'يجب عليه',  p:'موسِن',      ty:'فعل',   n:'ü — فعل مودال'},
+  'wollen':    {t:'يريد',      p:'فولِن',      ty:'فعل',   n:'فعل مودال — ich will'},
+  'sollen':    {t:'يُفترض أن', p:'زولِن',      ty:'فعل',   n:'s = ز — فعل مودال'},
+  'dürfen':    {t:'يُسمح له',  p:'دورفِن',     ty:'فعل',   n:'ü — فعل مودال'},
+  'mögen':     {t:'يحب / يعجبه',p:'موغِن',    ty:'فعل',   n:'فعل مودال'},
+  'möchten':   {t:'يرغب في',   p:'موشتِن',     ty:'فعل',   n:'شكل مودال لـ mögen'},
+  'nehmen':    {t:'يأخذ',      p:'نيمِن',      ty:'فعل',   n:''},
+  'geben':     {t:'يعطي',      p:'غيبِن',      ty:'فعل',   n:'g في النهاية = k'},
+  'bringen':   {t:'يجلب / يحضر',p:'برينغِن',  ty:'فعل',   n:'ng = نغ'},
+  'holen':     {t:'يجلب',      p:'هولِن',      ty:'فعل',   n:''},
+  'stellen':   {t:'يضع / يحدد',p:'شتيلِن',    ty:'فعل',   n:'st = شت'},
+  'legen':     {t:'يضع (أفقي)', p:'ليغِن',     ty:'فعل',   n:''},
+  'setzen':    {t:'يضع / يجلس',p:'زيتسِن',    ty:'فعل',   n:'s = ز + z = تس'},
+  'stehen':    {t:'يقف',       p:'شتيهِن',     ty:'فعل',   n:'st = شت'},
+  'liegen':    {t:'يرقد / يقع',p:'ليغِن',      ty:'فعل',   n:'ie = إي'},
+  'sitzen':    {t:'يجلس',      p:'زيتسِن',     ty:'فعل',   n:'s = ز + tz = تس'},
+  'schicken':  {t:'يرسل',      p:'شيكِن',      ty:'فعل',   n:'sch = ش + ck = ك'},
+  'anrufen':   {t:'يتصل هاتفياً',p:'أن روفِن', ty:'فعل',   n:''},
+  'schreiben': {t:'يكتب',      p:'شرايبِن',    ty:'فعل',   n:'sch + ei = آي'},
+  'lächeln':   {t:'يبتسم',     p:'ليشِلن',     ty:'فعل',   n:'ä + ch = خ'},
+  'weinen':    {t:'يبكي',      p:'فاينِن',     ty:'فعل',   n:'ei = آي'},
+  'lachen':    {t:'يضحك',      p:'لاخِن',      ty:'فعل',   n:'ch بعد a = خ حلقي'},
+
+  // ===== صفات شائعة =====
+  'groß':      {t:'كبير / طويل',p:'غروس',      ty:'صفة',   n:'ß = س — عكسها klein'},
+  'klein':     {t:'صغير / قصير',p:'كلاين',     ty:'صفة',   n:'ei = آي'},
+  'dick':      {t:'سمين / سميك',p:'ديك',       ty:'صفة',   n:'ck = ك'},
+  'dünn':      {t:'نحيف / رفيع',p:'دون',       ty:'صفة',   n:'ü'},
+  'jung':      {t:'صغير / شاب', p:'يونغ',      ty:'صفة',   n:'j = ي + ng = نغ'},
+  'schön':     {t:'جميل',      p:'شون',        ty:'صفة',   n:'sch = ش + ö'},
+  'hässlich':  {t:'قبيح',      p:'هيسليخ',     ty:'صفة',   n:'ä + ss + -lich'},
+  'schlecht':  {t:'سيئ',       p:'شليخت',      ty:'صفة',   n:'sch = ش + ch = خ'},
+  'richtig':   {t:'صحيح / صواب',p:'ريختيخ',   ty:'صفة',   n:'ch + -ig'},
+  'falsch':    {t:'خاطئ / غلط',p:'فالش',       ty:'صفة',   n:'sch = ش'},
+  'krank':     {t:'مريض',      p:'كرانك',      ty:'صفة',   n:'عكسها gesund'},
+  'gesund':    {t:'صحيح / معافى',p:'غِزونت',   ty:'صفة',   n:'d = t'},
+  'müde':      {t:'متعب / نعسان',p:'موده',     ty:'صفة',   n:'ü'},
+  'glücklich': {t:'سعيد',      p:'غلوكليخ',   ty:'صفة',   n:'ü + ck + -lich'},
+  'traurig':   {t:'حزين',      p:'تراوريخ',   ty:'صفة',   n:'au = أو + -ig'},
+  'wütend':    {t:'غاضب',      p:'فوتِنت',    ty:'صفة',   n:'ü'},
+  'hungrig':   {t:'جوعان',     p:'هونغريخ',   ty:'صفة',   n:'ng = نغ + -ig'},
+  'durstig':   {t:'عطشان',     p:'دورستيخ',   ty:'صفة',   n:'-ig'},
+  'satt':      {t:'شبعان',     p:'زات',       ty:'صفة',   n:'s = ز'},
+  'warm':      {t:'دافئ',      p:'فارم',      ty:'صفة',   n:''},
+  'heiß':      {t:'حار / ساخن',p:'هايس',      ty:'صفة',   n:'ei = آي + ß = س'},
+  'frisch':    {t:'طازج',      p:'فريش',      ty:'صفة',   n:'sch = ش'},
+  'sauber':    {t:'نظيف',      p:'زاوبِر',    ty:'صفة',   n:'s = ز + au = أو'},
+  'schmutzig': {t:'وسخ',       p:'شموتسيخ',   ty:'صفة',   n:'sch = ش + z = تس'},
+  'laut':      {t:'صاخب / بصوت عالٍ',p:'لاوت',ty:'صفة',  n:'au = أو'},
+  'leise':     {t:'هادئ / بصوت خفيض',p:'لايزِه',ty:'صفة',n:'ei = آي'},
+  'hell':      {t:'مضيء / فاتح',p:'هيل',      ty:'صفة',   n:'عكسها dunkel'},
+  'dunkel':    {t:'مظلم / داكن',p:'دونكِل',   ty:'صفة',   n:''},
+  'schwer':    {t:'ثقيل / صعب',p:'شفير',      ty:'صفة',   n:'sch = ش'},
+  'leicht':    {t:'خفيف / سهل',p:'لايشت',     ty:'صفة',   n:'ei = آي + ch = خ'},
+  'einfach':   {t:'بسيط / سهل',p:'آينفاخ',   ty:'صفة',   n:'ei = آي + ch = خ'},
+  'schwierig': {t:'صعب',       p:'شفيريخ',    ty:'صفة',   n:'sch = ش + -ig'},
+  'möglich':   {t:'ممكن',      p:'موغليخ',    ty:'صفة',   n:'ö + -lich'},
+  'wichtig':   {t:'مهم',       p:'فيختيخ',    ty:'صفة',   n:'ch + -ig'},
+  'fertig':    {t:'جاهز / منتهي',p:'فيرتيخ', ty:'صفة',   n:'-ig'},
+  'bereit':    {t:'مستعد',     p:'بِرايت',    ty:'صفة',   n:'ei = آي'},
+  'nett':      {t:'لطيف',      p:'نيت',       ty:'صفة',   n:''},
+  'freundlich':{t:'ودود',      p:'فرويندليخ', ty:'صفة',   n:'eu = أوي + -lich'},
+  'billig':    {t:'رخيص',      p:'بيليخ',     ty:'صفة',   n:'-ig'},
+  'teuer':     {t:'غالي',      p:'توير',      ty:'صفة',   n:'eu = أوي'},
+  'voll':      {t:'ممتلئ',     p:'فول',       ty:'صفة',   n:''},
+  'leer':      {t:'فارغ',      p:'لير',       ty:'صفة',   n:'ee = إي'},
+  'offen':     {t:'مفتوح',     p:'أوفِن',     ty:'صفة',   n:''},
+  'geschlossen':{t:'مغلق',     p:'غِشلوسِن',  ty:'صفة',   n:'sch = ش + ss'},
+  'schnell':   {t:'سريع',      p:'شنيل',      ty:'صفة',   n:'sch = ش'},
+  'langsam':   {t:'بطيء',      p:'لانغزام',   ty:'صفة',   n:'ng = نغ + s = ز'},
+  'interessant':{t:'مثير للاهتمام',p:'إنتيريسانت',ty:'صفة',n:''},
+  'langweilig':{t:'ممل',       p:'لانغفايليخ',ty:'صفة',  n:'ng + ei = آي + -ig'},
+
+  // ===== ظروف وأوقات =====
+  'heute':     {t:'اليوم',     p:'هويته',     ty:'ظرف',   n:'eu = أوي'},
+  'morgen':    {t:'غداً / صباحاً',p:'مورغِن', ty:'ظرف',   n:''},
+  'gestern':   {t:'أمس',       p:'غيستِرن',   ty:'ظرف',   n:''},
+  'übermorgen':{t:'بعد غد',    p:'أوبِر مورغِن',ty:'ظرف', n:'ü'},
+  'jetzt':     {t:'الآن',      p:'يِتست',     ty:'ظرف',   n:'z = تس'},
+  'später':    {t:'لاحقاً',    p:'شبيتِر',    ty:'ظرف',   n:'ä + sp = شب'},
+  'bald':      {t:'قريباً',    p:'بالت',      ty:'ظرف',   n:'d = t'},
+  'früh':      {t:'مبكراً',    p:'فرو',       ty:'ظرف',   n:'ü'},
+  'spät':      {t:'متأخراً',   p:'شبيت',      ty:'ظرف',   n:'sp = شب + ä'},
+  'immer':     {t:'دائماً',    p:'إيمِر',     ty:'ظرف',   n:''},
+  'nie':       {t:'أبداً',     p:'ني',        ty:'ظرف',   n:'ie = إي'},
+  'manchmal':  {t:'أحياناً',   p:'مانشمال',   ty:'ظرف',   n:'sch = ش'},
+  'oft':       {t:'كثيراً',    p:'أوفت',      ty:'ظرف',   n:''},
+  'selten':    {t:'نادراً',    p:'زيلتِن',    ty:'ظرف',   n:'s = ز'},
+  'Morgen':    {t:'صباح',      p:'مورغِن',    ty:'اسم',   n:'Guten Morgen = صباح الخير'},
+  'Mittag':    {t:'ظهر',       p:'ميتاك',     ty:'اسم',   n:'Guten Mittag'},
+  'Abend':     {t:'مساء',      p:'أبِنت',     ty:'اسم',   n:'Guten Abend = مساء الخير'},
+  'Nacht':     {t:'ليل',       p:'ناخت',      ty:'اسم',   n:'Gute Nacht = تصبح على خير'},
+  'Monat':     {t:'شهر',       p:'موناتس',    ty:'اسم',   n:'جمعها Monate'},
+  'Jahr':      {t:'سنة',       p:'يار',       ty:'اسم',   n:'j = ي — جمعها Jahre'},
+
+  // ===== كلمات استفهام =====
+  'wer':       {t:'من',        p:'فير',       ty:'استفهام',n:''},
+  'was':       {t:'ماذا / ما', p:'فاس',       ty:'استفهام',n:''},
+  'wo':        {t:'أين',       p:'فو',        ty:'استفهام',n:''},
+  'woher':     {t:'من أين',    p:'فوهير',     ty:'استفهام',n:''},
+  'wohin':     {t:'إلى أين',   p:'فوهين',     ty:'استفهام',n:''},
+  'wann':      {t:'متى',       p:'فان',       ty:'استفهام',n:''},
+  'warum':     {t:'لماذا',     p:'فاروم',     ty:'استفهام',n:''},
+  'wie':       {t:'كيف',       p:'في',        ty:'استفهام',n:'ie = إي'},
+  'wieviel':   {t:'كم (كمية)', p:'فيفيل',    ty:'استفهام',n:'ie = إي'},
+  'welcher':   {t:'أي / أيّ',  p:'فيلشِر',   ty:'استفهام',n:''},
+
+  // ===== تعابير وجمل مفيدة =====
+  'Guten Morgen':{t:'صباح الخير',p:'غوتِن مورغِن',ty:'تعبير',n:'تحية صباحية'},
+  'Guten Abend':{t:'مساء الخير',p:'غوتِن أبِنت',ty:'تعبير',n:'تحية مسائية'},
+  'Gute Nacht': {t:'تصبح على خير',p:'غوته ناخت',ty:'تعبير',n:'عند النوم'},
+  'Auf Wiedersehen':{t:'مع السلامة',p:'أوف فيدِر زيهِن',ty:'تعبير',n:'رسمية'},
+  'Bitte':     {t:'من فضلك / تفضل',p:'بيته',  ty:'تعبير',  n:''},
+  'Danke schön':{t:'شكراً جزيلاً',p:'دانكِه شون',ty:'تعبير',n:'sch = ش'},
+  'Bitte schön':{t:'عفواً / تفضل',p:'بيته شون',ty:'تعبير', n:'رد على شكر'},
+  'Es tut mir leid':{t:'آسف / معذرة',p:'إس توت مير لايد',ty:'تعبير',n:'ei = آي'},
+  'Wie geht es Ihnen':{t:'كيف حالك (رسمي)',p:'في غيت إس إينِن',ty:'تعبير',n:''},
+  'Wie geht\'s':{t:'كيف حالك؟',p:'في غيتس',  ty:'تعبير',  n:'عامية'},
+  'Gut, danke': {t:'بخير، شكراً',p:'غوت دانكِه',ty:'تعبير',n:''},
+  'Ich verstehe nicht':{t:'لا أفهم',p:'إيخ فير شتيهِه نيشت',ty:'تعبير',n:''},
+  'Sprechen Sie Englisch':{t:'هل تتكلم إنجليزي؟',p:'شبريخِن زي إنغليش',ty:'تعبير',n:'sch = ش'},
+  'Wie heißen Sie':{t:'ما اسمك؟ (رسمي)',p:'في هايسِن زي',ty:'تعبير',n:'ß = س'},
+  'Ich heiße':  {t:'اسمي...',   p:'إيخ هايسِه',ty:'تعبير',  n:'ß = س'},
+  'Wo wohnen Sie':{t:'أين تسكن؟',p:'فو فونِن زي',ty:'تعبير',n:''},
+  'Ich komme aus':{t:'أنا من...',p:'إيخ كومِه أوس',ty:'تعبير',n:''},
+  'Wie alt sind Sie':{t:'كم عمرك؟',p:'في ألت زيند زي',ty:'تعبير',n:''},
+  'Ich bin ... Jahre alt':{t:'عمري ... سنة',p:'إيخ بين يارِه ألت',ty:'تعبير',n:''},
+  'Hilfe':     {t:'نجدة / مساعدة',p:'هيلفِه',  ty:'تعبير',  n:''},
+  'Vorsicht':  {t:'انتبه / حذار',p:'فورزيشت', ty:'تعبير',  n:'sch = ش'},
+  'natürlich': {t:'بالطبع',    p:'ناتورليخ',  ty:'ظرف',    n:'ü + -lich'},
+  'vielleicht':{t:'ربما',      p:'فيلايشت',   ty:'ظرف',    n:'ie = إي + ei = آي'},
+  'leider':    {t:'للأسف',     p:'لايدِر',    ty:'ظرف',    n:'ei = آي'},
+  'wirklich':  {t:'حقاً',      p:'فيركليخ',   ty:'ظرف',    n:'-lich'},
+  'zusammen':  {t:'معاً',      p:'تسوزامِن',  ty:'ظرف',    n:'z = تس'},
+  'allein':    {t:'وحيد',      p:'أليين',     ty:'صفة/ظرف', n:'ei = آي'},
+
+  // ===== ضمائر وأدوات =====
+  'du':        {t:'أنت',       p:'دو',        ty:'ضمير',   n:''},
+  'er':        {t:'هو',        p:'إير',       ty:'ضمير',   n:''},
+  'sie':       {t:'هي / هم / حضرتك',p:'زي',  ty:'ضمير',   n:'s = ز + ie = إي'},
+  'es':        {t:'هو / هي (للجنس المحايد)',p:'إس',ty:'ضمير',n:'s = ز'},
+  'wir':       {t:'نحن',       p:'فير',       ty:'ضمير',   n:''},
+  'ihr':       {t:'أنتم',      p:'إير',       ty:'ضمير',   n:''},
+  'Sie':       {t:'حضرتك (رسمي)',p:'زي',      ty:'ضمير',   n:'s = ز — مع حرف كبير'},
+  'der':       {t:'الـ (مذكر)', p:'دير',      ty:'أداة',   n:'حرف التعريف المذكر'},
+  'die':       {t:'الـ (مؤنث / جمع)',p:'دي', ty:'أداة',   n:'ie = إي'},
+  'das':       {t:'الـ (محايد)',p:'داس',      ty:'أداة',   n:''},
+  'ein':       {t:'واحد / أحد (مذكر)',p:'آين',ty:'أداة',  n:'ei = آي'},
+  'eine':      {t:'واحدة (مؤنث)',p:'آينِه',  ty:'أداة',   n:'ei = آي'},
+
+  // ===== حروف جر مهمة =====
+  'in':        {t:'في / داخل', p:'إن',        ty:'حرف جر', n:''},
+  'auf':       {t:'على / فوق', p:'أوف',       ty:'حرف جر', n:'au = أو'},
+  'unter':     {t:'تحت',       p:'أونتِر',    ty:'حرف جر', n:''},
+  'vor':       {t:'أمام / قبل',p:'فور',       ty:'حرف جر', n:''},
+  'hinter':    {t:'خلف',       p:'هينتِر',    ty:'حرف جر', n:''},
+  'neben':     {t:'بجانب',     p:'نيبِن',     ty:'حرف جر', n:''},
+  'zwischen':  {t:'بين',       p:'تسفيشِن',   ty:'حرف جر', n:'z = تس + sch = ش'},
+  'mit':       {t:'مع',        p:'ميت',       ty:'حرف جر', n:''},
+  'ohne':      {t:'بدون',      p:'أونِه',     ty:'حرف جر', n:''},
+  'für':       {t:'لـ / من أجل',p:'فور',      ty:'حرف جر', n:'ü'},
+  'gegen':     {t:'ضد / نحو',  p:'غيغِن',    ty:'حرف جر', n:''},
+  'durch':     {t:'عبر / خلال',p:'دورش',     ty:'حرف جر', n:''},
+  'aus':       {t:'من / خارج', p:'أوس',      ty:'حرف جر', n:'au = أو'},
+  'nach':      {t:'إلى / بعد', p:'ناخ',      ty:'حرف جر', n:'ch = خ حلقي'},
+  'bei':       {t:'عند / بالقرب من',p:'باي', ty:'حرف جر', n:'ei = آي'},
+  'von':       {t:'من',        p:'فون',      ty:'حرف جر', n:'v = ف'},
+  'zu':        {t:'إلى / نحو', p:'تسو',      ty:'حرف جر', n:'z = تس'},
+  'seit':      {t:'منذ',       p:'زايت',     ty:'حرف جر', n:'s = ز + ei = آي'},
+  'bis':       {t:'حتى / إلى', p:'بيس',      ty:'حرف جر', n:''},
+  'über':      {t:'فوق / عبر', p:'أوبِر',    ty:'حرف جر', n:'ü'},
+
+  // ===== روابط =====
+  'und':       {t:'و',         p:'أوند',     ty:'رابط',   n:''},
+  'oder':      {t:'أو',        p:'أودِر',    ty:'رابط',   n:''},
+  'aber':      {t:'لكن',       p:'أبِر',     ty:'رابط',   n:''},
+  'weil':      {t:'لأن',       p:'فايل',     ty:'رابط',   n:'ei = آي'},
+  'dass':      {t:'أن',        p:'داس',      ty:'رابط',   n:'ss = س'},
+  'wenn':      {t:'إذا / عندما',p:'فين',     ty:'رابط',   n:''},
+  'obwohl':    {t:'رغم أن',    p:'أوب فول',  ty:'رابط',   n:''},
+  'deshalb':   {t:'لذلك',      p:'ديس هالب', ty:'رابط',   n:''},
+  'trotzdem':  {t:'رغم ذلك',   p:'تروتس ديم',ty:'رابط',   n:'z = تس'},
+  'denn':      {t:'لأن / فـ',  p:'دين',      ty:'رابط',   n:''},
+
+  // ===== تقنية وحياة عصرية =====
+  'Handy':     {t:'موبايل / هاتف',p:'هاندي', ty:'اسم',   n:''},
+  'Computer':  {t:'كمبيوتر',   p:'كومبيوتِر',ty:'اسم',  n:'مستعارة من الإنجليزية'},
+  'Internet':  {t:'إنترنت',    p:'إنتِرنيت', ty:'اسم',   n:''},
+  'App':       {t:'تطبيق',     p:'أب',       ty:'اسم',   n:'مستعارة'},
+  'Passwort':  {t:'كلمة مرور', p:'باسفورت',  ty:'اسم',   n:''},
+  'E-Mail':    {t:'بريد إلكتروني',p:'إي ميل',ty:'اسم',   n:''},
+  'Foto':      {t:'صورة',      p:'فوتو',     ty:'اسم',   n:''},
+  'Video':     {t:'فيديو',     p:'فيديو',    ty:'اسم',   n:'v = ف'},
+  'Musik':     {t:'موسيقى',    p:'موزيك',    ty:'اسم',   n:'s = ز'},
+  'Kamera':    {t:'كاميرا',    p:'كاميرا',   ty:'اسم',   n:''},
+  'Fernseher': {t:'تلفزيون',   p:'فيرنزيهِر',ty:'اسم',   n:'Fern = بعيد + sehen = يرى'},
+  'Radio':     {t:'راديو',     p:'راديو',    ty:'اسم',   n:''},
+};
+
+
+// ======= GERMAN PHONETIC CONVERTER =======
+function germanToArabicPron(word) {
+  let w = word.toLowerCase();
+  let out = '';
+  let i = 0;
+  // endings first
+  const endMap = [
+    [/ig$/, 'إيخ'], [/ung$/, 'ونغ'], [/heit$/, 'هايت'], [/keit$/, 'كايت'],
+    [/lich$/, 'ليخ'], [/isch$/, 'إش'], [/chen$/, 'خِن'], [/lein$/, 'لاين'],
+    [/tion$/, 'تسيون'], [/er$/, 'ِر'], [/en$/, 'ِن'], [/em$/, 'ِم'],
+    [/el$/, 'ِل'], [/e$/, 'ِه'],
+  ];
+  // Apply ending transforms
+  let ending = '';
+  for (const [rx, rep] of endMap) {
+    if (rx.test(w)) { ending = rep; w = w.replace(rx, ''); break; }
+  }
+  // Main conversion map (order matters - longer patterns first)
+  const map = [
+    ['tsch','تش'], ['sch','ش'], ['ch','خ'],
+    ['sp','شب'], ['st','شت'],
+    ['pf','بف'], ['qu','كف'], ['ng','نغ'],
+    ['ph','ف'], ['th','ت'],
+    ['äu','أوي'], ['au','أو'], ['eu','أوي'],
+    ['ei','آي'], ['ai','آي'],
+    ['ie','إي'], ['ee','إي'], ['aa','آ'], ['oo','أو'],
+    ['ck','ك'], ['tz','تس'],
+    ['ss','س'], ['ß','س'],
+    ['ä','إيه'], ['ö','أوه'], ['ü','أوه'],
+    ['a','آ'], ['e','إيه'], ['i','إي'], ['o','أو'], ['u','أو'],
+    ['b','ب'], ['c','ك'], ['d','د'], ['f','ف'], ['g','غ'],
+    ['h','ه'], ['j','ي'], ['k','ك'], ['l','ل'], ['m','م'],
+    ['n','ن'], ['p','ب'], ['r','ر'], ['s','ز'], ['t','ت'],
+    ['v','ف'], ['w','ف'], ['x','كس'], ['y','ي'], ['z','تس'],
+  ];
+  let result = '';
+  let src = w;
+  while (src.length > 0) {
+    let matched = false;
+    for (const [pat, rep] of map) {
+      if (src.startsWith(pat)) {
+        result += rep;
+        src = src.slice(pat.length);
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) { result += src[0]; src = src.slice(1); }
+  }
+  return result + ending;
+}
+
+// ======= TRANSLATOR (dict → MyMemory → Lingva) =======
+let transHistory = [];
+let lastWord = '';
+
+async function fetchMyMemory(word) {
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=de|ar`;
+  const r = await fetch(url);
+  const d = await r.json();
+  if (d.responseStatus === 200 && d.responseData?.translatedText) {
+    const t = d.responseData.translatedText;
+    // MyMemory sometimes returns the original if no translation
+    if (t.toLowerCase() !== word.toLowerCase()) return t;
+  }
+  return null;
+}
+
+async function fetchLingva(word) {
+  // Lingva Translate — open source, free, no key needed
+  const url = `https://lingva.ml/api/v1/de/ar/${encodeURIComponent(word)}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  if (d.translation) return d.translation;
+  return null;
+}
+
+async function doTranslate() {
+  const input = document.getElementById('trans-input');
+  const word = input.value.trim();
+  if (!word) return;
+
+  const result = document.getElementById('trans-result');
+  result.className = 'translator-result visible';
+
+  // 1️⃣ القاموس المحلي — فوري
+  const key = Object.keys(dict).find(k => k.toLowerCase() === word.toLowerCase());
+  if (key) {
+    const d = dict[key];
+    lastWord = key;
+    result.innerHTML = buildResultHTML(key, d.t, d.p, d.ty, d.n, '📚 قاموس محلي');
+    speak(key);
+    addToHistory(key);
+    return;
+  }
+
+  // 2️⃣ APIs مجانية من الإنترنت
+  result.innerHTML = `<div class="loading-dots"><span></span><span></span><span></span></div>
+    <div style="font-size:0.82rem;color:var(--text2);margin-top:6px;">جاري الترجمة...</div>`;
+
+  const pron = germanToArabicPron(word);
+  let translation = null;
+  let source = '';
+
+  try {
+    // جرب MyMemory أولاً
+    translation = await fetchMyMemory(word);
+    if (translation) { source = '🌐 MyMemory'; }
+  } catch(e) {}
+
+  if (!translation) {
+    try {
+      // جرب Lingva كنسخة احتياطية
+      translation = await fetchLingva(word);
+      if (translation) { source = '🌐 Lingva'; }
+    } catch(e) {}
+  }
+
+  lastWord = word;
+  if (translation) {
+    result.innerHTML = buildResultHTML(word, translation, pron, '', '', source);
+  } else {
+    // 3️⃣ النطق فقط إذا ما في إنترنت
+    result.innerHTML = `
+      <div class="result-word">${word}</div>
+      <div style="font-size:0.82rem;color:var(--accent3);margin-bottom:8px;">⚠️ ما في اتصال — جبنا النطق التقريبي</div>
+      <span class="result-pron">🗣️ النطق: ${pron}</span>
+      <div class="result-actions" style="margin-top:10px;">
+        <button class="play-btn" onclick="speak('${word.replace(/'/g,"\\'")}')">🔊 استمع</button>
+        <button class="play-btn2" onclick="clearTranslator()">✕ مسح</button>
+      </div>`;
+  }
+  speak(word);
+  addToHistory(word);
+}
+
+function buildResultHTML(word, translation, pron, type, note, source) {
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+      <div class="result-word">${word}</div>
+      <span style="font-size:0.68rem;color:var(--text2);background:var(--surface2);padding:2px 8px;border-radius:6px;">${source}</span>
+    </div>
+    <div class="result-translation">${translation}</div>
+    <div style="margin-bottom:6px;">
+      <span class="result-pron">🗣️ النطق: ${pron}</span>
+    </div>
+    ${type && type !== '—' ? `<div style="font-size:0.75rem;color:#a78bfa;margin-bottom:4px;">📌 ${type}</div>` : ''}
+    ${note ? `<div class="result-note">💡 ${note}</div>` : ''}
+    <div class="result-actions">
+      <button class="play-btn" onclick="speak('${word.replace(/'/g,"\\'")}')">🔊 استمع</button>
+      <button class="play-btn2" onclick="clearTranslator()">✕ مسح</button>
+    </div>
+  `;
+}
+
+function clearTranslator() {
+  document.getElementById('trans-input').value = '';
+  document.getElementById('trans-result').className = 'translator-result';
+  lastWord = '';
+}
+
+function addToHistory(word) {
+  if (!transHistory.includes(word)) {
+    transHistory.unshift(word);
+    if (transHistory.length > 10) transHistory.pop();
+    renderHistory();
+  }
+}
+
+function renderHistory() {
+  const hist = document.getElementById('trans-history');
+  const chips = document.getElementById('history-chips');
+  if (transHistory.length === 0) { hist.style.display = 'none'; return; }
+  hist.style.display = 'block';
+  chips.innerHTML = transHistory.map(w =>
+    `<span class="history-chip" onclick="document.getElementById('trans-input').value='${w}';lastWord='';doTranslate()">${w}</span>`
+  ).join('');
+}
+
+// ======= AUTO-SAVE TO FILE =======
+let autoSaveHandle = null;
+let autoSavePending = false;
+let autoSaveTimer = null;
+
+async function pickAutoSaveFile() {
+  try {
+    if (!window.showSaveFilePicker) {
+      alert('المتصفح ما يدعم الحفظ التلقائي — استخدم زر "احفظ تقدمي" اليدوي، أو افتح الملف من Chrome');
+      return;
+    }
+    autoSaveHandle = await window.showSaveFilePicker({
+      suggestedName: 'german_alphabet.html',
+      types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }]
+    });
+    await doAutoSave();
+    showAutoSaveStatus('✅ تم الربط! التقدم بينحفظ تلقائياً الآن');
+  } catch(e) {
+    if (e.name !== 'AbortError') showAutoSaveStatus('⚠️ ما تم الربط');
+  }
+}
+
+async function doAutoSave() {
+  if (!autoSaveHandle) return;
+  try {
+    const data = {
+      learned: getSaved(), notes: getNotes(),
+      bestScore: getBestScore(), sessions: getSessions(),
+      savedAt: new Date().toLocaleString('ar')
+    };
+    const jsonStr = JSON.stringify(data);
+    let html = document.documentElement.outerHTML;
+    html = html.replace(
+      /<script id="de-embedded-data" type="application\/json">[\s\S]*?<\/script>/,
+      `<script id="de-embedded-data" type="application/json">${jsonStr}<\/script>`
+    );
+    const writable = await autoSaveHandle.createWritable();
+    await writable.write(html);
+    await writable.close();
+    showAutoSaveStatus('💾 محفوظ تلقائياً — ' + new Date().toLocaleTimeString('ar'));
+    safeSet('de_last_saved', new Date().toLocaleString('ar'));
+    const lbl = document.getElementById('last-saved-label');
+    if (lbl) lbl.textContent = 'آخر حفظ: ' + new Date().toLocaleString('ar');
+  } catch(e) {
+    showAutoSaveStatus('⚠️ فشل الحفظ التلقائي');
+  }
+}
+
+function scheduleAutoSave() {
+  if (!autoSaveHandle) return;
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(doAutoSave, 2000);
+}
+
+function showAutoSaveStatus(msg) {
+  const el = document.getElementById('autosave-status');
+  if (el) { el.textContent = msg; el.style.opacity = '1'; setTimeout(()=>el.style.opacity='0.5',3000); }
+}
+function loadEmbeddedData() {
+  try {
+    const el = document.getElementById('de-embedded-data');
+    if (!el) return;
+    const raw = el.textContent.trim();
+    if (!raw || raw === '{}') return;
+    const data = JSON.parse(raw);
+    // Only load if localStorage is empty or embedded is newer
+    if (data.learned && data.learned.length > 0) saveLearned(data.learned);
+    if (data.notes && Object.keys(data.notes).length > 0) safeSet(STORAGE_KEY_NOTES, data.notes);
+    if (data.bestScore) setBestScore(data.bestScore);
+    if (data.sessions) safeSet(STORAGE_KEY_SESS, data.sessions);
+    updateProgress();
+    renderGrid_refresh();
+  } catch(e) {}
+}
+
+function saveToFile() {
+  const data = {
+    learned: getSaved(),
+    notes: getNotes(),
+    bestScore: getBestScore(),
+    sessions: getSessions(),
+    savedAt: new Date().toLocaleString('ar')
+  };
+  const jsonStr = JSON.stringify(data);
+
+  // Get full HTML and replace the embedded data
+  let html = document.documentElement.outerHTML;
+  html = html.replace(
+    /<script id="de-embedded-data" type="application\/json">[\s\S]*?<\/script>/,
+    `<script id="de-embedded-data" type="application/json">${jsonStr}<\/script>`
+  );
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'german_alphabet_saved.html';
+  a.click();
+
+  const label = new Date().toLocaleString('ar');
+  safeSet('de_last_saved', label);
+  const el = document.getElementById('last-saved-label');
+  if (el) el.textContent = '✅ تم الحفظ: ' + label;
+}
+
+// ======= PRONUNCIATION RULES =======
+const pronRules = [
+  // S rules
+  { id:'s1', cat:'s', trigger:'s', short:'قبل حرف صوتي في بداية المقطع = ز', badge:'stimmhaft', badgeText:'مجهور',
+    desc:'عندما يجي حرف S في بداية كلمة أو مقطع قبل حرف صوتي (a,e,i,o,u)، يُنطق مثل حرف Z الإنجليزي (ز). هاد أهم قاعدة في حرف S!',
+    examples:[
+      {de:'Sonne', ar:'شمس', pron:'زونه'},
+      {de:'sagen', ar:'يقول', pron:'زاغن'},
+      {de:'Seite', ar:'صفحة', pron:'زايته'},
+      {de:'sehen', ar:'يرى', pron:'زيين'},
+    ]},
+  { id:'s2', cat:'s', trigger:'ss / ß', short:'دائماً = س مشددة', badge:'stimmlos', badgeText:'مهموس',
+    desc:'ss وß يُنطقون دائماً مثل السين المشددة (س)، أبداً مثل الزين. الفرق بينهم: ß تجي بعد حرف صوتي طويل، ss بعد حرف صوتي قصير.',
+    examples:[
+      {de:'Wasser', ar:'ماء', pron:'فاسر'},
+      {de:'Straße', ar:'شارع', pron:'شتراسه'},
+      {de:'Fuß', ar:'قدم', pron:'فوس'},
+      {de:'hassen', ar:'يكره', pron:'هاسن'},
+    ]},
+  { id:'s3', cat:'s', trigger:'sch', short:'= ش دائماً', badge:'special', badgeText:'خاص',
+    desc:'التركيب sch يُنطق دائماً مثل "ش" — مثل كلمة شجر بالعربي. لا يُنطق كل حرف لوحده.',
+    examples:[
+      {de:'Schule', ar:'مدرسة', pron:'شوله'},
+      {de:'Fisch', ar:'سمكة', pron:'فيش'},
+      {de:'schön', ar:'جميل', pron:'شون'},
+      {de:'Tasche', ar:'حقيبة', pron:'تاشه'},
+    ]},
+  { id:'s4', cat:'s', trigger:'sp / st', short:'في بداية الكلمة = شب / شت', badge:'special', badgeText:'خاص',
+    desc:'في بداية الكلمة أو المقطع، sp تُنطق "شب" وst تُنطق "شت". هاد مختلف تماماً عن الإنجليزي!',
+    examples:[
+      {de:'Spielen', ar:'يلعب', pron:'شبيلن'},
+      {de:'Sprache', ar:'لغة', pron:'شبراخه'},
+      {de:'Stuhl', ar:'كرسي', pron:'شتول'},
+      {de:'Straße', ar:'شارع', pron:'شتراسه'},
+    ]},
+  // CH rules
+  { id:'ch1', cat:'ch', trigger:'ch', short:'بعد a,o,u,au = خ (حلقي)', badge:'special', badgeText:'خ حلقي',
+    desc:'بعد الحروف الصوتية الخلفية (a, o, u, au)، ch يُنطق مثل الخاء الحلقية العربية في "خبز". هاد الصوت تعرفه من العربية!',
+    examples:[
+      {de:'Buch', ar:'كتاب', pron:'بوخ'},
+      {de:'Nacht', ar:'ليل', pron:'ناخت'},
+      {de:'kochen', ar:'يطبخ', pron:'كوخن'},
+      {de:'auch', ar:'أيضاً', pron:'أوخ'},
+    ]},
+  { id:'ch2', cat:'ch', trigger:'ch', short:'بعد e,i,ä,ö,ü,ei,eu = خ ناعم (هي)', badge:'special', badgeText:'خ ناعم',
+    desc:'بعد الحروف الصوتية الأمامية، ch يُنطق بشكل ناعم — مثل هواء خفيف من وسط اللسان. لا يوجد مثيل له في العربية تماماً.',
+    examples:[
+      {de:'ich', ar:'أنا', pron:'إيخ'},
+      {de:'nicht', ar:'لا / ليس', pron:'نيخت'},
+      {de:'Milch', ar:'حليب', pron:'ميلخ'},
+      {de:'möchte', ar:'أريد', pron:'مُوخته'},
+    ]},
+  { id:'ch3', cat:'ch', trigger:'ck', short:'= ك بسيطة', badge:'stimmlos', badgeText:'مهموس',
+    desc:'ck يُنطق كـ K واحدة بسيطة، وهي دائماً تدل على أن الحرف الصوتي قبلها قصير.',
+    examples:[
+      {de:'backen', ar:'يخبز', pron:'باكن'},
+      {de:'Stück', ar:'قطعة', pron:'شتوك'},
+      {de:'Zucker', ar:'سكر', pron:'تسوكر'},
+    ]},
+  // Vowel combinations
+  { id:'v1', cat:'vowel', trigger:'ie', short:'= إي طويلة', badge:'special', badgeText:'صوتي',
+    desc:'التركيب ie يُنطق دائماً كـ إي طويلة. سهل وواضح!',
+    examples:[
+      {de:'Liebe', ar:'حب', pron:'ليبه'},
+      {de:'sie', ar:'هي / هم', pron:'زي'},
+      {de:'Bier', ar:'بيرة', pron:'بير'},
+      {de:'viel', ar:'كثير', pron:'فيل'},
+    ]},
+  { id:'v2', cat:'vowel', trigger:'ei / ai', short:'= أي (مثل eye)', badge:'special', badgeText:'صوتي',
+    desc:'ei وai يُنطقان مثل "أي" الإنجليزية في كلمة eye. انتبه: ie وei عكس بعض!',
+    examples:[
+      {de:'nein', ar:'لا', pron:'ناين'},
+      {de:'sein', ar:'يكون', pron:'زاين'},
+      {de:'Arbeit', ar:'عمل', pron:'أربايت'},
+      {de:'Mai', ar:'مايو', pron:'ماي'},
+    ]},
+  { id:'v3', cat:'vowel', trigger:'eu / äu', short:'= أوي', badge:'special', badgeText:'صوتي',
+    desc:'eu وäu يُنطقان مثل "أوي" — مزيج من أو + إي.',
+    examples:[
+      {de:'heute', ar:'اليوم', pron:'هويته'},
+      {de:'neu', ar:'جديد', pron:'نوي'},
+      {de:'Deutsch', ar:'ألماني', pron:'دويتش'},
+      {de:'Häuser', ar:'بيوت', pron:'هويزر'},
+    ]},
+  { id:'v4', cat:'vowel', trigger:'au', short:'= أو (مثل cow)', badge:'special', badgeText:'صوتي',
+    desc:'au يُنطق مثل "أو" الإنجليزية في كلمة cow أو house.',
+    examples:[
+      {de:'Haus', ar:'بيت', pron:'هاوس'},
+      {de:'Auto', ar:'سيارة', pron:'أوتو'},
+      {de:'laufen', ar:'يجري', pron:'لاوفن'},
+      {de:'Frau', ar:'امرأة', pron:'فراو'},
+    ]},
+  // End of word rules
+  { id:'e1', cat:'end', trigger:'b → p', short:'في نهاية الكلمة b تُنطق p', badge:'stimmlos', badgeText:'تصلّب',
+    desc:'ظاهرة Auslautverhärtung: الحروف المجهورة في نهاية الكلمة تتحول لمهموسة. b → p',
+    examples:[
+      {de:'Kalb', ar:'عجل', pron:'كالب ← كالپ'},
+      {de:'Dieb', ar:'لص', pron:'ديب ← ديپ'},
+      {de:'halb', ar:'نصف', pron:'هالپ'},
+    ]},
+  { id:'e2', cat:'end', trigger:'d → t', short:'في نهاية الكلمة d تُنطق t', badge:'stimmlos', badgeText:'تصلّب',
+    desc:'Auslautverhärtung: d تتحول لـ t في نهاية الكلمة أو المقطع.',
+    examples:[
+      {de:'Hund', ar:'كلب', pron:'هوند ← هونت'},
+      {de:'Kind', ar:'طفل', pron:'كيند ← كينت'},
+      {de:'Bild', ar:'صورة', pron:'بيلد ← بيلت'},
+    ]},
+  { id:'e3', cat:'end', trigger:'g → k', short:'في نهاية الكلمة g تُنطق k', badge:'stimmlos', badgeText:'تصلّب',
+    desc:'Auslautverhärtung: g تتحول لـ k في نهاية الكلمة. استثناء: -ig في النهاية تُنطق "يخ"',
+    examples:[
+      {de:'Weg', ar:'طريق', pron:'فيغ ← فيك'},
+      {de:'Tag', ar:'يوم', pron:'تاغ ← تاك'},
+      {de:'König', ar:'ملك', pron:'كونيغ ← كونيخ'},
+    ]},
+  { id:'e4', cat:'end', trigger:'-ig', short:'في النهاية = إيخ', badge:'special', badgeText:'استثناء',
+    desc:'عندما تنتهي الكلمة بـ -ig (وليس قبلها حرف صوتي)، تُنطق "إيخ" وليس "إيك".',
+    examples:[
+      {de:'König', ar:'ملك', pron:'كونيخ'},
+      {de:'lustig', ar:'مضحك', pron:'لوستيخ'},
+      {de:'fertig', ar:'جاهز', pron:'فيرتيخ'},
+      {de:'richtig', ar:'صحيح', pron:'ريختيخ'},
+    ]},
+  // Combo rules
+  { id:'c1', cat:'combo', trigger:'ng', short:'= نغ بدون G منفصل', badge:'special', badgeText:'تركيب',
+    desc:'ng يُنطق كصوت واحد أنفي — مثل "نغ" في "منغوليا". لا يُنطق G بشكل منفصل.',
+    examples:[
+      {de:'singen', ar:'يغني', pron:'زينغن'},
+      {de:'Finger', ar:'إصبع', pron:'فينغر'},
+      {de:'lang', ar:'طويل', pron:'لانغ'},
+      {de:'jung', ar:'شاب', pron:'يونغ'},
+    ]},
+  { id:'c2', cat:'combo', trigger:'qu', short:'= كف دائماً', badge:'special', badgeText:'تركيب',
+    desc:'qu دائماً تُنطق "كف" — مثل kv الإنجليزية.',
+    examples:[
+      {de:'Quelle', ar:'مصدر', pron:'كفيله'},
+      {de:'Qualität', ar:'جودة', pron:'كفاليتات'},
+    ]},
+  { id:'c3', cat:'combo', trigger:'pf', short:'= بف معاً', badge:'special', badgeText:'تركيب',
+    desc:'pf يُنطقان معاً كصوت واحد — بف. شائع في الألمانية.',
+    examples:[
+      {de:'Pferd', ar:'حصان', pron:'بفيرد'},
+      {de:'Apfel', ar:'تفاحة', pron:'أبفل'},
+      {de:'Pfanne', ar:'مقلاة', pron:'بفانه'},
+    ]},
+  { id:'c4', cat:'combo', trigger:'tsch', short:'= تش (مثل church)', badge:'special', badgeText:'تركيب',
+    desc:'tsch يُنطق مثل "تش" — مثل كلمة تشاي.',
+    examples:[
+      {de:'Deutsch', ar:'ألماني', pron:'دويتش'},
+      {de:'Tschüss', ar:'مع السلامة', pron:'تشوس'},
+      {de:'Matsch', ar:'وحل', pron:'ماتش'},
+    ]},
+];
+
+let currentRuleFilter = 'all';
+function filterRules(cat, btn) {
+  currentRuleFilter = cat;
+  document.querySelectorAll('.rule-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRules(cat);
+}
+function renderRules(cat) {
+  const container = document.getElementById('rules-container');
+  if (!container) return;
+  const filtered = cat === 'all' ? pronRules : pronRules.filter(r => r.cat === cat);
+  container.innerHTML = filtered.map(rule => `
+    <div class="rule-card" id="rule-${rule.id}" onclick="toggleRule('${rule.id}')">
+      <div class="rule-header">
+        <div class="rule-trigger">${rule.trigger}</div>
+        <div class="rule-short">${rule.short}</div>
+        <span class="rule-badge ${rule.badge}">${rule.badgeText}</span>
+        <span class="rule-arrow">▼</span>
+      </div>
+      <div class="rule-body">
+        <div class="rule-desc">${rule.desc}</div>
+        <div class="rule-examples">
+          ${rule.examples.map(ex => `
+            <div class="rule-ex" onclick="event.stopPropagation();speak('${ex.de}')">
+              <div class="rule-ex-de">${ex.de}</div>
+              <div class="rule-ex-ar">${ex.ar}</div>
+              <div class="rule-ex-pron">🗣️ ${ex.pron}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function toggleRule(id) {
+  const card = document.getElementById('rule-' + id);
+  if (card) card.classList.toggle('open');
+}
+
+// ======= INIT =======
+renderGrid(letters, 'alpha-grid');
+renderGrid(special, 'special-grid');
+renderVocab();
+updateProgress();
+loadEmbeddedData();
+// Mark letters that have notes
+setTimeout(() => {
+  const notes = getNotes();
+  Object.keys(notes).forEach(l => {
+    const btn = document.getElementById('btn-' + l);
+    if (btn && notes[l].trim()) btn.classList.add('has-note');
+  });
+  const saved = safeGet('de_last_saved','');
+  if (saved) {
+    const el = document.getElementById('last-saved-label');
+    if (el) el.textContent = 'آخر حفظ: ' + saved;
+  }
+}, 150);
+</script>
+
+<!-- بيانات التقدم محفوظة هنا — لا تحذف هذا السطر -->
+<script id="de-embedded-data" type="application/json">{}</script>
+</body>
+</html>
