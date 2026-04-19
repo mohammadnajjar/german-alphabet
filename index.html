@@ -1264,12 +1264,83 @@
     💡 هالمعلومات من كتاب مقدمة في أصوات اللغة الألمانية — Die Vokale und Konsonanten
   </div>
 
+  <!-- جدول الحروف الصحيحة من د. بلال -->
+  <div class="section-title" style="margin-top:20px;">📊 جدول الحروف الصحيحة — مخارج الأصوات</div>
+  <div class="special-note" style="color:var(--text);">من كتاب د. بلال الشريف — اضغط على أي حرف لتسمعه 🔊</div>
+
+  <div style="overflow-x:auto;margin-bottom:16px;">
+  <table style="width:100%;border-collapse:collapse;font-size:0.78rem;direction:rtl;">
+    <thead>
+      <tr style="background:var(--surface2);color:var(--text2);">
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">#</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الحرف</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">مثال</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">المعنى</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">اللفظ</th>
+      </tr>
+    </thead>
+    <tbody id="consonants-table-body"></tbody>
+  </table>
+  </div>
+
+  <script>
+  const consonantsData = [
+    {n:1,  ch:'p',          ex:'Papier',   mean:'ورق',      pron:'بابير',       stimm:'مهموس', color:'#E74C3C'},
+    {n:2,  ch:'b',          ex:'Band',     mean:'شريط',     pron:'بانت',        stimm:'مجهور', color:'#2ECC71'},
+    {n:3,  ch:'f',          ex:'Fenster',  mean:'شباك',     pron:'فينستِر',     stimm:'مهموس', color:'#E74C3C'},
+    {n:4,  ch:'v / w',      ex:'Wasser',   mean:'ماء',      pron:'فاسِر',       stimm:'مجهور', color:'#2ECC71'},
+    {n:5,  ch:'s',          ex:'Bus',      mean:'باص',      pron:'بوس',         stimm:'مهموس', color:'#E74C3C'},
+    {n:6,  ch:'s → ز',      ex:'Sohn',     mean:'ابن',      pron:'زون',         stimm:'مجهور', color:'#2ECC71'},
+    {n:7,  ch:'t',          ex:'Auto',     mean:'سيارة',    pron:'أوتو',        stimm:'مهموس', color:'#E74C3C'},
+    {n:8,  ch:'d',          ex:'du',       mean:'أنت',      pron:'دو',          stimm:'مجهور', color:'#2ECC71'},
+    {n:9,  ch:'k',          ex:'Kind',     mean:'طفل',      pron:'كينت',        stimm:'مهموس', color:'#E74C3C'},
+    {n:10, ch:'g',          ex:'gut',      mean:'جيد',      pron:'غوت',         stimm:'مجهور', color:'#2ECC71'},
+    {n:11, ch:'j (fr.)',    ex:'Garage',   mean:'مرآب',     pron:'غاراجِه',     stimm:'مجهور', color:'#2ECC71'},
+    {n:12, ch:'sch',        ex:'Schule',   mean:'مدرسة',    pron:'شولِه',       stimm:'مهموس', color:'#E74C3C'},
+    {n:13, ch:'ch (ناعم)',  ex:'König',    mean:'ملك',      pron:'كونيخ',       stimm:'مهموس', color:'#E74C3C'},
+    {n:14, ch:'همزة وصل',  ex:'beachten', mean:'يلاحظ',    pron:'بِآختِن',     stimm:'مهموس', color:'#E74C3C'},
+    {n:15, ch:'h',          ex:'Hand',     mean:'يد',       pron:'هانت',        stimm:'مهموس', color:'#E74C3C'},
+    {n:16, ch:'n',          ex:'nein',     mean:'لا',       pron:'ناين',        stimm:'مجهور', color:'#2ECC71'},
+    {n:17, ch:'m',          ex:'Mutter',   mean:'أم',       pron:'موتِر',       stimm:'مجهور', color:'#2ECC71'},
+    {n:18, ch:'ng',         ex:'lang',     mean:'طويل',     pron:'لانغ',        stimm:'مجهور', color:'#2ECC71'},
+    {n:19, ch:'l',          ex:'Lärm',     mean:'ضجيج',     pron:'ليرم',        stimm:'مجهور', color:'#2ECC71'},
+    {n:20, ch:'j',          ex:'ja',       mean:'نعم',      pron:'يا',          stimm:'مجهور', color:'#2ECC71'},
+    {n:21, ch:'ch (حلقي)',  ex:'Buch',     mean:'كتاب',     pron:'بوخ',         stimm:'مهموس', color:'#E74C3C'},
+    {n:22, ch:'r',          ex:'rot',      mean:'أحمر',     pron:'روت',         stimm:'مجهور', color:'#2ECC71'},
+  ];
+  (function buildTable() {
+    const tbody = document.getElementById('consonants-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = consonantsData.map(row => `
+      <tr style="cursor:pointer;transition:background 0.15s;"
+          onclick="speak('${row.ex}')"
+          onmouseover="this.style.background='rgba(245,200,66,0.06)'"
+          onmouseout="this.style.background=''">
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);text-align:center;">${row.n}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <strong style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);">${row.ch}</strong>
+        </td>
+        <td style="padding:7px 10px;border:1px solid var(--border);font-weight:700;color:var(--accent2);">${row.ex}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);">${row.mean}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <span style="color:var(--text);font-weight:600;">${row.pron}</span>
+          <span style="font-size:0.68rem;margin-right:6px;padding:1px 6px;border-radius:4px;
+            background:${row.color==='#2ECC71'?'rgba(46,204,113,0.12)':'rgba(231,76,60,0.12)'};
+            color:${row.color};">${row.stimm}</span>
+        </td>
+      </tr>
+    `).join('');
+  })();
+  </script>
+
   <!-- PRONUNCIATION RULES -->
   <div class="section-title" style="margin-top:20px;">📐 قواعد النطق — Ausspracheregeln</div>
   <div class="special-note" style="color:var(--text);">اضغط على أي قاعدة لتشوف التفاصيل والأمثلة 🔊</div>
 
   <div class="rules-filter">
     <button class="rule-filter-btn active" onclick="filterRules('all',this)">الكل</button>
+    <button class="rule-filter-btn" onclick="filterRules('A1',this)" style="border-color:#2ECC71;color:#2ECC71;">✅ A1</button>
+    <button class="rule-filter-btn" onclick="filterRules('A2',this)" style="border-color:#F5C842;color:#F5C842;">⭐ A2</button>
     <button class="rule-filter-btn" onclick="filterRules('s',this)">حرف S</button>
     <button class="rule-filter-btn" onclick="filterRules('ch',this)">مجموعة CH</button>
     <button class="rule-filter-btn" onclick="filterRules('vowel',this)">الحروف الصوتية</button>
@@ -1719,10 +1790,6 @@ function showDetail(item, btn) {
             <div style="background:rgba(78,205,196,0.15);border:1px solid rgba(78,205,196,0.4);border-radius:8px;padding:4px 12px;">
               <div style="font-size:0.65rem;color:var(--text2);">النطق</div>
               <div style="font-size:1rem;font-weight:700;color:var(--accent2);">${item.sound}</div>
-            </div>
-            <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:4px 12px;">
-              <div style="font-size:0.65rem;color:var(--text2);">IPA</div>
-              <div style="font-size:0.95rem;font-weight:700;color:#a78bfa;direction:ltr;">[${item.ipa}]</div>
             </div>
           </div>
         </div>
@@ -3123,7 +3190,7 @@ function saveToFile() {
 // ======= PRONUNCIATION RULES =======
 const pronRules = [
   // S rules
-  { id:'s1', cat:'s', trigger:'s', short:'قبل حرف صوتي في بداية المقطع = ز', badge:'stimmhaft', badgeText:'مجهور',
+  { id:'s1', level:'A1', cat:'s', trigger:'s', short:'قبل حرف صوتي في بداية المقطع = ز', badge:'stimmhaft', badgeText:'مجهور',
     desc:'عندما يجي حرف S في بداية كلمة أو مقطع قبل حرف صوتي (a,e,i,o,u)، يُنطق مثل حرف Z الإنجليزي (ز). هاد أهم قاعدة في حرف S!',
     examples:[
       {de:'Sonne', ar:'شمس', pron:'زونه'},
@@ -3131,7 +3198,7 @@ const pronRules = [
       {de:'Seite', ar:'صفحة', pron:'زايته'},
       {de:'sehen', ar:'يرى', pron:'زيين'},
     ]},
-  { id:'s2', cat:'s', trigger:'ss / ß', short:'دائماً = س مشددة', badge:'stimmlos', badgeText:'مهموس',
+  { id:'s2', level:'A1', cat:'s', trigger:'ss / ß', short:'دائماً = س مشددة', badge:'stimmlos', badgeText:'مهموس',
     desc:'ss وß يُنطقون دائماً مثل السين المشددة (س)، أبداً مثل الزين. الفرق بينهم: ß تجي بعد حرف صوتي طويل، ss بعد حرف صوتي قصير.',
     examples:[
       {de:'Wasser', ar:'ماء', pron:'فاسر'},
@@ -3139,7 +3206,7 @@ const pronRules = [
       {de:'Fuß', ar:'قدم', pron:'فوس'},
       {de:'hassen', ar:'يكره', pron:'هاسن'},
     ]},
-  { id:'s3', cat:'s', trigger:'sch', short:'= ش دائماً', badge:'special', badgeText:'خاص',
+  { id:'s3', level:'A1', cat:'s', trigger:'sch', short:'= ش دائماً', badge:'special', badgeText:'خاص',
     desc:'التركيب sch يُنطق دائماً مثل "ش" — مثل كلمة شجر بالعربي. لا يُنطق كل حرف لوحده.',
     examples:[
       {de:'Schule', ar:'مدرسة', pron:'شوله'},
@@ -3147,7 +3214,7 @@ const pronRules = [
       {de:'schön', ar:'جميل', pron:'شون'},
       {de:'Tasche', ar:'حقيبة', pron:'تاشه'},
     ]},
-  { id:'s4', cat:'s', trigger:'sp / st', short:'في بداية الكلمة = شب / شت', badge:'special', badgeText:'خاص',
+  { id:'s4', level:'A1', cat:'s', trigger:'sp / st', short:'في بداية الكلمة = شب / شت', badge:'special', badgeText:'خاص',
     desc:'في بداية الكلمة أو المقطع، sp تُنطق "شب" وst تُنطق "شت". هاد مختلف تماماً عن الإنجليزي!',
     examples:[
       {de:'Spielen', ar:'يلعب', pron:'شبيلن'},
@@ -3156,7 +3223,7 @@ const pronRules = [
       {de:'Straße', ar:'شارع', pron:'شتراسه'},
     ]},
   // CH rules
-  { id:'ch1', cat:'ch', trigger:'ch', short:'بعد a,o,u,au = خ (حلقي)', badge:'special', badgeText:'خ حلقي',
+  { id:'ch1', level:'A1', cat:'ch', trigger:'ch', short:'بعد a,o,u,au = خ (حلقي)', badge:'special', badgeText:'خ حلقي',
     desc:'بعد الحروف الصوتية الخلفية (a, o, u, au)، ch يُنطق مثل الخاء الحلقية العربية في "خبز". هاد الصوت تعرفه من العربية!',
     examples:[
       {de:'Buch', ar:'كتاب', pron:'بوخ'},
@@ -3164,7 +3231,7 @@ const pronRules = [
       {de:'kochen', ar:'يطبخ', pron:'كوخن'},
       {de:'auch', ar:'أيضاً', pron:'أوخ'},
     ]},
-  { id:'ch2', cat:'ch', trigger:'ch', short:'بعد e,i,ä,ö,ü,ei,eu = خ ناعم (هي)', badge:'special', badgeText:'خ ناعم',
+  { id:'ch2', level:'A2', cat:'ch', trigger:'ch', short:'بعد e,i,ä,ö,ü,ei,eu = خ ناعم (هي)', badge:'special', badgeText:'خ ناعم',
     desc:'بعد الحروف الصوتية الأمامية، ch يُنطق بشكل ناعم — مثل هواء خفيف من وسط اللسان. لا يوجد مثيل له في العربية تماماً.',
     examples:[
       {de:'ich', ar:'أنا', pron:'إيخ'},
@@ -3172,7 +3239,7 @@ const pronRules = [
       {de:'Milch', ar:'حليب', pron:'ميلخ'},
       {de:'möchte', ar:'أريد', pron:'مُوخته'},
     ]},
-  { id:'ch3', cat:'ch', trigger:'ck', short:'= ك بسيطة', badge:'stimmlos', badgeText:'مهموس',
+  { id:'ch3', level:'A1', cat:'ch', trigger:'ck', short:'= ك بسيطة', badge:'stimmlos', badgeText:'مهموس',
     desc:'ck يُنطق كـ K واحدة بسيطة، وهي دائماً تدل على أن الحرف الصوتي قبلها قصير.',
     examples:[
       {de:'backen', ar:'يخبز', pron:'باكن'},
@@ -3180,7 +3247,7 @@ const pronRules = [
       {de:'Zucker', ar:'سكر', pron:'تسوكر'},
     ]},
   // Vowel combinations
-  { id:'v1', cat:'vowel', trigger:'ie', short:'= إي طويلة', badge:'special', badgeText:'صوتي',
+  { id:'v1', level:'A1', cat:'vowel', trigger:'ie', short:'= إي طويلة', badge:'special', badgeText:'صوتي',
     desc:'التركيب ie يُنطق دائماً كـ إي طويلة. سهل وواضح!',
     examples:[
       {de:'Liebe', ar:'حب', pron:'ليبه'},
@@ -3188,7 +3255,7 @@ const pronRules = [
       {de:'Bier', ar:'بيرة', pron:'بير'},
       {de:'viel', ar:'كثير', pron:'فيل'},
     ]},
-  { id:'v2', cat:'vowel', trigger:'ei / ai', short:'= أي (مثل eye)', badge:'special', badgeText:'صوتي',
+  { id:'v2', level:'A1', cat:'vowel', trigger:'ei / ai', short:'= أي (مثل eye)', badge:'special', badgeText:'صوتي',
     desc:'ei وai يُنطقان مثل "أي" الإنجليزية في كلمة eye. انتبه: ie وei عكس بعض!',
     examples:[
       {de:'nein', ar:'لا', pron:'ناين'},
@@ -3196,7 +3263,7 @@ const pronRules = [
       {de:'Arbeit', ar:'عمل', pron:'أربايت'},
       {de:'Mai', ar:'مايو', pron:'ماي'},
     ]},
-  { id:'v3', cat:'vowel', trigger:'eu / äu', short:'= أوي', badge:'special', badgeText:'صوتي',
+  { id:'v3', level:'A1', cat:'vowel', trigger:'eu / äu', short:'= أوي', badge:'special', badgeText:'صوتي',
     desc:'eu وäu يُنطقان مثل "أوي" — مزيج من أو + إي.',
     examples:[
       {de:'heute', ar:'اليوم', pron:'هويته'},
@@ -3204,7 +3271,7 @@ const pronRules = [
       {de:'Deutsch', ar:'ألماني', pron:'دويتش'},
       {de:'Häuser', ar:'بيوت', pron:'هويزر'},
     ]},
-  { id:'v4', cat:'vowel', trigger:'au', short:'= أو (مثل cow)', badge:'special', badgeText:'صوتي',
+  { id:'v4', level:'A1', cat:'vowel', trigger:'au', short:'= أو (مثل cow)', badge:'special', badgeText:'صوتي',
     desc:'au يُنطق مثل "أو" الإنجليزية في كلمة cow أو house.',
     examples:[
       {de:'Haus', ar:'بيت', pron:'هاوس'},
@@ -3213,28 +3280,28 @@ const pronRules = [
       {de:'Frau', ar:'امرأة', pron:'فراو'},
     ]},
   // End of word rules
-  { id:'e1', cat:'end', trigger:'b → p', short:'في نهاية الكلمة b تُنطق p', badge:'stimmlos', badgeText:'تصلّب',
+  { id:'e1', level:'A2', cat:'end', trigger:'b → p', short:'في نهاية الكلمة b تُنطق p', badge:'stimmlos', badgeText:'تصلّب',
     desc:'ظاهرة Auslautverhärtung: الحروف المجهورة في نهاية الكلمة تتحول لمهموسة. b → p',
     examples:[
       {de:'Kalb', ar:'عجل', pron:'كالب ← كالپ'},
       {de:'Dieb', ar:'لص', pron:'ديب ← ديپ'},
       {de:'halb', ar:'نصف', pron:'هالپ'},
     ]},
-  { id:'e2', cat:'end', trigger:'d → t', short:'في نهاية الكلمة d تُنطق t', badge:'stimmlos', badgeText:'تصلّب',
+  { id:'e2', level:'A2', cat:'end', trigger:'d → t', short:'في نهاية الكلمة d تُنطق t', badge:'stimmlos', badgeText:'تصلّب',
     desc:'Auslautverhärtung: d تتحول لـ t في نهاية الكلمة أو المقطع.',
     examples:[
       {de:'Hund', ar:'كلب', pron:'هوند ← هونت'},
       {de:'Kind', ar:'طفل', pron:'كيند ← كينت'},
       {de:'Bild', ar:'صورة', pron:'بيلد ← بيلت'},
     ]},
-  { id:'e3', cat:'end', trigger:'g → k', short:'في نهاية الكلمة g تُنطق k', badge:'stimmlos', badgeText:'تصلّب',
+  { id:'e3', level:'A2', cat:'end', trigger:'g → k', short:'في نهاية الكلمة g تُنطق k', badge:'stimmlos', badgeText:'تصلّب',
     desc:'Auslautverhärtung: g تتحول لـ k في نهاية الكلمة. استثناء: -ig في النهاية تُنطق "يخ"',
     examples:[
       {de:'Weg', ar:'طريق', pron:'فيغ ← فيك'},
       {de:'Tag', ar:'يوم', pron:'تاغ ← تاك'},
       {de:'König', ar:'ملك', pron:'كونيغ ← كونيخ'},
     ]},
-  { id:'e4', cat:'end', trigger:'-ig', short:'في النهاية = إيخ', badge:'special', badgeText:'استثناء',
+  { id:'e4', level:'A2', cat:'end', trigger:'-ig', short:'في النهاية = إيخ', badge:'special', badgeText:'استثناء',
     desc:'عندما تنتهي الكلمة بـ -ig (وليس قبلها حرف صوتي)، تُنطق "إيخ" وليس "إيك".',
     examples:[
       {de:'König', ar:'ملك', pron:'كونيخ'},
@@ -3243,7 +3310,7 @@ const pronRules = [
       {de:'richtig', ar:'صحيح', pron:'ريختيخ'},
     ]},
   // Combo rules
-  { id:'c1', cat:'combo', trigger:'ng', short:'= نغ بدون G منفصل', badge:'special', badgeText:'تركيب',
+  { id:'c1', level:'A2', cat:'combo', trigger:'ng', short:'= نغ بدون G منفصل', badge:'special', badgeText:'تركيب',
     desc:'ng يُنطق كصوت واحد أنفي — مثل "نغ" في "منغوليا". لا يُنطق G بشكل منفصل.',
     examples:[
       {de:'singen', ar:'يغني', pron:'زينغن'},
@@ -3251,20 +3318,20 @@ const pronRules = [
       {de:'lang', ar:'طويل', pron:'لانغ'},
       {de:'jung', ar:'شاب', pron:'يونغ'},
     ]},
-  { id:'c2', cat:'combo', trigger:'qu', short:'= كف دائماً', badge:'special', badgeText:'تركيب',
+  { id:'c2', level:'A1', cat:'combo', trigger:'qu', short:'= كف دائماً', badge:'special', badgeText:'تركيب',
     desc:'qu دائماً تُنطق "كف" — مثل kv الإنجليزية.',
     examples:[
       {de:'Quelle', ar:'مصدر', pron:'كفيله'},
       {de:'Qualität', ar:'جودة', pron:'كفاليتات'},
     ]},
-  { id:'c3', cat:'combo', trigger:'pf', short:'= بف معاً', badge:'special', badgeText:'تركيب',
+  { id:'c3', level:'A1', cat:'combo', trigger:'pf', short:'= بف معاً', badge:'special', badgeText:'تركيب',
     desc:'pf يُنطقان معاً كصوت واحد — بف. شائع في الألمانية.',
     examples:[
       {de:'Pferd', ar:'حصان', pron:'بفيرت'},
       {de:'Apfel', ar:'تفاحة', pron:'أبفل'},
       {de:'Pfanne', ar:'مقلاة', pron:'بفانه'},
     ]},
-  { id:'c4', cat:'combo', trigger:'tsch', short:'= تش (مثل church)', badge:'special', badgeText:'تركيب',
+  { id:'c4', level:'A1', cat:'combo', trigger:'tsch', short:'= تش (مثل church)', badge:'special', badgeText:'تركيب',
     desc:'tsch يُنطق مثل "تش" — مثل كلمة تشاي.',
     examples:[
       {de:'Deutsch', ar:'ألماني', pron:'دويتش'},
@@ -3274,7 +3341,7 @@ const pronRules = [
 
   // ===== قواعد جديدة من ورقة د. بلال =====
 
-  { id:'th1', cat:'combo', trigger:'th', short:'= ت دائماً في الألمانية', badge:'special', badgeText:'تركيب',
+  { id:'th1', level:'A1', cat:'combo', trigger:'th', short:'= ت دائماً في الألمانية', badge:'special', badgeText:'تركيب',
     desc:'في الألمانية، th يُنطق دائماً كالتاء العربية — مختلف عن الإنجليزية تماماً! لا يوجد صوت ث.',
     examples:[
       {de:'Theorie', ar:'نظرية', pron:'تيوريه'},
@@ -3283,14 +3350,14 @@ const pronRules = [
       {de:'Thomas', ar:'توماس', pron:'توماس'},
     ]},
 
-  { id:'dt1', cat:'combo', trigger:'dt', short:'= ت واحدة فقط', badge:'special', badgeText:'تركيب',
+  { id:'dt1', level:'A2', cat:'combo', trigger:'dt', short:'= ت واحدة فقط', badge:'special', badgeText:'تركيب',
     desc:'التركيب dt يُنطق كتاء واحدة فقط — مثال واحد مشهور: Stadt.',
     examples:[
       {de:'Stadt', ar:'مدينة', pron:'شتات'},
       {de:'Stadtpark', ar:'حديقة المدينة', pron:'شتات بارك'},
     ]},
 
-  { id:'chs1', cat:'combo', trigger:'chs', short:'= كس (مثل حرف x)', badge:'special', badgeText:'تركيب',
+  { id:'chs1', level:'A2', cat:'combo', trigger:'chs', short:'= كس (مثل حرف x)', badge:'special', badgeText:'تركيب',
     desc:'التركيب chs يُنطق مثل حرف x تماماً — كس.',
     examples:[
       {de:'Sechs', ar:'ستة', pron:'زيكس'},
@@ -3298,7 +3365,7 @@ const pronRules = [
       {de:'wachsen', ar:'ينمو', pron:'فاكسِن'},
     ]},
 
-  { id:'ch4', cat:'ch', trigger:'ch (أجنبي)', short:'في كلمات أجنبية = ك', badge:'special', badgeText:'خاص',
+  { id:'ch4', level:'A2', cat:'ch', trigger:'ch (أجنبي)', short:'في كلمات أجنبية = ك', badge:'special', badgeText:'خاص',
     desc:'عندما تكون الكلمة من أصل غير ألماني (يوناني أو لاتيني أو إنجليزي)، ch تُنطق مثل الكاف.',
     examples:[
       {de:'Christ', ar:'مسيح', pron:'كريست'},
@@ -3307,7 +3374,7 @@ const pronRules = [
       {de:'Chronik', ar:'سجل تاريخي', pron:'كرونيك'},
     ]},
 
-  { id:'h1', cat:'silent', trigger:'h', short:'صامت في وسط ونهاية الكلمة', badge:'special', badgeText:'صامت',
+  { id:'h1', level:'A2', cat:'silent', trigger:'h', short:'صامت في وسط ونهاية الكلمة', badge:'special', badgeText:'صامت',
     desc:'في الألمانية، h تُنطق فقط في بداية المقطع الصوتي (Anlaut). في وسط ونهاية الكلمة تكون صامتة وتطيل الحرف الصوتي قبلها.',
     examples:[
       {de:'Hund', ar:'كلب', pron:'هونت ✅ (بداية)'},
@@ -3316,7 +3383,7 @@ const pronRules = [
       {de:'sehen', ar:'يرى', pron:'زيِن ❌ h صامتة'},
     ]},
 
-  { id:'r1', cat:'end', trigger:'-r (آخر مقطع)', short:'r في النهاية = يندمج مع e → /ɐ/', badge:'special', badgeText:'خاص',
+  { id:'r1', level:'A2', cat:'end', trigger:'-r (آخر مقطع)', short:'r في النهاية = يندمج مع e → /ɐ/', badge:'special', badgeText:'خاص',
     desc:'R في نهاية المقطع الصوتي لا تُنطق r واضحة — بل تندمج مع حرف e الخفيف لتعطي صوت /ɐ/ (مثل "ِر" خفيفة جداً). مثال: Fahrer ❌ لا تُنطق الـ r الأخيرة.',
     examples:[
       {de:'Fahrer', ar:'سائق', pron:'فارِر (r الأخيرة خفيفة)'},
@@ -3325,7 +3392,7 @@ const pronRules = [
       {de:'Wasser', ar:'ماء', pron:'فاسِر (r خفيفة)'},
     ]},
 
-  { id:'v1end', cat:'end', trigger:'v → f', short:'v في النهاية = ف مهموسة', badge:'stimmlos', badgeText:'تصلّب',
+  { id:'v1end', level:'A2', cat:'end', trigger:'v → f', short:'v في النهاية = ف مهموسة', badge:'stimmlos', badgeText:'تصلّب',
     desc:'قاعدة Auslautverhärtung كاملة: v في نهاية المقطع تتحول لـ f. مثل b→p وd→t وg→k.',
     examples:[
       {de:'aktiv', ar:'نشيط', pron:'أكتيف'},
@@ -3333,7 +3400,7 @@ const pronRules = [
       {de:'naiv', ar:'ساذج', pron:'نايف'},
     ]},
 
-  { id:'tz1', cat:'combo', trigger:'tz', short:'= تس (مثل z)', badge:'special', badgeText:'تركيب',
+  { id:'tz1', level:'A1', cat:'combo', trigger:'tz', short:'= تس (مثل z)', badge:'special', badgeText:'تركيب',
     desc:'tz يُنطق مثل z تماماً — "تس". دائماً بعد حرف صوتي قصير.',
     examples:[
       {de:'Blitz', ar:'برق', pron:'بليتس'},
@@ -3353,12 +3420,17 @@ function filterRules(cat, btn) {
 function renderRules(cat) {
   const container = document.getElementById('rules-container');
   if (!container) return;
-  const filtered = cat === 'all' ? pronRules : pronRules.filter(r => r.cat === cat);
+  let filtered = cat === 'all' ? pronRules :
+    (cat === 'A1' || cat === 'A2') ? pronRules.filter(r => r.level === cat) :
+    pronRules.filter(r => r.cat === cat);
   container.innerHTML = filtered.map(rule => `
     <div class="rule-card" id="rule-${rule.id}" onclick="toggleRule('${rule.id}')">
       <div class="rule-header">
         <div class="rule-trigger">${rule.trigger}</div>
         <div class="rule-short">${rule.short}</div>
+        <span style="font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:5px;flex-shrink:0;margin-left:2px;
+          background:${rule.level==='A1'?'rgba(46,204,113,0.15)':'rgba(245,200,66,0.12)'};
+          color:${rule.level==='A1'?'#2ECC71':'#F5C842'};">${rule.level}</span>
         <span class="rule-badge ${rule.badge}">${rule.badgeText}</span>
         <span class="rule-arrow">▼</span>
       </div>
