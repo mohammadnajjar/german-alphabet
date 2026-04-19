@@ -55,3 +55,4 @@ german-alphabet/
 - Web Speech API للصوت
 - MyMemory Translation API
 - localStorage + File System Access API للحفظ
+"# german-alphabet" 
