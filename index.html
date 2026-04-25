@@ -1264,6 +1264,222 @@
     💡 هالمعلومات من كتاب مقدمة في أصوات اللغة الألمانية — Die Vokale und Konsonanten
   </div>
 
+  <!-- جدول قواعد النطق الكامل من د. بلال (26 قاعدة) -->
+  <div class="section-title" style="margin-top:20px;">📋 جدول قواعد النطق الشامل — 26 قاعدة</div>
+  <div class="special-note" style="color:var(--text);">المرجع الكامل من كتاب د. بلال الشريف — اضغط على أي مثال لتسمعه 🔊</div>
+
+  <div style="overflow-x:auto;margin-bottom:16px;">
+  <table style="width:100%;border-collapse:collapse;font-size:0.78rem;direction:rtl;background:var(--surface);">
+    <thead>
+      <tr style="background:var(--surface2);color:var(--text2);">
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;width:40px;">#</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الأحرف</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">اللفظ</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">المثال</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">لفظ المثال</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الترجمة</th>
+      </tr>
+    </thead>
+    <tbody id="full-pron-table-body"></tbody>
+  </table>
+  </div>
+
+  <script>
+  const fullPronTable = [
+    // الحروف الصوتية المركبة
+    {n:1,  rule:'ai',     sound:'أي',   ex:'Mai',     pron:'ماي',    tr:'شهر أيار',  group:'vowel'},
+    {n:2,  rule:'ei',     sound:'أي',   ex:'Ei',      pron:'أي',     tr:'بيضة',     group:'vowel'},
+    {n:3,  rule:'ie',     sound:'إي',   ex:'Frieden', pron:'فريدِن',  tr:'سلام',     group:'vowel'},
+    {n:4,  rule:'ä',      sound:'أيه',  ex:'Käfer',   pron:'كيفِر',   tr:'خنفساء',   group:'vowel'},
+    {n:5,  rule:'äu',     sound:'أوي (مثل boy بالإنجليزية)', ex:'Bäume', pron:'بويمِه', tr:'أشجار', group:'vowel'},
+    {n:6,  rule:'eu',     sound:'أوي',  ex:'Deutsch', pron:'دويتش',  tr:'ألماني',   group:'vowel'},
+    {n:7,  rule:'au',     sound:'أو',   ex:'Maus',    pron:'ماوس',   tr:'فأر',      group:'vowel'},
+    // قواعد الأحرف الصحيحة
+    {n:8,  rule:'j',      sound:'ي',    ex:'Jahr',    pron:'يار',    tr:'سنة',      group:'cons',  desc:'يلفظ الحرف (j) كالياء العربية'},
+    {n:9,  rule:'pf',     sound:'پف',   ex:'Pfeffer', pron:'پفيفِر', tr:'فلفل',     group:'combo', desc:'يلفظ الحرفان (pf)'},
+    {n:10, rule:'qu',     sound:'كف',   ex:'Quelle',  pron:'كفيلِه', tr:'مصدر',     group:'combo', desc:'غالباً ما يتلو الحرف (q) الحرف (u)، ويلفظان كف'},
+    {n:11, rule:'g (نهاية)',  sound:'ك',ex:'Tag',     pron:'تاك',    tr:'يوم',      group:'end',   desc:'يلفظ الحرف (g) في موقع (Auslaut) كالكاف العربية'},
+    {n:12, rule:'d (نهاية)',  sound:'ت',ex:'Hund',    pron:'هونت',   tr:'كلب',      group:'end',   desc:'يلفظ الحرف (d) في موقع (Auslaut) كالتاء العربية'},
+    {n:13, rule:'th',     sound:'ت',    ex:'Theorie', pron:'تيوريه', tr:'نظرية',    group:'combo', desc:'يلفظ اجتماع الحرفين (th) كالتاء العربية'},
+    {n:14, rule:'dt',     sound:'ت',    ex:'Stadt',   pron:'شتات',   tr:'مدينة',    group:'combo', desc:'يلفظ اجتماع الحرفين (dt) كالتاء العربية'},
+    {n:15, rule:'z',      sound:'تس',   ex:'Zahn',    pron:'تسان',   tr:'سن',       group:'combo', desc:'يلفظ الحرف (z) تس'},
+    {n:16, rule:'tz',     sound:'تس',   ex:'Blitz',   pron:'بليتس',  tr:'برق',      group:'combo', desc:'يلفظ الحرفان (tz)'},
+    {n:17, rule:'-tion',  sound:'تسيون',ex:'Position',pron:'بوزيتسيون',tr:'موقع',  group:'combo', desc:'دائماً يلفظ الحرف (t) في اللاحقة (tion)'},
+    {n:18, rule:'s + صوتي', sound:'ز',  ex:'Seite',   pron:'زايتِه',  tr:'صفحة',    group:'s',     desc:'يلفظ الحرف (s) كالزاي العربية إذا تلاه حرف صوتي'},
+    {n:19, rule:'sp',     sound:'ش',    ex:'Spiegel', pron:'شبيغِل', tr:'مرآة',     group:'s',     desc:'في موقع (Anlaut أو Inlaut) كالشين إذا تلاه (p)'},
+    {n:20, rule:'st',     sound:'ش',    ex:'Stufe',   pron:'شتوفِه', tr:'مستوى',    group:'s',     desc:'في موقع (Anlaut أو Inlaut) كالشين إذا تلاه (t)'},
+    {n:21, rule:'sch',    sound:'ش',    ex:'Schule',  pron:'شولِه',  tr:'مدرسة',    group:'s',     desc:'يلفظ اجتماع الحروف الثلاثة (sch) كالشين العربية'},
+    {n:22, rule:'chs',    sound:'x (كس)',ex:'Sechs',  pron:'زيكس',   tr:'ستة',      group:'ch',    desc:'يلفظ اجتماع الحروف الثلاثة (chs) كلفظ حرف x'},
+    {n:23, rule:'ch بعد a,o,u', sound:'خ', ex:'Dach / Tochter / Buch', pron:'داخ / توختِر / بوخ', tr:'سقف / بنت / كتاب', group:'ch', desc:'يلفظ اجتماع الحرفين (ch) كالخاء العربية إذا سبقهما أحد الأحرف التالية: a, o, u'},
+    {n:24, rule:'ch (أجنبي)', sound:'ك', ex:'Christ',  pron:'كريست',  tr:'مسيحي',    group:'ch',    desc:'غالباً ما يلفظ (ch) كالكاف إذا كان مصدر الكلمة غير ألماني'},
+    {n:25, rule:'ch (ناعم)', sound:'ش (خفيفة)', ex:'Ich liebe dich', pron:'إش ليبِه دش', tr:'أحبك', group:'ch', desc:'يلفظ (ch) كحرف الشين العربي ولكن على نحوٍ خفيف'},
+    {n:26, rule:'-ig (نهاية)', sound:'ش (خفيفة)', ex:'König', pron:'كونيش', tr:'ملك',  group:'end',   desc:'يلفظ اجتماع الحرفين (ig) في موقع (Auslaut) كحرف الشين العربي ولكن على نحوٍ خفيف'},
+  ];
+
+  const groupColors = {
+    'vowel': 'rgba(245,200,66,0.06)',   // أصفر للحروف الصوتية
+    'cons':  'rgba(78,205,196,0.05)',   // أخضر للحروف الصحيحة
+    'combo': 'rgba(139,92,246,0.06)',   // بنفسجي للتركيبات
+    'end':   'rgba(255,107,107,0.05)',  // أحمر لنهاية الكلمة
+    's':     'rgba(78,205,196,0.07)',   // أزرق فاتح لقواعد s
+    'ch':    'rgba(139,92,246,0.08)',   // بنفسجي لقواعد ch
+  };
+
+  (function buildFullPronTable() {
+    const tbody = document.getElementById('full-pron-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = fullPronTable.map(row => {
+      const bg = groupColors[row.group] || '';
+      // Get first example for speak (in case of multiple examples like Dach/Tochter/Buch)
+      const firstEx = row.ex.split(/[\/،]/)[0].trim();
+      return `
+      <tr style="cursor:pointer;transition:background 0.15s;background:${bg};"
+          onclick="speak('${firstEx}')"
+          onmouseover="this.style.background='rgba(245,200,66,0.12)'"
+          onmouseout="this.style.background='${bg}'"
+          title="${row.desc || ''}">
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);text-align:center;font-weight:700;">${row.n}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <strong style="font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--accent);">${row.rule}</strong>
+        </td>
+        <td style="padding:7px 10px;border:1px solid var(--border);font-weight:700;color:var(--accent2);font-size:0.95rem;">${row.sound}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <strong style="color:var(--text);font-family:'Playfair Display',serif;">${row.ex}</strong>
+        </td>
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text);">${row.pron}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);">${row.tr}</td>
+      </tr>`;
+    }).join('');
+  })();
+  </script>
+
+  <!-- شرح الألوان -->
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;font-size:0.72rem;">
+    <div style="background:rgba(245,200,66,0.06);border:1px solid var(--border);padding:4px 10px;border-radius:6px;">🟡 حروف صوتية مركبة</div>
+    <div style="background:rgba(78,205,196,0.07);border:1px solid var(--border);padding:4px 10px;border-radius:6px;">🔵 قواعد s</div>
+    <div style="background:rgba(139,92,246,0.08);border:1px solid var(--border);padding:4px 10px;border-radius:6px;">🟣 قواعد ch / تركيبات</div>
+    <div style="background:rgba(255,107,107,0.05);border:1px solid var(--border);padding:4px 10px;border-radius:6px;">🔴 نهاية الكلمة</div>
+  </div>
+
+  <!-- Auslautverhärtung — ملخص بصري -->
+  <div class="section-title" style="margin-top:20px;">⚡ Auslautverhärtung — تصلّب الأصوات في النهاية</div>
+  <div class="special-note" style="color:var(--text);">الأصوات المجهورة تصبح مهموسة في نهاية المقطع الصوتي — قاعدة شاملة لـ 4 أصوات</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;">
+    <div style="background:linear-gradient(135deg,rgba(46,204,113,0.08),rgba(231,76,60,0.08));border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;" onclick="speak('Hund')">
+      <div style="font-size:1.4rem;font-family:'Playfair Display',serif;font-weight:700;">
+        <span style="color:var(--green);">/d/</span>
+        <span style="color:var(--text2);margin:0 6px;">→</span>
+        <span style="color:var(--accent3);">/t/</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text);margin-top:8px;">
+        <strong style="color:var(--accent);">Hund</strong> = هونت
+      </div>
+      <div style="font-size:0.7rem;color:var(--text2);margin-top:2px;">كلب</div>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(46,204,113,0.08),rgba(231,76,60,0.08));border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;" onclick="speak('halb')">
+      <div style="font-size:1.4rem;font-family:'Playfair Display',serif;font-weight:700;">
+        <span style="color:var(--green);">/b/</span>
+        <span style="color:var(--text2);margin:0 6px;">→</span>
+        <span style="color:var(--accent3);">/p/</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text);margin-top:8px;">
+        <strong style="color:var(--accent);">halb</strong> = هالپ
+      </div>
+      <div style="font-size:0.7rem;color:var(--text2);margin-top:2px;">نصف</div>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(46,204,113,0.08),rgba(231,76,60,0.08));border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;" onclick="speak('Tag')">
+      <div style="font-size:1.4rem;font-family:'Playfair Display',serif;font-weight:700;">
+        <span style="color:var(--green);">/g/</span>
+        <span style="color:var(--text2);margin:0 6px;">→</span>
+        <span style="color:var(--accent3);">/k/</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text);margin-top:8px;">
+        <strong style="color:var(--accent);">Tag</strong> = تاك
+      </div>
+      <div style="font-size:0.7rem;color:var(--text2);margin-top:2px;">يوم</div>
+    </div>
+    <div style="background:linear-gradient(135deg,rgba(46,204,113,0.08),rgba(231,76,60,0.08));border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;" onclick="speak('aktiv')">
+      <div style="font-size:1.4rem;font-family:'Playfair Display',serif;font-weight:700;">
+        <span style="color:var(--green);">/v/</span>
+        <span style="color:var(--text2);margin:0 6px;">→</span>
+        <span style="color:var(--accent3);">/f/</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text);margin-top:8px;">
+        <strong style="color:var(--accent);">aktiv</strong> = أكتيف
+      </div>
+      <div style="font-size:0.7rem;color:var(--text2);margin-top:2px;">نشيط</div>
+    </div>
+  </div>
+
+  <!-- Silbentrennung — تقسيم المقاطع -->
+  <div class="section-title" style="margin-top:20px;">🔡 Silbentrennung — تقسيم المقاطع الصوتية</div>
+  <div class="special-note" style="color:var(--text);">كل كلمة ألمانية تتكون من مقاطع صوتية (Silben) — مهم لتعلم النطق الصحيح</div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;" onclick="speak('Syrien')">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div>
+          <span style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Syrien</span>
+          <span style="font-size:0.85rem;color:var(--text2);margin-right:10px;">(سوريا)</span>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-family:'Playfair Display',serif;font-weight:700;">
+          <span style="color:var(--accent2);">Sy</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">ri</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">en</span>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--text2);margin-top:6px;">3 مقاطع • زو·ري·ين</div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;" onclick="speak('Ferien')">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div>
+          <span style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Ferien</span>
+          <span style="font-size:0.85rem;color:var(--text2);margin-right:10px;">(عطلة مدرسية)</span>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-family:'Playfair Display',serif;font-weight:700;">
+          <span style="color:var(--accent2);">Fe</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">ri</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">en</span>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--text2);margin-top:6px;">3 مقاطع • فِ·ري·ين</div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;" onclick="speak('Entschuldigung')">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div>
+          <span style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Entschuldigung</span>
+          <span style="font-size:0.85rem;color:var(--text2);margin-right:10px;">(عذراً / آسف)</span>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-family:'Playfair Display',serif;font-weight:700;">
+          <span style="color:var(--accent2);">Ent</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">schul</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">di</span>
+          <span style="color:var(--text2);margin:0 4px;">·</span>
+          <span style="color:var(--accent2);">gung</span>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--text2);margin-top:6px;">4 مقاطع • إنت·شول·دي·غونغ</div>
+    </div>
+
+    <div style="background:rgba(245,200,66,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--accent);margin-bottom:6px;">💡 قواعد التقسيم الأساسية:</div>
+      <ul style="margin:0;padding-right:18px;color:var(--text);font-size:0.82rem;line-height:1.8;">
+        <li>كل مقطع لازم يحتوي على حرف صوتي واحد على الأقل</li>
+        <li>إذا في حرف صحيح واحد بين حرفين صوتيين، يروح مع المقطع الثاني (Sy·rien)</li>
+        <li>إذا في حرفين صحيحين، يتقسموا (Was·ser)</li>
+        <li>التركيبات مثل sch، ch، ng تبقى مع بعضها (En·tschul·di·gung)</li>
+      </ul>
+    </div>
+  </div>
+
   <!-- جدول الحروف الصحيحة من د. بلال -->
   <div class="section-title" style="margin-top:20px;">📊 جدول الحروف الصحيحة — مخارج الأصوات</div>
   <div class="special-note" style="color:var(--text);">من كتاب د. بلال الشريف — اضغط على أي حرف لتسمعه 🔊</div>
@@ -2187,733 +2403,685 @@ function renderVocab() {
 
 // ======= OFFLINE DICTIONARY =======
 const dict = {
-  // أ
-  'Apfel':    {t:'تفاحة',    p:'أَبْفِل',    ty:'اسم',   n:'Apfel = تفاحة، جمعها Äpfel'},
-  'Auto':     {t:'سيارة',    p:'أَوتو',      ty:'اسم',   n:'محايد der Wagen أيضاً تعني سيارة'},
-  'Arbeit':   {t:'عمل',      p:'أَربايت',    ty:'اسم',   n:'arbeiten = فعل "يعمل"'},
-  'Arm':      {t:'ذراع',     p:'أَرم',       ty:'اسم',   n:'جمعها Arme'},
-  'Abend':    {t:'مساء',     p:'آبِنت',      ty:'اسم',   n:'Guten Abend = مساء الخير'},
-  'alt':      {t:'قديم / كبير في السن', p:'ألت', ty:'صفة', n:'عكسها jung = شاب'},
-  'auch':     {t:'أيضاً',    p:'أوخ',        ty:'ظرف',   n:'أو = auch على معنى "كذلك"'},
-  'alle':     {t:'الكل / جميع', p:'ألِه',   ty:'ضمير',  n:'alle Kinder = كل الأطفال'},
-  // ب
-  'Buch':     {t:'كتاب',     p:'بوخ',        ty:'اسم',   n:'جمعها Bücher — لا تنطق G في نهاية Buch'},
-  'Ball':     {t:'كرة',      p:'بال',        ty:'اسم',   n:'جمعها Bälle'},
-  'Baum':     {t:'شجرة',     p:'باوم',       ty:'اسم',   n:'جمعها Bäume'},
-  'Brot':     {t:'خبز',      p:'بروت',       ty:'اسم',   n:'في ألمانيا الخبز أساسي جداً!'},
-  'Bruder':   {t:'أخ',       p:'بروودِر',    ty:'اسم',   n:'جمعها Brüder'},
-  'Bus':      {t:'باص',      p:'بوس',        ty:'اسم',   n:'جمعها Busse'},
-  'Bett':     {t:'سرير',     p:'بيت',        ty:'اسم',   n:'جمعها Betten'},
-  'blau':     {t:'أزرق',     p:'بلاو',       ty:'صفة',   n:'لون السماء بالألماني'},
-  'bitte':    {t:'من فضلك',  p:'بِته',       ty:'تعبير', n:'Bitte = من فضلك / تفضل'},
-  // ت
-  'Tag':      {t:'يوم',      p:'تاك',        ty:'اسم',   n:'Guten Tag = مرحباً، g في النهاية = k'},
-  'Tisch':    {t:'طاولة',    p:'تيش',        ty:'اسم',   n:'جمعها Tische'},
-  'Tee':      {t:'شاي',      p:'تي',         ty:'اسم',   n:'ee تُنطق ii طويلة'},
-  'Tür':      {t:'باب',      p:'تور',        ty:'اسم',   n:'جمعها Türen — ü مثل شفتيك دائرة مع صوت i'},
-  'trinken':  {t:'يشرب',     p:'ترينكن',     ty:'فعل',   n:'ich trinke = أنا أشرب'},
-  'Tochter':  {t:'ابنة',     p:'توختِر',     ty:'اسم',   n:'جمعها Töchter'},
-  'Telefon':  {t:'هاتف',     p:'تيليفون',    ty:'اسم',   n:'مستعار من اليونانية'},
-  // د
-  'Danke':    {t:'شكراً',    p:'دانكِه',     ty:'تعبير', n:'Danke schön = شكراً جزيلاً'},
-  'Deutsch':  {t:'ألماني',   p:'دويتش',      ty:'صفة/اسم',n:'eu تُنطق أوي — tsch تُنطق تش'},
-  'Dach':     {t:'سقف',      p:'داخ',        ty:'اسم',   n:'ch بعد a تُنطق خ حلقية'},
-  'du':       {t:'أنت',      p:'دو',         ty:'ضمير',  n:'صيغة غير رسمية — Sie = أنت الرسمية'},
-  'drei':     {t:'ثلاثة',    p:'دراي',       ty:'عدد',   n:'ei تُنطق مثل "آي"'},
-  'dunkel':   {t:'مظلم',     p:'دونكِل',     ty:'صفة',   n:'عكسها hell = مضيء'},
-  // ف
-  'Frau':     {t:'امرأة / سيدة', p:'فراو',  ty:'اسم',   n:'أيضاً لقب احترام = السيدة'},
-  'Freund':   {t:'صديق',     p:'فروينت',     ty:'اسم',   n:'Freundin = صديقة'},
-  'Fenster':  {t:'شباك',     p:'فِنستِر',   ty:'اسم',   n:'جمعها Fenster — نفس المفرد'},
-  'Feuer':    {t:'نار',      p:'فويِر',      ty:'اسم',   n:'eu تُنطق أوي'},
-  'Fisch':    {t:'سمكة',     p:'فيش',        ty:'اسم',   n:'sch دائماً = ش'},
-  'fahren':   {t:'يسافر / يقود', p:'فارِن', ty:'فعل',  n:'ich fahre = أنا أسافر'},
-  'Farbe':    {t:'لون',      p:'فاربِه',     ty:'اسم',   n:'جمعها Farben'},
-  'fertig':   {t:'جاهز',     p:'فيرتيخ',    ty:'صفة',   n:'-ig في النهاية = إيخ'},
-  // هـ
-  'Haus':     {t:'بيت',      p:'هاوس',       ty:'اسم',   n:'au تُنطق مثل أو في "أو لا" — جمعها Häuser'},
-  'Hund':     {t:'كلب',      p:'هونت',       ty:'اسم',   n:'d في النهاية = t — جمعها Hunde'},
-  'Herz':     {t:'قلب',      p:'هيرتس',      ty:'اسم',   n:'z دائماً = تس'},
-  'Hallo':    {t:'مرحباً',   p:'هالو',       ty:'تعبير', n:'تحية غير رسمية'},
-  'Hand':     {t:'يد',       p:'هانت',       ty:'اسم',   n:'d في النهاية = t — جمعها Hände'},
-  'Hunger':   {t:'جوع',      p:'هونغر',      ty:'اسم',   n:'ng = نغ بدون g منفصلة'},
-  'heute':    {t:'اليوم',    p:'هويته',      ty:'ظرف',   n:'eu تُنطق أوي'},
-  'hören':    {t:'يسمع',     p:'هورِن',      ty:'فعل',   n:'ö = شفتيك دائرة مع صوت إيه'},
-  // ك
-  'Kind':     {t:'طفل',      p:'كينت',       ty:'اسم',   n:'d في النهاية = t — جمعها Kinder'},
-  'Katze':    {t:'قطة',      p:'كاتسِه',     ty:'اسم',   n:'z = تس — جمعها Katzen'},
-  'Küche':    {t:'مطبخ',     p:'كوشِه',      ty:'اسم',   n:'ü = شفتيك دائرة مع صوت إي'},
-  'kommen':   {t:'يأتي',     p:'كومِن',      ty:'فعل',   n:'ich komme = أنا آتي'},
-  'kaufen':   {t:'يشتري',    p:'كاوفِن',     ty:'فعل',   n:'au = أو'},
-  'kalt':     {t:'بارد',     p:'كالت',       ty:'صفة',   n:'عكسها warm = دافئ'},
-  'König':    {t:'ملك',      p:'كونيخ',      ty:'اسم',   n:'-ig في النهاية = إيخ — جمعها Könige'},
-  'Krankenhaus':{t:'مستشفى', p:'كرانكِنهاوس',ty:'اسم',  n:'kranken = مرضى + Haus = بيت'},
-  // ل
-  'Liebe':    {t:'حب',       p:'ليبِه',      ty:'اسم',   n:'ie = إي طويلة'},
-  'Lampe':    {t:'مصباح',    p:'لامبِه',     ty:'اسم',   n:'جمعها Lampen'},
-  'Löwe':     {t:'أسد',      p:'لوفِه',      ty:'اسم',   n:'ö = شفتيك دائرة'},
-  'lesen':    {t:'يقرأ',     p:'ليزِن',      ty:'فعل',   n:'s بين حرفين صوتيين = ز'},
-  'lang':     {t:'طويل',     p:'لانغ',       ty:'صفة',   n:'ng = نغ — عكسها kurz = قصير'},
-  'Lärm':     {t:'ضجيج',     p:'ليرم',       ty:'اسم',   n:'ä = إيه'},
-  // م
-  'Mutter':   {t:'أم',       p:'موتِر',      ty:'اسم',   n:'جمعها Mütter'},
-  'Mann':     {t:'رجل',      p:'مان',        ty:'اسم',   n:'جمعها Männer'},
-  'Milch':    {t:'حليب',     p:'ميلخ',       ty:'اسم',   n:'ch بعد i = خ ناعم'},
-  'Mond':     {t:'قمر',      p:'مونت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Morgen':   {t:'صباح / غداً', p:'مورغن',  ty:'اسم/ظرف',n:'Guten Morgen = صباح الخير'},
-  'machen':   {t:'يفعل / يصنع', p:'ماخن',   ty:'فعل',  n:'ch بعد a = خ حلقي'},
-  'mehr':     {t:'أكثر',     p:'مير',        ty:'ظرف',   n:'مقارنة — eh = إي طويلة'},
-  // ن
-  'Name':     {t:'اسم',      p:'نامِه',      ty:'اسم',   n:'جمعها Namen'},
-  'Nacht':    {t:'ليل',      p:'ناخت',       ty:'اسم',   n:'ch بعد a = خ حلقي — جمعها Nächte'},
-  'Nase':     {t:'أنف',      p:'نازِه',      ty:'اسم',   n:'s بين حرفين = ز'},
-  'nein':     {t:'لا',       p:'ناين',       ty:'تعبير', n:'ei = آي — عكسها ja'},
-  'neu':      {t:'جديد',     p:'نوي',        ty:'صفة',   n:'eu = أوي — عكسها alt'},
-  'nicht':    {t:'لا / ليس', p:'نيخت',       ty:'نفي',   n:'أداة النفي الأساسية — ch بعد i = خ ناعم'},
-  'noch':     {t:'لا يزال / بعد', p:'نوخ',  ty:'ظرف',  n:'ch بعد o = خ حلقي'},
-  // هـ
-  'Obst':     {t:'فاكهة',    p:'أوبست',      ty:'اسم',   n:'لا تُعد، دائماً مفرد'},
-  'Oma':      {t:'جدة',      p:'أوما',       ty:'اسم',   n:'عامية دافئة — الرسمية: Großmutter'},
-  'Ohr':      {t:'أذن',      p:'أور',        ty:'اسم',   n:'جمعها Ohren'},
-  'Opa':      {t:'جد',       p:'أوبا',       ty:'اسم',   n:'عامية دافئة'},
-  'oben':     {t:'فوق',      p:'أوبِن',      ty:'ظرف',   n:'عكسها unten = تحت'},
-  // ب (فارسي / بيتزا)
-  'Papa':     {t:'أبو / بابا', p:'بابا',     ty:'اسم',   n:'عامية — الرسمية: Vater'},
-  'Pass':     {t:'جواز سفر', p:'باس',        ty:'اسم',   n:'ss دائماً = س مشددة'},
-  'Papier':   {t:'ورق',      p:'بابير',      ty:'اسم',   n:'ie = إي طويلة'},
-  'Pizza':    {t:'بيتزا',    p:'بيتسا',      ty:'اسم',   n:'مستعارة من الإيطالية'},
-  // كـ
-  'Quelle':   {t:'مصدر / ينبوع', p:'كفيلِه', ty:'اسم',  n:'qu = كف دائماً'},
-  // ر
-  'Rot':      {t:'أحمر',     p:'روت',        ty:'صفة',   n:'ot = أوت'},
-  'Regen':    {t:'مطر',      p:'ريغِن',      ty:'اسم',   n:'R = راء حلقية من الحلق'},
-  'Rose':     {t:'وردة',     p:'روزِه',      ty:'اسم',   n:'s بين حرفين = ز'},
-  'rot':      {t:'أحمر',     p:'روت',        ty:'صفة',   n:''},
-  'richtig':  {t:'صحيح',     p:'ريختيخ',    ty:'صفة',   n:'ch بعد i = خ ناعم + -ig = إيخ'},
-  // س
-  'Sonne':    {t:'شمس',      p:'زونِه',      ty:'اسم',   n:'S قبل o = ز — جمعها Sonnen'},
-  'Schule':   {t:'مدرسة',    p:'شولِه',      ty:'اسم',   n:'sch = ش دائماً'},
-  'Salz':     {t:'ملح',      p:'زالتس',      ty:'اسم',   n:'S في البداية = ز، z = تس'},
-  'Sohn':     {t:'ابن',      p:'زون',        ty:'اسم',   n:'S = ز — جمعها Söhne'},
-  'schön':    {t:'جميل',     p:'شون',        ty:'صفة',   n:'sch = ش — ö = شفتيك دائرة'},
-  'sprechen': {t:'يتكلم',    p:'شبريخِن',    ty:'فعل',   n:'sp في البداية = شب'},
-  'spielen':  {t:'يلعب',     p:'شبيلِن',     ty:'فعل',   n:'sp = شب — ie = إي طويلة'},
-  'Straße':   {t:'شارع',     p:'شتراسِه',    ty:'اسم',   n:'st = شت — ß = س مشددة'},
-  'sein':     {t:'يكون',     p:'زاين',       ty:'فعل',   n:'أهم فعل — ich bin = أنا'},
-  'sie':      {t:'هي / هم / أنت رسمي', p:'زي', ty:'ضمير', n:'ie = إي طويلة'},
-  'Stadt':    {t:'مدينة',    p:'شتات',       ty:'اسم',   n:'st = شت — جمعها Städte'},
-  'Stuhl':    {t:'كرسي',     p:'شتول',       ty:'اسم',   n:'st = شت'},
-  'Sprache':  {t:'لغة',      p:'شبراخِه',    ty:'اسم',   n:'sp = شب — ch بعد a = خ'},
-  // ت
-  'Tag':      {t:'يوم',      p:'تاك',        ty:'اسم',   n:'g في النهاية = k'},
-  'Tisch':    {t:'طاولة',    p:'تيش',        ty:'اسم',   n:'sch = ش'},
-  'Tee':      {t:'شاي',      p:'تي',         ty:'اسم',   n:'ee = إي طويلة'},
-  'trinken':  {t:'يشرب',     p:'ترينكِن',    ty:'فعل',   n:''},
-  // أ
-  'über':     {t:'فوق / عبر', p:'أوبِر',     ty:'حرف جر', n:'ü = شفتيك دائرة مع صوت إي'},
-  'Uhr':      {t:'ساعة',     p:'أور',        ty:'اسم',   n:'كم الساعة = Wie viel Uhr ist es?'},
-  'Urlaub':   {t:'إجازة',    p:'أورلاوپ',    ty:'اسم',   n:'au = أو'},
-  'und':      {t:'و',        p:'أوند',       ty:'رابط',  n:'أكثر كلمة شائعة في الألمانية'},
-  // ف
-  'Vater':    {t:'أب',       p:'فاتِر',      ty:'اسم',   n:'V = ف وليس v الإنجليزية — جمعها Väter'},
-  'Vogel':    {t:'طائر',     p:'فوغِل',      ty:'اسم',   n:'V = ف'},
-  'verstehen':{t:'يفهم',     p:'فيرشتيين',  ty:'فعل',   n:'ver + stehen — st = شت'},
-  'viel':     {t:'كثير',     p:'فيل',        ty:'صفة',   n:'ie = إي طويلة'},
-  'vier':     {t:'أربعة',    p:'فير',        ty:'عدد',   n:'ie = إي طويلة'},
-  // و
-  'Wasser':   {t:'ماء',      p:'فاسِر',      ty:'اسم',   n:'W = ف أسنانية (مثل v الإنجليزية)'},
-  'Wind':     {t:'ريح',      p:'فينت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Wolf':     {t:'ذئب',      p:'فولف',       ty:'اسم',   n:'جمعها Wölfe'},
-  'Wort':     {t:'كلمة',     p:'فورت',       ty:'اسم',   n:'جمعها Wörter'},
-  'wohnen':   {t:'يسكن',     p:'فونِن',      ty:'فعل',   n:'W = ف'},
-  'weiß':     {t:'أبيض',     p:'فايس',       ty:'صفة',   n:'ei = آي — ß = س'},
-  'wie':      {t:'كيف',      p:'في',         ty:'استفهام',n:'ie = إي طويلة'},
-  'wo':       {t:'أين',      p:'فو',         ty:'استفهام',n:'W = ف'},
-  'was':      {t:'ماذا',     p:'فاس',        ty:'استفهام',n:'W = ف — s في النهاية = س'},
-  'wer':      {t:'من',       p:'فير',        ty:'استفهام',n:'W = ف'},
-  'wann':     {t:'متى',      p:'فان',        ty:'استفهام',n:'nn مشددة'},
-  // إكس
-  'Xylophon': {t:'إكسيلوفون', p:'كسولوفون',  ty:'اسم',  n:'X = كس'},
-  // ي
-  'Yoga':     {t:'يوغا',     p:'يوغا',       ty:'اسم',   n:'Y = ي وليس ج'},
-  // ز
-  'Zeit':     {t:'وقت',      p:'تسايت',      ty:'اسم',   n:'Z دائماً = تس — ei = آي'},
-  'Zucker':   {t:'سكر',      p:'تسوكِر',     ty:'اسم',   n:'Z = تس — ck = ك'},
-  'Zug':      {t:'قطار',     p:'تسوك',       ty:'اسم',   n:'Z = تس — g في النهاية = k'},
-  'zehn':     {t:'عشرة',     p:'تسين',       ty:'عدد',   n:'Z = تس'},
-  'zwei':     {t:'اثنان',    p:'تسفاي',      ty:'عدد',   n:'Z = تس — ei = آي'},
-  // أوملاوت وخاص
-  'Käse':     {t:'جبنة',     p:'كيزِه',      ty:'اسم',   n:'ä = إيه'},
-  'Mädchen':  {t:'بنت',      p:'ميدخِن',     ty:'اسم',   n:'ä + ch بعد ä = خ ناعم'},
-  'Öl':       {t:'زيت',      p:'أول',        ty:'اسم',   n:'ö = شفتيك دائرة مع صوت إيه'},
-  'Österreich':{t:'النمسا',  p:'أُستِرايخ',  ty:'اسم',  n:'ö + ei = آي + ch = خ'},
-  'Fuß':      {t:'قدم',      p:'فوس',        ty:'اسم',   n:'ß = س مشددة'},
-  'Straße':   {t:'شارع',     p:'شتراسِه',    ty:'اسم',   n:'ß = س'},
-  'groß':     {t:'كبير',     p:'غروس',       ty:'صفة',   n:'ß = س'},
-  'Glück':    {t:'حظ / سعادة', p:'غلوك',    ty:'اسم',   n:'ü + ck = ك'},
-  'Tschüss':  {t:'مع السلامة', p:'تشوس',    ty:'تعبير', n:'tsch = تش — ü + ss = س'},
-  'Pferd':    {t:'حصان',     p:'بفيرت',      ty:'اسم',   n:'pf = بف — d في النهاية = t'},
-  // أرقام وكلمات شائعة
-  'eins':     {t:'واحد',     p:'آينس',       ty:'عدد',   n:'ei = آي'},
-  'zwei':     {t:'اثنان',    p:'تسفاي',      ty:'عدد',   n:'Z = تس'},
-  'drei':     {t:'ثلاثة',    p:'دراي',       ty:'عدد',   n:'ei = آي'},
-  'vier':     {t:'أربعة',    p:'فير',        ty:'عدد',   n:'ie = إي'},
-  'fünf':     {t:'خمسة',     p:'فونف',       ty:'عدد',   n:'ü + nf'},
-  'sechs':    {t:'ستة',      p:'زيكس',       ty:'عدد',   n:'s = ز في البداية'},
-  'sieben':   {t:'سبعة',     p:'زيبِن',      ty:'عدد',   n:'s = ز — ie = إي'},
-  'acht':     {t:'ثمانية',   p:'أخت',        ty:'عدد',   n:'ch بعد a = خ حلقي'},
-  'neun':     {t:'تسعة',     p:'نوين',       ty:'عدد',   n:'eu = أوي'},
-  'zehn':     {t:'عشرة',     p:'تسين',       ty:'عدد',   n:'Z = تس'},
-  'Alphabet': {t:'أبجدية',   p:'ألفابيت',    ty:'اسم',   n:'Das Alphabet = الأبجدية'},
-  'gut':      {t:'جيد',      p:'غوت',        ty:'صفة',   n:'Guten Morgen = صباح الخير'},
-  'ja':       {t:'نعم',      p:'يا',         ty:'تعبير', n:'J = ي وليس ج'},
-  'nein':     {t:'لا',       p:'ناين',       ty:'تعبير', n:'ei = آي'},
-  'Guten Tag':{t:'مرحباً (نهار)',p:'غوتِن تاك',ty:'تعبير',n:'تحية نهارية رسمية'},
-  'Entschuldigung':{t:'عذراً / آسف',p:'إنتشولديغونغ',ty:'تعبير',n:'tsch = تش — -ig = إيخ'},
-  'Ich':      {t:'أنا',      p:'إيخ',        ty:'ضمير',  n:'ch بعد i = خ ناعم'},
-  'ich':      {t:'أنا',      p:'إيخ',        ty:'ضمير',  n:'ch بعد i = خ ناعم'},
-  'bin':      {t:'أنا (فعل كون)', p:'بين',  ty:'فعل',   n:'ich bin = أنا'},
-  'haben':    {t:'يملك / عنده', p:'هابِن',   ty:'فعل',  n:'ich habe = عندي'},
-  'gehen':    {t:'يمشي / يذهب', p:'غيين',   ty:'فعل',  n:'ich gehe = أنا أذهب'},
-  'essen':    {t:'يأكل',     p:'إسِن',       ty:'فعل',   n:'s بين حرفين = ز'},
-  'Essen':    {t:'طعام / أكل', p:'إسِن',    ty:'اسم',   n:'ss = س مشددة هنا'},
-  'Wohnzimmer':{t:'غرفة جلوس',p:'فونتسيمِر', ty:'اسم', n:'Wohn + Zimmer = مكان + غرفة'},
-  'Zimmer':   {t:'غرفة',     p:'تسيمِر',    ty:'اسم',   n:'Z = تس'},
-  'Schrank':  {t:'خزانة',    p:'شرانك',      ty:'اسم',   n:'sch = ش'},
-  'Kleid':    {t:'فستان',    p:'كلايت',      ty:'اسم',   n:'ei = آي — d في النهاية = t'},
-  'Geld':     {t:'مال',      p:'غيلت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Garage':   {t:'مرآب / جراج', p:'غاراجِه', ty:'اسم', n:'مستعارة من الفرنسية'},
-  'beachten': {t:'يلاحظ',    p:'بِآختِن',   ty:'فعل',   n:'ch بعد a = خ حلقي'},
-  'Insel':    {t:'جزيرة',    p:'إنزِل',      ty:'اسم',   n:'جمعها Inseln'},
-  'Igel':     {t:'قنفذ',     p:'إغِل',       ty:'اسم',   n:'جمعها Igel'},
-  'lustig':   {t:'مضحك',     p:'لوستيخ',    ty:'صفة',   n:'-ig في النهاية = إيخ'},
 
-  // ===== أيام الأسبوع =====
-  'Montag':    {t:'الاثنين',   p:'مونتاك',     ty:'اسم',   n:'g في النهاية = k'},
-  'Dienstag':  {t:'الثلاثاء',  p:'دينستاك',    ty:'اسم',   n:''},
-  'Mittwoch':  {t:'الأربعاء',  p:'ميتفوخ',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
-  'Donnerstag':{t:'الخميس',    p:'دونرستاك',   ty:'اسم',   n:''},
-  'Freitag':   {t:'الجمعة',    p:'فراي تاك',   ty:'اسم',   n:'ei = آي'},
-  'Samstag':   {t:'السبت',     p:'زامستاك',    ty:'اسم',   n:'s = ز في البداية'},
-  'Sonntag':   {t:'الأحد',     p:'زونتاك',     ty:'اسم',   n:'s = ز'},
-  'Wochenende':{t:'نهاية الأسبوع',p:'فوخِنِنده',ty:'اسم', n:'Woche = أسبوع + Ende = نهاية'},
-  'Woche':     {t:'أسبوع',     p:'فوخِه',      ty:'اسم',   n:'ch بعد o = خ حلقي'},
+// أ
 
-  // ===== الأشهر =====
-  'Januar':    {t:'يناير',     p:'يانوار',     ty:'اسم',   n:''},
-  'Februar':   {t:'فبراير',    p:'فيبروار',    ty:'اسم',   n:''},
-  'März':      {t:'مارس',      p:'ميرتس',      ty:'اسم',   n:'ä = إيه + z = تس'},
-  'April':     {t:'أبريل',     p:'أبريل',      ty:'اسم',   n:''},
-  'Mai':       {t:'مايو',      p:'ماي',        ty:'اسم',   n:'ai = آي'},
-  'Juni':      {t:'يونيو',     p:'يوني',       ty:'اسم',   n:''},
-  'Juli':      {t:'يوليو',     p:'يولي',       ty:'اسم',   n:''},
-  'August':    {t:'أغسطس',     p:'أوغوست',     ty:'اسم',   n:''},
-  'September': {t:'سبتمبر',    p:'زيبتيمبر',   ty:'اسم',   n:'s = ز'},
-  'Oktober':   {t:'أكتوبر',    p:'أوكتوبر',    ty:'اسم',   n:''},
-  'November':  {t:'نوفمبر',    p:'نوفيمبر',    ty:'اسم',   n:'v = ف'},
-  'Dezember':  {t:'ديسمبر',    p:'ديتسيمبر',   ty:'اسم',   n:'z = تس'},
+  'Apfel': {t:'تفاحة', p:'أَبْفِل', ty:'اسم', n:'Apfel = تفاحة، جمعها Äpfel'},
+  'Auto': {t:'سيارة', p:'أَوتو', ty:'اسم', n:'محايد der Wagen أيضاً تعني سيارة'},
+  'Arbeit': {t:'عمل', p:'أَربايت', ty:'اسم', n:'arbeiten = فعل "يعمل"'},
+  'Arm': {t:'ذراع', p:'أَرم', ty:'اسم', n:'جمعها Arme'},
+  'Abend': {t:'مساء', p:'آبِنت', ty:'اسم', n:'Guten Abend = مساء الخير'},
+  'alt': {t:'قديم / كبير في السن', p:'ألت', ty:'صفة', n:'عكسها jung = شاب'},
+  'auch': {t:'أيضاً', p:'أوخ', ty:'ظرف', n:'أو = auch على معنى "كذلك"'},
+  'alle': {t:'الكل / جميع', p:'ألِه', ty:'ضمير', n:'alle Kinder = كل الأطفال'},
+// ب
 
-  // ===== أرقام =====
-  'elf':       {t:'أحد عشر',   p:'إلف',        ty:'عدد',   n:''},
-  'zwölf':     {t:'اثنا عشر',  p:'تسفولف',     ty:'عدد',   n:'ö + z = تس'},
-  'dreizehn':  {t:'ثلاثة عشر', p:'دراي تسين',  ty:'عدد',   n:'ei + z = تس'},
-  'vierzehn':  {t:'أربعة عشر', p:'فير تسين',   ty:'عدد',   n:'ie = إي'},
-  'fünfzehn':  {t:'خمسة عشر',  p:'فونف تسين',  ty:'عدد',   n:'ü'},
-  'sechzehn':  {t:'ستة عشر',   p:'زيختسين',    ty:'عدد',   n:''},
-  'siebzehn':  {t:'سبعة عشر',  p:'زيب تسين',   ty:'عدد',   n:''},
-  'achtzehn':  {t:'ثمانية عشر',p:'أخت تسين',   ty:'عدد',   n:''},
-  'neunzehn':  {t:'تسعة عشر',  p:'نوين تسين',  ty:'عدد',   n:'eu = أوي'},
-  'zwanzig':   {t:'عشرون',     p:'تسفانتسيخ',  ty:'عدد',   n:'z = تس — ig = إيخ'},
-  'dreißig':   {t:'ثلاثون',    p:'دراي سيخ',   ty:'عدد',   n:'ß = س'},
-  'vierzig':   {t:'أربعون',    p:'فيرتسيخ',    ty:'عدد',   n:''},
-  'fünfzig':   {t:'خمسون',     p:'فونف تسيخ',  ty:'عدد',   n:''},
-  'sechzig':   {t:'ستون',      p:'زيختسيخ',    ty:'عدد',   n:''},
-  'siebzig':   {t:'سبعون',     p:'زيبتسيخ',    ty:'عدد',   n:''},
-  'achtzig':   {t:'ثمانون',    p:'أختسيخ',     ty:'عدد',   n:''},
-  'neunzig':   {t:'تسعون',     p:'نوينتسيخ',   ty:'عدد',   n:''},
-  'hundert':   {t:'مئة',       p:'هوندِرت',    ty:'عدد',   n:''},
-  'tausend':   {t:'ألف',       p:'تاوزِنت',    ty:'عدد',   n:'au = أو'},
-  'Million':   {t:'مليون',     p:'ميليون',     ty:'عدد',   n:''},
+  'Buch': {t:'كتاب', p:'بوخ', ty:'اسم', n:'جمعها Bücher — لا تنطق G في نهاية Buch'},
+  'Ball': {t:'كرة', p:'بال', ty:'اسم', n:'جمعها Bälle'},
+  'Baum': {t:'شجرة', p:'باوم', ty:'اسم', n:'au = أو — جمعها Bäume'},
+  'Brot': {t:'خبز', p:'بروت', ty:'اسم', n:'في ألمانيا الخبز أساسي جداً!'},
+  'Bruder': {t:'أخ', p:'بروودِر', ty:'اسم', n:'جمعها Brüder'},
+  'Bus': {t:'باص', p:'بوس', ty:'اسم', n:'جمعها Busse'},
+  'Bett': {t:'سرير', p:'بيت', ty:'اسم', n:'جمعها Betten'},
+  'blau': {t:'أزرق', p:'بلاو', ty:'صفة', n:'لون السماء بالألماني'},
+  'bitte': {t:'من فضلك', p:'بِته', ty:'تعبير', n:'Bitte = من فضلك / تفضل'},
+// ت
 
-  // ===== ألوان =====
-  'blau':      {t:'أزرق',      p:'بلاو',       ty:'صفة',   n:'au = أو'},
-  'grün':      {t:'أخضر',      p:'غرون',       ty:'صفة',   n:'ü = شفتيك دائرة'},
-  'gelb':      {t:'أصفر',      p:'غيلپ',       ty:'صفة',   n:'b في النهاية = p'},
-  'schwarz':   {t:'أسود',      p:'شفارتس',     ty:'صفة',   n:'sch = ش — z = تس'},
-  'weiß':      {t:'أبيض',      p:'فايس',       ty:'صفة',   n:'ei = آي — ß = س'},
-  'grau':      {t:'رمادي',     p:'غراو',       ty:'صفة',   n:'au = أو'},
-  'braun':     {t:'بني',       p:'براون',      ty:'صفة',   n:'au = أو'},
-  'rosa':      {t:'وردي',      p:'روزا',       ty:'صفة',   n:''},
-  'lila':      {t:'بنفسجي',    p:'ليلا',       ty:'صفة',   n:''},
-  'orange':    {t:'برتقالي',   p:'أورانجِه',   ty:'صفة',   n:'مستعارة من الفرنسية'},
+  'Tag': {t:'يوم', p:'تاك', ty:'اسم', n:'Guten Tag = مرحباً، g في النهاية = k'},
+  'Tisch': {t:'طاولة', p:'تيش', ty:'اسم', n:'جمعها Tische'},
+  'Tee': {t:'شاي', p:'تي', ty:'اسم', n:'ee تُنطق ii طويلة'},
+  'Tür': {t:'باب', p:'تور', ty:'اسم', n:'جمعها Türen — ü مثل شفتيك دائرة مع صوت i'},
+  'trinken': {t:'يشرب', p:'ترينكن', ty:'فعل', n:'ich trinke = أنا أشرب'},
+  'Tochter': {t:'ابنة', p:'توختِر', ty:'اسم', n:'ch بعد o = خ حلقي'},
+  'Telefon': {t:'هاتف', p:'تيليفون', ty:'اسم', n:'مستعار من اليونانية'},
+// د
 
-  // ===== العائلة =====
-  'Bruder':    {t:'أخ',        p:'برودِر',     ty:'اسم',   n:'جمعها Brüder'},
-  'Schwester': {t:'أخت',       p:'شفيستِر',    ty:'اسم',   n:'sch = ش — جمعها Schwestern'},
-  'Tochter':   {t:'ابنة',      p:'توختِر',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
-  'Onkel':     {t:'عم / خال',  p:'أونكِل',     ty:'اسم',   n:''},
-  'Tante':     {t:'عمة / خالة',p:'تانته',      ty:'اسم',   n:''},
-  'Cousin':    {t:'ابن العم',  p:'كوزين',      ty:'اسم',   n:'مستعارة من الفرنسية'},
-  'Cousine':   {t:'ابنة العم', p:'كوزينِه',    ty:'اسم',   n:''},
-  'Großvater': {t:'جد',        p:'غروسفاتِر',  ty:'اسم',   n:'groß = كبير + Vater = أب'},
-  'Großmutter':{t:'جدة',       p:'غروسموتِر',  ty:'اسم',   n:''},
-  'Enkel':     {t:'حفيد',      p:'إنكِل',      ty:'اسم',   n:'جمعها Enkel'},
-  'Enkelin':   {t:'حفيدة',     p:'إنكِلين',    ty:'اسم',   n:''},
-  'Baby':      {t:'رضيع / طفل صغير',p:'بيبي',  ty:'اسم',  n:'Y هنا Vokal'},
-  'Ehemann':   {t:'زوج',       p:'إيه مان',    ty:'اسم',   n:'Ehe = زواج'},
-  'Ehefrau':   {t:'زوجة',      p:'إيه فراو',   ty:'اسم',   n:''},
+  'Danke': {t:'شكراً', p:'دانكِه', ty:'تعبير', n:'Danke schön = شكراً جزيلاً'},
+  'Deutsch': {t:'ألماني', p:'دويتش', ty:'صفة/اسم', n:'eu تُنطق أوي — tsch تُنطق تش'},
+  'Dach': {t:'سقف', p:'داخ', ty:'اسم', n:'ch بعد a = خ حلقي — جمعها Dächer'},
+  'du': {t:'أنت', p:'دو', ty:'ضمير', n:'صيغة غير رسمية — Sie = أنت الرسمية'},
+  'drei': {t:'ثلاثة', p:'دراي', ty:'عدد', n:'ei تُنطق مثل "آي"'},
+  'dunkel': {t:'مظلم', p:'دونكِل', ty:'صفة', n:'عكسها hell = مضيء'},
+// ف
 
-  // ===== أجزاء الجسم =====
-  'Kopf':      {t:'رأس',       p:'كوبف',       ty:'اسم',   n:'pf = بف — جمعها Köpfe'},
-  'Haar':      {t:'شعر',       p:'هار',        ty:'اسم',   n:'جمعها Haare'},
-  'Auge':      {t:'عين',       p:'أوغِه',      ty:'اسم',   n:'جمعها Augen — au = أو'},
-  'Mund':      {t:'فم',        p:'مونت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Zahn':      {t:'سن',        p:'تسان',       ty:'اسم',   n:'z = تس — جمعها Zähne'},
-  'Hals':      {t:'رقبة / حلق',p:'هالس',       ty:'اسم',   n:'جمعها Hälse'},
-  'Schulter':  {t:'كتف',       p:'شولتِر',     ty:'اسم',   n:'sch = ش — جمعها Schultern'},
-  'Ellbogen':  {t:'كوع',       p:'إل بوغِن',   ty:'اسم',   n:''},
-  'Finger':    {t:'إصبع',      p:'فينغر',      ty:'اسم',   n:'ng = نغ'},
-  'Brust':     {t:'صدر',       p:'بروست',      ty:'اسم',   n:''},
-  'Bauch':     {t:'بطن',       p:'باوخ',       ty:'اسم',   n:'au = أو + ch = خ حلقي'},
-  'Rücken':    {t:'ظهر',       p:'روكِن',      ty:'اسم',   n:'ü = شفتيك دائرة'},
-  'Bein':      {t:'ساق',       p:'باين',       ty:'اسم',   n:'ei = آي — جمعها Beine'},
-  'Knie':      {t:'ركبة',      p:'كني',        ty:'اسم',   n:'ie = إي — جمعها Knie'},
-  'Zehe':      {t:'إصبع القدم',p:'تسيهِه',     ty:'اسم',   n:'z = تس'},
-  'Herz':      {t:'قلب',       p:'هيرتس',      ty:'اسم',   n:'z = تس'},
+  'Frau': {t:'امرأة / سيدة', p:'فراو', ty:'اسم', n:'أيضاً لقب احترام = السيدة'},
+  'Freund': {t:'صديق', p:'فروينت', ty:'اسم', n:'Freundin = صديقة'},
+  'Fenster': {t:'شباك', p:'فِنستِر', ty:'اسم', n:'جمعها Fenster — نفس المفرد'},
+  'Feuer': {t:'نار', p:'فويِر', ty:'اسم', n:'eu تُنطق أوي'},
+  'Fisch': {t:'سمكة', p:'فيش', ty:'اسم', n:'sch دائماً = ش'},
+  'fahren': {t:'يسافر / يقود', p:'فارِن', ty:'فعل', n:'ich fahre = أنا أسافر'},
+  'Farbe': {t:'لون', p:'فاربِه', ty:'اسم', n:'جمعها Farben'},
+  'fertig': {t:'جاهز', p:'فيرتيخ', ty:'صفة', n:'-ig في النهاية = إيخ'},
+// هـ
 
-  // ===== طعام وشراب =====
-  'Brot':      {t:'خبز',       p:'بروت',       ty:'اسم',   n:'جمعها Brote'},
-  'Brötchen':  {t:'خبزة صغيرة',p:'بروتخِن',    ty:'اسم',   n:'ch بعد t = خ ناعم'},
-  'Butter':    {t:'زبدة',      p:'بوتِر',      ty:'اسم',   n:''},
-  'Marmelade': {t:'مربى',      p:'مارمِلادِه',  ty:'اسم',   n:''},
-  'Honig':     {t:'عسل',       p:'هونيخ',      ty:'اسم',   n:'-ig = إيخ'},
-  'Fleisch':   {t:'لحم',       p:'فلايش',      ty:'اسم',   n:'ei = آي + sch = ش'},
-  'Wurst':     {t:'نقانق / سجق',p:'فورست',     ty:'اسم',   n:''},
-  'Hähnchen':  {t:'دجاج',      p:'هينخِن',     ty:'اسم',   n:'ä + ch = خ ناعم'},
-  'Rindfleisch':{t:'لحم بقر',  p:'ريند فلايش', ty:'اسم',   n:'ei = آي'},
-  'Kartoffel': {t:'بطاطا',     p:'كارتوفِل',   ty:'اسم',   n:'جمعها Kartoffeln'},
-  'Tomate':    {t:'طماطم',     p:'توماتِه',    ty:'اسم',   n:'جمعها Tomaten'},
-  'Gurke':     {t:'خيار',      p:'غوركِه',     ty:'اسم',   n:'جمعها Gurken'},
-  'Karotte':   {t:'جزرة',      p:'كاروتِه',    ty:'اسم',   n:'جمعها Karotten'},
-  'Zwiebel':   {t:'بصل',       p:'تسفيبِل',    ty:'اسم',   n:'z = تس'},
-  'Knoblauch': {t:'ثوم',       p:'كنوبلاوخ',   ty:'اسم',   n:'au = أو + ch = خ'},
-  'Salat':     {t:'سلطة / خس', p:'زالات',      ty:'اسم',   n:'s = ز'},
-  'Suppe':     {t:'حساء',      p:'زوبِه',      ty:'اسم',   n:'s = ز'},
-  'Nudeln':    {t:'معكرونة',   p:'نودِلن',     ty:'اسم',   n:''},
-  'Reis':      {t:'رز',        p:'رايس',       ty:'اسم',   n:'ei = آي'},
-  'Kuchen':    {t:'كعكة',      p:'كوخِن',      ty:'اسم',   n:'ch بعد u = خ حلقي'},
-  'Torte':     {t:'تورتة',     p:'تورتِه',     ty:'اسم',   n:''},
-  'Schokolade':{t:'شوكولاتة',  p:'شوكولادِه',  ty:'اسم',   n:'sch = ش'},
-  'Zucker':    {t:'سكر',       p:'تسوكِر',     ty:'اسم',   n:'z = تس'},
-  'Salz':      {t:'ملح',       p:'زالتس',      ty:'اسم',   n:'z = تس'},
-  'Pfeffer':   {t:'فلفل',      p:'بفيفِر',     ty:'اسم',   n:'pf = بف'},
-  'Kaffee':    {t:'قهوة',      p:'كافيه',      ty:'اسم',   n:'ee = إي طويلة'},
-  'Saft':      {t:'عصير',      p:'زافت',       ty:'اسم',   n:'s = ز'},
-  'Bier':      {t:'بيرة',      p:'بير',        ty:'اسم',   n:'ie = إي'},
-  'Wein':      {t:'نبيذ',      p:'فاين',       ty:'اسم',   n:'ei = آي'},
+  'Haus': {t:'بيت', p:'هاوس', ty:'اسم', n:'au تُنطق مثل أو في "أو لا" — جمعها Häuser'},
+  'Hund': {t:'كلب', p:'هونت', ty:'اسم', n:'d في النهاية = t — جمعها Hunde'},
+  'Herz': {t:'قلب', p:'هيرتس', ty:'اسم', n:'z دائماً = تس'},
+  'Hallo': {t:'مرحباً', p:'هالو', ty:'تعبير', n:'تحية غير رسمية'},
+  'Hand': {t:'يد', p:'هانت', ty:'اسم', n:'d في النهاية = t — جمعها Hände'},
+  'Hunger': {t:'جوع', p:'هونغر', ty:'اسم', n:'ng = نغ بدون g منفصلة'},
+  'heute': {t:'اليوم', p:'هويته', ty:'ظرف', n:'eu تُنطق أوي'},
+  'hören': {t:'يسمع', p:'هورِن', ty:'فعل', n:'ö = شفتيك دائرة مع صوت إيه'},
+// ك
 
-  // ===== الملابس =====
-  'Hemd':      {t:'قميص',      p:'هيمت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Hose':      {t:'بنطلون',    p:'هوزِه',      ty:'اسم',   n:'جمعها Hosen'},
-  'Rock':      {t:'تنورة',     p:'روك',        ty:'اسم',   n:'جمعها Röcke'},
-  'Jacke':     {t:'جاكيت',     p:'ياكِه',      ty:'اسم',   n:'j = ي'},
-  'Mantel':    {t:'معطف',      p:'مانتِل',     ty:'اسم',   n:'جمعها Mäntel'},
-  'Schuhe':    {t:'أحذية',     p:'شوهِه',      ty:'اسم',   n:'sch = ش'},
-  'Socken':    {t:'جوارب',     p:'زوكِن',      ty:'اسم',   n:'s = ز'},
-  'Mütze':     {t:'قبعة صغيرة',p:'موتسِه',     ty:'اسم',   n:'ü + z = تس'},
-  'Schal':     {t:'وشاح',      p:'شال',        ty:'اسم',   n:'sch = ش'},
-  'Handschuhe':{t:'قفازات',    p:'هاند شوهِه', ty:'اسم',   n:'Hand = يد + Schuhe = أحذية'},
-  'Anzug':     {t:'بدلة',      p:'أنتسوك',     ty:'اسم',   n:'z = تس — جمعها Anzüge'},
-  'Kleidung':  {t:'ملابس',     p:'كلايدونغ',   ty:'اسم',   n:'ei = آي — اسم جماعي'},
+  'Kind': {t:'طفل', p:'كينت', ty:'اسم', n:'d في النهاية = t — جمعها Kinder'},
+  'Katze': {t:'قطة', p:'كاتسِه', ty:'اسم', n:'z = تس — جمعها Katzen'},
+  'Küche': {t:'مطبخ', p:'كوشِه', ty:'اسم', n:'ü = شفتيك دائرة مع صوت إي'},
+  'kommen': {t:'يأتي', p:'كومِن', ty:'فعل', n:'ich komme = أنا آتي'},
+  'kaufen': {t:'يشتري', p:'كاوفِن', ty:'فعل', n:'au = أو'},
+  'kalt': {t:'بارد', p:'كالت', ty:'صفة', n:'عكسها warm = دافئ'},
+  'König': {t:'ملك', p:'كونيخ', ty:'اسم', n:'-ig في النهاية = إيخ — جمعها Könige'},
+  'Krankenhaus': {t:'مستشفى', p:'كرانكِنهاوس', ty:'اسم', n:'kranken = مرضى + Haus = بيت'},
+// ل
 
-  // ===== المنزل والأثاث =====
-  'Wohnung':   {t:'شقة',       p:'فونونغ',     ty:'اسم',   n:'جمعها Wohnungen'},
-  'Küche':     {t:'مطبخ',      p:'كوشِه',      ty:'اسم',   n:'ü = شفتيك دائرة'},
-  'Badezimmer':{t:'حمام',      p:'بادِه تسيمِر',ty:'اسم', n:'Z = تس'},
-  'Schlafzimmer':{t:'غرفة نوم',p:'شلاف تسيمِر',ty:'اسم', n:'sch = ش'},
-  'Bett':      {t:'سرير',      p:'بيت',        ty:'اسم',   n:'tt = t مشددة'},
-  'Sofa':      {t:'كنبة',      p:'زوفا',       ty:'اسم',   n:'s = ز'},
-  'Stuhl':     {t:'كرسي',      p:'شتول',       ty:'اسم',   n:'st = شت — جمعها Stühle'},
-  'Regal':     {t:'رف',        p:'ريغال',      ty:'اسم',   n:'جمعها Regale'},
-  'Wand':      {t:'جدار',      p:'فانت',       ty:'اسم',   n:'d في النهاية = t — جمعها Wände'},
-  'Boden':     {t:'أرضية',     p:'بودِن',      ty:'اسم',   n:''},
-  'Decke':     {t:'سقف / لحاف',p:'ديكِه',      ty:'اسم',   n:'ck = ك'},
-  'Treppe':    {t:'سلّم / درج', p:'تريبِه',     ty:'اسم',   n:'جمعها Treppen'},
-  'Aufzug':    {t:'مصعد',      p:'أوف تسوك',   ty:'اسم',   n:'z = تس'},
-  'Schlüssel': {t:'مفتاح',     p:'شلوسِل',     ty:'اسم',   n:'sch = ش + ü'},
+  'Liebe': {t:'حب', p:'ليبِه', ty:'اسم', n:'ie = إي طويلة'},
+  'Lampe': {t:'مصباح', p:'لامبِه', ty:'اسم', n:'جمعها Lampen'},
+  'Löwe': {t:'أسد', p:'لوفِه', ty:'اسم', n:'ö = شفتيك دائرة'},
+  'lesen': {t:'يقرأ', p:'ليزِن', ty:'فعل', n:'s بين حرفين صوتيين = ز'},
+  'lang': {t:'طويل', p:'لانغ', ty:'صفة', n:'ng = نغ — عكسها kurz = قصير'},
+  'Lärm': {t:'ضجيج', p:'ليرم', ty:'اسم', n:'ä = إيه'},
+// م
 
-  // ===== الطبيعة =====
-  'Baum':      {t:'شجرة',      p:'باوم',       ty:'اسم',   n:'au = أو — جمعها Bäume'},
-  'Blume':     {t:'زهرة',      p:'بلومِه',     ty:'اسم',   n:'جمعها Blumen'},
-  'Gras':      {t:'عشب',       p:'غراس',       ty:'اسم',   n:''},
-  'Berg':      {t:'جبل',       p:'بيرك',       ty:'اسم',   n:'g في النهاية = k — جمعها Berge'},
-  'Fluss':     {t:'نهر',       p:'فلوس',       ty:'اسم',   n:'ss = س — جمعها Flüsse'},
-  'See':       {t:'بحيرة',     p:'زيه',        ty:'اسم',   n:'s = ز — ee = إي'},
-  'Meer':      {t:'بحر',       p:'مير',        ty:'اسم',   n:'ee = إي'},
-  'Strand':    {t:'شاطئ',      p:'شترانت',     ty:'اسم',   n:'st = شت'},
-  'Wald':      {t:'غابة',      p:'فالت',       ty:'اسم',   n:'d في النهاية = t — جمعها Wälder'},
-  'Feld':      {t:'حقل',       p:'فيلت',       ty:'اسم',   n:'d في النهاية = t'},
-  'Himmel':    {t:'سماء',      p:'هيمِل',      ty:'اسم',   n:''},
-  'Wolke':     {t:'سحابة',     p:'فولكِه',     ty:'اسم',   n:'جمعها Wolken'},
-  'Regen':     {t:'مطر',       p:'ريغِن',      ty:'اسم',   n:''},
-  'Schnee':    {t:'ثلج',       p:'شني',        ty:'اسم',   n:'sch = ش + ee = إي'},
-  'Eis':       {t:'جليد / آيس كريم',p:'آيس',  ty:'اسم',   n:'ei = آي'},
-  'Sonne':     {t:'شمس',       p:'زونِه',      ty:'اسم',   n:'s = ز'},
-  'Mond':      {t:'قمر',       p:'مونت',       ty:'اسم',   n:'d = t'},
-  'Stern':     {t:'نجمة',      p:'شتيرن',      ty:'اسم',   n:'st = شت — جمعها Sterne'},
+  'Mutter': {t:'أم', p:'موتِر', ty:'اسم', n:'جمعها Mütter'},
+  'Mann': {t:'رجل', p:'مان', ty:'اسم', n:'جمعها Männer'},
+  'Milch': {t:'حليب', p:'ميلخ', ty:'اسم', n:'ch بعد i = خ ناعم'},
+  'Mond': {t:'قمر', p:'مونت', ty:'اسم', n:'d في النهاية = t'},
+  'Morgen': {t:'صباح / غداً', p:'مورغن', ty:'اسم/ظرف', n:'Guten Morgen = صباح الخير'},
+  'machen': {t:'يفعل / يصنع', p:'ماخن', ty:'فعل', n:'ch بعد a = خ حلقي'},
+  'mehr': {t:'أكثر', p:'مير', ty:'ظرف', n:'مقارنة — eh = إي طويلة'},
+// ن
 
-  // ===== الحيوانات =====
-  'Hund':      {t:'كلب',       p:'هونت',       ty:'اسم',   n:'d = t — جمعها Hunde'},
-  'Katze':     {t:'قطة',       p:'كاتسِه',     ty:'اسم',   n:'z = تس'},
-  'Vogel':     {t:'طائر',      p:'فوغِل',      ty:'اسم',   n:'جمعها Vögel'},
-  'Kuh':       {t:'بقرة',      p:'كو',         ty:'اسم',   n:'جمعها Kühe'},
-  'Schwein':   {t:'خنزير',     p:'شفاين',      ty:'اسم',   n:'sch = ش + ei = آي'},
-  'Schaf':     {t:'خروف',      p:'شاف',        ty:'اسم',   n:'sch = ش — جمعها Schafe'},
-  'Huhn':      {t:'دجاجة',     p:'هون',        ty:'اسم',   n:'جمعها Hühner'},
-  'Maus':      {t:'فأر',       p:'ماوس',       ty:'اسم',   n:'au = أو — جمعها Mäuse'},
-  'Schlange':  {t:'ثعبان',     p:'شلانغِه',    ty:'اسم',   n:'sch = ش'},
-  'Frosch':    {t:'ضفدع',      p:'فروش',       ty:'اسم',   n:'sch = ش'},
-  'Biene':     {t:'نحلة',      p:'بينِه',      ty:'اسم',   n:'ie = إي'},
-  'Schmetterling':{t:'فراشة',  p:'شمِترلينغ',  ty:'اسم',   n:'sch = ش + ng = نغ'},
-  'Elefant':   {t:'فيل',       p:'إليفانت',    ty:'اسم',   n:''},
-  'Löwe':      {t:'أسد',       p:'لوفِه',      ty:'اسم',   n:'ö'},
-  'Tiger':     {t:'نمر',       p:'تيغر',       ty:'اسم',   n:''},
-  'Bär':       {t:'دب',        p:'بير',        ty:'اسم',   n:'ä = إيه'},
-  'Affe':      {t:'قرد',       p:'أفِه',       ty:'اسم',   n:'جمعها Affen'},
+  'Name': {t:'اسم', p:'نامِه', ty:'اسم', n:'جمعها Namen'},
+  'Nacht': {t:'ليل', p:'ناخت', ty:'اسم', n:'ch بعد a = خ حلقي — جمعها Nächte'},
+  'Nase': {t:'أنف', p:'نازِه', ty:'اسم', n:'s بين حرفين = ز'},
+  'nein': {t:'لا', p:'ناين', ty:'تعبير', n:'ei = آي — عكسها ja'},
+  'neu': {t:'جديد', p:'نوي', ty:'صفة', n:'eu = أوي — عكسها alt'},
+  'nicht': {t:'لا / ليس', p:'نيخت', ty:'نفي', n:'أداة النفي الأساسية — ch بعد i = خ ناعم'},
+  'noch': {t:'لا يزال / بعد', p:'نوخ', ty:'ظرف', n:'ch بعد o = خ حلقي'},
+// هـ
 
-  // ===== المهن =====
-  'Arzt':      {t:'طبيب',      p:'أرتست',      ty:'اسم',   n:'z = تس — المؤنث: Ärztin'},
-  'Ärztin':    {t:'طبيبة',     p:'إرتستين',    ty:'اسم',   n:'ä = إيه + z = تس'},
-  'Lehrer':    {t:'معلم',      p:'ليرِر',      ty:'اسم',   n:'المؤنث: Lehrerin'},
-  'Lehrerin':  {t:'معلمة',     p:'ليرِرين',    ty:'اسم',   n:''},
-  'Schüler':   {t:'تلميذ',     p:'شولِر',      ty:'اسم',   n:'sch = ش'},
-  'Student':   {t:'طالب جامعي',p:'شتودِنت',    ty:'اسم',   n:'st = شت'},
-  'Ingenieur': {t:'مهندس',     p:'إنجينير',    ty:'اسم',   n:'مستعارة من الفرنسية'},
-  'Koch':      {t:'طباخ',      p:'كوخ',        ty:'اسم',   n:'ch بعد o = خ حلقي'},
-  'Bäcker':    {t:'خباز',      p:'بيكِر',      ty:'اسم',   n:'ä = إيه + ck = ك'},
-  'Verkäufer': {t:'بائع',      p:'فير كويفِر', ty:'اسم',   n:'äu = أوي'},
-  'Polizist':  {t:'شرطي',      p:'بوليتسيست',  ty:'اسم',   n:'z = تس'},
-  'Feuerwehr': {t:'إطفاء الحريق',p:'فويرفير',  ty:'اسم',   n:'eu = أوي'},
-  'Kellner':   {t:'نادل',      p:'كيلنِر',     ty:'اسم',   n:''},
-  'Programmierer':{t:'مبرمج',  p:'بروغراميرِر', ty:'اسم',  n:''},
+  'Obst': {t:'فاكهة', p:'أوبست', ty:'اسم', n:'لا تُعد، دائماً مفرد'},
+  'Oma': {t:'جدة', p:'أوما', ty:'اسم', n:'عامية دافئة — الرسمية: Großmutter'},
+  'Ohr': {t:'أذن', p:'أور', ty:'اسم', n:'h صامتة — نفس اللفظ تقريباً كـ Uhr'},
+  'Opa': {t:'جد', p:'أوبا', ty:'اسم', n:'عامية دافئة'},
+  'oben': {t:'فوق', p:'أوبِن', ty:'ظرف', n:'عكسها unten = تحت'},
+// ب (فارسي / بيتزا)
 
-  // ===== أماكن =====
-  'Apotheke':  {t:'صيدلية',    p:'أبوتيكِه',   ty:'اسم',   n:''},
-  'Supermarkt':{t:'سوبرماركت', p:'زوبِر مارك', ty:'اسم',   n:'s = ز'},
-  'Bäckerei':  {t:'مخبز',      p:'بيكِرآي',    ty:'اسم',   n:'ei = آي'},
-  'Restaurant':{t:'مطعم',      p:'ريستوران',   ty:'اسم',   n:'مستعارة من الفرنسية'},
-  'Hotel':     {t:'فندق',      p:'هوتيل',      ty:'اسم',   n:''},
-  'Bahnhof':   {t:'محطة قطار', p:'بانهوف',     ty:'اسم',   n:'Bahn = قطار + Hof = ساحة'},
-  'Flughafen': {t:'مطار',      p:'فلوك هافِن', ty:'اسم',   n:'Flug = طيران + Hafen = ميناء'},
-  'Krankenhaus':{t:'مستشفى',   p:'كرانكِن هاوس',ty:'اسم', n:''},
-  'Rathaus':   {t:'بلدية',     p:'راتهاوس',    ty:'اسم',   n:'Rat = مجلس + Haus = بيت'},
-  'Kirche':    {t:'كنيسة',     p:'كيرشِه',     ty:'اسم',   n:''},
-  'Moschee':   {t:'مسجد',      p:'موشيه',      ty:'اسم',   n:'sch = ش'},
-  'Museum':    {t:'متحف',      p:'موزيوم',     ty:'اسم',   n:''},
-  'Bibliothek':{t:'مكتبة',     p:'بيبليوتيك',  ty:'اسم',   n:''},
-  'Markt':     {t:'سوق',       p:'مارك',       ty:'اسم',   n:''},
-  'Strand':    {t:'شاطئ',      p:'شترانت',     ty:'اسم',   n:'st = شت'},
-  'Stadion':   {t:'ملعب',      p:'شتاديون',    ty:'اسم',   n:'st = شت'},
-  'Schwimmbad':{t:'مسبح',      p:'شفيم بات',   ty:'اسم',   n:'sch = ش + mm'},
+  'Papa': {t:'أبو / بابا', p:'بابا', ty:'اسم', n:'عامية — الرسمية: Vater'},
+  'Pass': {t:'جواز سفر', p:'باس', ty:'اسم', n:'ss دائماً = س مشددة'},
+  'Papier': {t:'ورق', p:'بابير', ty:'اسم', n:'ie = إي طويلة'},
+  'Pizza': {t:'بيتزا', p:'بيتسا', ty:'اسم', n:'مستعارة من الإيطالية'},
+// كـ
 
-  // ===== وسائل النقل =====
-  'Fahrrad':   {t:'دراجة هوائية',p:'فارات',    ty:'اسم',   n:'fahren = يقود + Rad = عجلة'},
-  'Motorrad':  {t:'دراجة نارية',p:'موتورات',   ty:'اسم',   n:'Motor + Rad'},
-  'Flugzeug':  {t:'طائرة',     p:'فلوك تسوك',  ty:'اسم',   n:'z = تس — Flug = طيران'},
-  'Schiff':    {t:'سفينة',     p:'شيف',        ty:'اسم',   n:'sch = ش'},
-  'Taxi':      {t:'تاكسي',     p:'تاكسي',      ty:'اسم',   n:''},
-  'Straßenbahn':{t:'ترام',     p:'شتراسِن بان',ty:'اسم',   n:'ß + st = شت'},
+  'Quelle': {t:'مصدر / ينبوع', p:'كفيلِه', ty:'اسم', n:'qu = كف دائماً'},
+// ر
 
-  // ===== أفعال شائعة =====
-  'arbeiten':  {t:'يعمل',      p:'أربايتِن',   ty:'فعل',   n:'ei = آي'},
-  'wohnen':    {t:'يسكن',      p:'فونِن',      ty:'فعل',   n:'ich wohne = أسكن'},
-  'leben':     {t:'يعيش',      p:'ليبِن',      ty:'فعل',   n:''},
-  'trinken':   {t:'يشرب',      p:'ترينكِن',    ty:'فعل',   n:''},
-  'schlafen':  {t:'ينام',      p:'شلافِن',     ty:'فعل',   n:'sch = ش'},
-  'aufwachen': {t:'يصحى',      p:'أوف فاخِن',  ty:'فعل',   n:'au = أو + ch = خ'},
-  'aufstehen': {t:'يقوم / ينهض',p:'أوف شتيهِن', ty:'فعل',  n:'st = شت'},
-  'anziehen':  {t:'يرتدي',     p:'أن تسيهِن',  ty:'فعل',   n:'z = تس + ie = إي'},
-  'waschen':   {t:'يغسل',      p:'فاشِن',      ty:'فعل',   n:'sch = ش'},
-  'kochen':    {t:'يطبخ',      p:'كوخِن',      ty:'فعل',   n:'ch بعد o = خ حلقي'},
-  'kaufen':    {t:'يشتري',     p:'كاوفِن',     ty:'فعل',   n:'au = أو'},
-  'bezahlen':  {t:'يدفع',      p:'بِتسالِن',   ty:'فعل',   n:'z = تس'},
-  'lernen':    {t:'يتعلم',     p:'ليرنِن',     ty:'فعل',   n:''},
-  'lesen':     {t:'يقرأ',      p:'ليزِن',      ty:'فعل',   n:'s بين حرفين = ز'},
-  'schreiben': {t:'يكتب',      p:'شرايبِن',    ty:'فعل',   n:'sch = ش + ei = آي'},
-  'spielen':   {t:'يلعب',      p:'شبيلِن',     ty:'فعل',   n:'sp = شب + ie = إي'},
-  'tanzen':    {t:'يرقص',      p:'تانتسِن',    ty:'فعل',   n:'z = تس'},
-  'singen':    {t:'يغني',      p:'زينغِن',     ty:'فعل',   n:'s = ز + ng = نغ'},
-  'reisen':    {t:'يسافر',     p:'رايزِن',     ty:'فعل',   n:'ei = آي'},
-  'fliegen':   {t:'يطير',      p:'فليغِن',     ty:'فعل',   n:'ie = إي'},
-  'fahren':    {t:'يقود / يسافر',p:'فارِن',    ty:'فعل',   n:'ich fahre = أقود'},
-  'schwimmen': {t:'يسبح',      p:'شفيمِن',     ty:'فعل',   n:'sch = ش'},
-  'laufen':    {t:'يجري',      p:'لاوفِن',     ty:'فعل',   n:'au = أو'},
-  'treffen':   {t:'يقابل',     p:'تريفِن',     ty:'فعل',   n:''},
-  'besuchen':  {t:'يزور',      p:'بِزوخِن',    ty:'فعل',   n:'ch بعد u = خ حلقي'},
-  'einladen':  {t:'يدعو',      p:'آين لادِن',  ty:'فعل',   n:'ei = آي'},
-  'feiern':    {t:'يحتفل',     p:'فايِرن',     ty:'فعل',   n:'ei = آي'},
-  'sprechen':  {t:'يتكلم',     p:'شبريخِن',    ty:'فعل',   n:'sp = شب + ch = خ'},
-  'fragen':    {t:'يسأل',      p:'فراغِن',     ty:'فعل',   n:''},
-  'antworten': {t:'يجيب',      p:'أنت فورتِن', ty:'فعل',   n:''},
-  'erklären':  {t:'يشرح',      p:'إر كليرِن',  ty:'فعل',   n:'ä = إيه'},
-  'verstehen': {t:'يفهم',      p:'فير شتيهِن', ty:'فعل',   n:'st = شت'},
-  'hören':     {t:'يسمع',      p:'هورِن',      ty:'فعل',   n:'ö = شفتيك دائرة'},
-  'schauen':   {t:'يشاهد / ينظر',p:'شاوِن',   ty:'فعل',   n:'sch = ش + au = أو'},
-  'suchen':    {t:'يبحث',      p:'زوخِن',      ty:'فعل',   n:'s = ز + ch = خ'},
-  'finden':    {t:'يجد',       p:'فيندِن',     ty:'فعل',   n:'d في النهاية = t'},
-  'verlieren': {t:'يخسر / يضيع',p:'فير ليرِن', ty:'فعل',   n:'ie = إي'},
-  'gewinnen':  {t:'يفوز / يكسب',p:'غِفينِن',  ty:'فعل',   n:''},
-  'helfen':    {t:'يساعد',     p:'هيلفِن',     ty:'فعل',   n:''},
-  'brauchen':  {t:'يحتاج',     p:'براوخِن',    ty:'فعل',   n:'au = أو + ch = خ'},
-  'öffnen':    {t:'يفتح',      p:'أوفنِن',     ty:'فعل',   n:'ö'},
-  'schließen': {t:'يغلق',      p:'شليسِن',     ty:'فعل',   n:'sch = ش + ß = س'},
-  'beginnen':  {t:'يبدأ',      p:'بِغينِن',    ty:'فعل',   n:''},
-  'enden':     {t:'ينتهي',     p:'إندِن',      ty:'فعل',   n:''},
-  'warten':    {t:'ينتظر',     p:'فارتِن',     ty:'فعل',   n:''},
-  'bleiben':   {t:'يبقى',      p:'بلايبِن',    ty:'فعل',   n:'ei = آي'},
-  'werden':    {t:'يصبح',      p:'فيردِن',     ty:'فعل',   n:'فعل مساعد مهم'},
-  'können':    {t:'يستطيع',    p:'كونِن',      ty:'فعل',   n:'فعل مودال — ich kann'},
-  'müssen':    {t:'يجب عليه',  p:'موسِن',      ty:'فعل',   n:'ü — فعل مودال'},
-  'wollen':    {t:'يريد',      p:'فولِن',      ty:'فعل',   n:'فعل مودال — ich will'},
-  'sollen':    {t:'يُفترض أن', p:'زولِن',      ty:'فعل',   n:'s = ز — فعل مودال'},
-  'dürfen':    {t:'يُسمح له',  p:'دورفِن',     ty:'فعل',   n:'ü — فعل مودال'},
-  'mögen':     {t:'يحب / يعجبه',p:'موغِن',    ty:'فعل',   n:'فعل مودال'},
-  'möchten':   {t:'يرغب في',   p:'موشتِن',     ty:'فعل',   n:'شكل مودال لـ mögen'},
-  'nehmen':    {t:'يأخذ',      p:'نيمِن',      ty:'فعل',   n:''},
-  'geben':     {t:'يعطي',      p:'غيبِن',      ty:'فعل',   n:'g في النهاية = k'},
-  'bringen':   {t:'يجلب / يحضر',p:'برينغِن',  ty:'فعل',   n:'ng = نغ'},
-  'holen':     {t:'يجلب',      p:'هولِن',      ty:'فعل',   n:''},
-  'stellen':   {t:'يضع / يحدد',p:'شتيلِن',    ty:'فعل',   n:'st = شت'},
-  'legen':     {t:'يضع (أفقي)', p:'ليغِن',     ty:'فعل',   n:''},
-  'setzen':    {t:'يضع / يجلس',p:'زيتسِن',    ty:'فعل',   n:'s = ز + z = تس'},
-  'stehen':    {t:'يقف',       p:'شتيهِن',     ty:'فعل',   n:'st = شت'},
-  'liegen':    {t:'يرقد / يقع',p:'ليغِن',      ty:'فعل',   n:'ie = إي'},
-  'sitzen':    {t:'يجلس',      p:'زيتسِن',     ty:'فعل',   n:'s = ز + tz = تس'},
-  'schicken':  {t:'يرسل',      p:'شيكِن',      ty:'فعل',   n:'sch = ش + ck = ك'},
-  'anrufen':   {t:'يتصل هاتفياً',p:'أن روفِن', ty:'فعل',   n:''},
-  'schreiben': {t:'يكتب',      p:'شرايبِن',    ty:'فعل',   n:'sch + ei = آي'},
-  'lächeln':   {t:'يبتسم',     p:'ليشِلن',     ty:'فعل',   n:'ä + ch = خ'},
-  'weinen':    {t:'يبكي',      p:'فاينِن',     ty:'فعل',   n:'ei = آي'},
-  'lachen':    {t:'يضحك',      p:'لاخِن',      ty:'فعل',   n:'ch بعد a = خ حلقي'},
+  'Rot': {t:'أحمر', p:'روت', ty:'صفة', n:'ot = أوت'},
+  'Regen': {t:'مطر', p:'ريغِن', ty:'اسم', n:'R = راء حلقية من الحلق'},
+  'Rose': {t:'وردة', p:'روزِه', ty:'اسم', n:'s بين حرفين = ز'},
+  'rot': {t:'أحمر', p:'روت', ty:'صفة', n:''},
+  'richtig': {t:'صحيح', p:'ريختيخ', ty:'صفة', n:'ch بعد i = خ ناعم + -ig = إيخ'},
+// س
 
-  // ===== صفات شائعة =====
-  'groß':      {t:'كبير / طويل',p:'غروس',      ty:'صفة',   n:'ß = س — عكسها klein'},
-  'klein':     {t:'صغير / قصير',p:'كلاين',     ty:'صفة',   n:'ei = آي'},
-  'dick':      {t:'سمين / سميك',p:'ديك',       ty:'صفة',   n:'ck = ك'},
-  'dünn':      {t:'نحيف / رفيع',p:'دون',       ty:'صفة',   n:'ü'},
-  'jung':      {t:'صغير / شاب', p:'يونغ',      ty:'صفة',   n:'j = ي + ng = نغ'},
-  'schön':     {t:'جميل',      p:'شون',        ty:'صفة',   n:'sch = ش + ö'},
-  'hässlich':  {t:'قبيح',      p:'هيسليخ',     ty:'صفة',   n:'ä + ss + -lich'},
-  'schlecht':  {t:'سيئ',       p:'شليخت',      ty:'صفة',   n:'sch = ش + ch = خ'},
-  'richtig':   {t:'صحيح / صواب',p:'ريختيخ',   ty:'صفة',   n:'ch + -ig'},
-  'falsch':    {t:'خاطئ / غلط',p:'فالش',       ty:'صفة',   n:'sch = ش'},
-  'krank':     {t:'مريض',      p:'كرانك',      ty:'صفة',   n:'عكسها gesund'},
-  'gesund':    {t:'صحيح / معافى',p:'غِزونت',   ty:'صفة',   n:'d = t'},
-  'müde':      {t:'متعب / نعسان',p:'موده',     ty:'صفة',   n:'ü'},
-  'glücklich': {t:'سعيد',      p:'غلوكليخ',   ty:'صفة',   n:'ü + ck + -lich'},
-  'traurig':   {t:'حزين',      p:'تراوريخ',   ty:'صفة',   n:'au = أو + -ig'},
-  'wütend':    {t:'غاضب',      p:'فوتِنت',    ty:'صفة',   n:'ü'},
-  'hungrig':   {t:'جوعان',     p:'هونغريخ',   ty:'صفة',   n:'ng = نغ + -ig'},
-  'durstig':   {t:'عطشان',     p:'دورستيخ',   ty:'صفة',   n:'-ig'},
-  'satt':      {t:'شبعان',     p:'زات',       ty:'صفة',   n:'s = ز'},
-  'warm':      {t:'دافئ',      p:'فارم',      ty:'صفة',   n:''},
-  'heiß':      {t:'حار / ساخن',p:'هايس',      ty:'صفة',   n:'ei = آي + ß = س'},
-  'frisch':    {t:'طازج',      p:'فريش',      ty:'صفة',   n:'sch = ش'},
-  'sauber':    {t:'نظيف',      p:'زاوبِر',    ty:'صفة',   n:'s = ز + au = أو'},
-  'schmutzig': {t:'وسخ',       p:'شموتسيخ',   ty:'صفة',   n:'sch = ش + z = تس'},
-  'laut':      {t:'صاخب / بصوت عالٍ',p:'لاوت',ty:'صفة',  n:'au = أو'},
-  'leise':     {t:'هادئ / بصوت خفيض',p:'لايزِه',ty:'صفة',n:'ei = آي'},
-  'hell':      {t:'مضيء / فاتح',p:'هيل',      ty:'صفة',   n:'عكسها dunkel'},
-  'dunkel':    {t:'مظلم / داكن',p:'دونكِل',   ty:'صفة',   n:''},
-  'schwer':    {t:'ثقيل / صعب',p:'شفير',      ty:'صفة',   n:'sch = ش'},
-  'leicht':    {t:'خفيف / سهل',p:'لايشت',     ty:'صفة',   n:'ei = آي + ch = خ'},
-  'einfach':   {t:'بسيط / سهل',p:'آينفاخ',   ty:'صفة',   n:'ei = آي + ch = خ'},
-  'schwierig': {t:'صعب',       p:'شفيريخ',    ty:'صفة',   n:'sch = ش + -ig'},
-  'möglich':   {t:'ممكن',      p:'موغليخ',    ty:'صفة',   n:'ö + -lich'},
-  'wichtig':   {t:'مهم',       p:'فيختيخ',    ty:'صفة',   n:'ch + -ig'},
-  'fertig':    {t:'جاهز / منتهي',p:'فيرتيخ', ty:'صفة',   n:'-ig'},
-  'bereit':    {t:'مستعد',     p:'بِرايت',    ty:'صفة',   n:'ei = آي'},
-  'nett':      {t:'لطيف',      p:'نيت',       ty:'صفة',   n:''},
-  'freundlich':{t:'ودود',      p:'فرويندليخ', ty:'صفة',   n:'eu = أوي + -lich'},
-  'billig':    {t:'رخيص',      p:'بيليخ',     ty:'صفة',   n:'-ig'},
-  'teuer':     {t:'غالي',      p:'توير',      ty:'صفة',   n:'eu = أوي'},
-  'voll':      {t:'ممتلئ',     p:'فول',       ty:'صفة',   n:''},
-  'leer':      {t:'فارغ',      p:'لير',       ty:'صفة',   n:'ee = إي'},
-  'offen':     {t:'مفتوح',     p:'أوفِن',     ty:'صفة',   n:''},
-  'geschlossen':{t:'مغلق',     p:'غِشلوسِن',  ty:'صفة',   n:'sch = ش + ss'},
-  'schnell':   {t:'سريع',      p:'شنيل',      ty:'صفة',   n:'sch = ش'},
-  'langsam':   {t:'بطيء',      p:'لانغزام',   ty:'صفة',   n:'ng = نغ + s = ز'},
-  'interessant':{t:'مثير للاهتمام',p:'إنتيريسانت',ty:'صفة',n:''},
-  'langweilig':{t:'ممل',       p:'لانغفايليخ',ty:'صفة',  n:'ng + ei = آي + -ig'},
+  'Sonne': {t:'شمس', p:'زونِه', ty:'اسم', n:'S قبل o = ز — جمعها Sonnen'},
+  'Schule': {t:'مدرسة', p:'شولِه', ty:'اسم', n:'sch = ش دائماً'},
+  'Salz': {t:'ملح', p:'زالتس', ty:'اسم', n:'S في البداية = ز، z = تس'},
+  'Sohn': {t:'ابن', p:'زون', ty:'اسم', n:'S = ز — جمعها Söhne'},
+  'schön': {t:'جميل', p:'شون', ty:'صفة', n:'sch = ش — ö = شفتيك دائرة'},
+  'sprechen': {t:'يتكلم', p:'شبريخِن', ty:'فعل', n:'sp = شب + ch = خ ناعم'},
+  'spielen': {t:'يلعب', p:'شبيلِن', ty:'فعل', n:'sp = شب — ie = إي طويلة'},
+  'Straße': {t:'شارع', p:'شتراسِه', ty:'اسم', n:'st = شت — ß = س مشددة'},
+  'sein': {t:'يكون', p:'زاين', ty:'فعل', n:'أهم فعل — ich bin = أنا'},
+  'sie': {t:'هي / هم / حضرتك', p:'زي', ty:'ضمير', n:'s = ز + ie = إي'},
+  'Stadt': {t:'مدينة', p:'شتات', ty:'اسم', n:'st = شت + dt = ت واحدة — جمعها Städte'},
+  'Stuhl': {t:'كرسي', p:'شتول', ty:'اسم', n:'st = شت — جمعها Stühle'},
+  'Sprache': {t:'لغة', p:'شبراخِه', ty:'اسم', n:'sp = شب — ch بعد a = خ'},
+// ت
 
-  // ===== ظروف وأوقات =====
-  'heute':     {t:'اليوم',     p:'هويته',     ty:'ظرف',   n:'eu = أوي'},
-  'morgen':    {t:'غداً / صباحاً',p:'مورغِن', ty:'ظرف',   n:''},
-  'gestern':   {t:'أمس',       p:'غيستِرن',   ty:'ظرف',   n:''},
-  'übermorgen':{t:'بعد غد',    p:'أوبِر مورغِن',ty:'ظرف', n:'ü'},
-  'jetzt':     {t:'الآن',      p:'يِتست',     ty:'ظرف',   n:'z = تس'},
-  'später':    {t:'لاحقاً',    p:'شبيتِر',    ty:'ظرف',   n:'ä + sp = شب'},
-  'bald':      {t:'قريباً',    p:'بالت',      ty:'ظرف',   n:'d = t'},
-  'früh':      {t:'مبكراً',    p:'فرو',       ty:'ظرف',   n:'ü'},
-  'spät':      {t:'متأخراً',   p:'شبيت',      ty:'ظرف',   n:'sp = شب + ä'},
-  'immer':     {t:'دائماً',    p:'إيمِر',     ty:'ظرف',   n:''},
-  'nie':       {t:'أبداً',     p:'ني',        ty:'ظرف',   n:'ie = إي'},
-  'manchmal':  {t:'أحياناً',   p:'مانشمال',   ty:'ظرف',   n:'sch = ش'},
-  'oft':       {t:'كثيراً',    p:'أوفت',      ty:'ظرف',   n:''},
-  'selten':    {t:'نادراً',    p:'زيلتِن',    ty:'ظرف',   n:'s = ز'},
-  'Morgen':    {t:'صباح',      p:'مورغِن',    ty:'اسم',   n:'Guten Morgen = صباح الخير'},
-  'Mittag':    {t:'ظهر',       p:'ميتاك',     ty:'اسم',   n:'Guten Mittag'},
-  'Abend':     {t:'مساء',      p:'أبِنت',     ty:'اسم',   n:'Guten Abend = مساء الخير'},
-  'Nacht':     {t:'ليل',       p:'ناخت',      ty:'اسم',   n:'Gute Nacht = تصبح على خير'},
-  'Monat':     {t:'شهر',       p:'موناتس',    ty:'اسم',   n:'جمعها Monate'},
-  'Jahr':      {t:'سنة',       p:'يار',       ty:'اسم',   n:'j = ي — جمعها Jahre'},
+// أ
 
-  // ===== كلمات استفهام =====
-  'wer':       {t:'من',        p:'فير',       ty:'استفهام',n:''},
-  'was':       {t:'ماذا / ما', p:'فاس',       ty:'استفهام',n:''},
-  'wo':        {t:'أين',       p:'فو',        ty:'استفهام',n:''},
-  'woher':     {t:'من أين',    p:'فوهير',     ty:'استفهام',n:''},
-  'wohin':     {t:'إلى أين',   p:'فوهين',     ty:'استفهام',n:''},
-  'wann':      {t:'متى',       p:'فان',       ty:'استفهام',n:''},
-  'warum':     {t:'لماذا',     p:'فاروم',     ty:'استفهام',n:''},
-  'wie':       {t:'كيف',       p:'في',        ty:'استفهام',n:'ie = إي'},
-  'wieviel':   {t:'كم (كمية)', p:'فيفيل',    ty:'استفهام',n:'ie = إي'},
-  'welcher':   {t:'أي / أيّ',  p:'فيلشِر',   ty:'استفهام',n:''},
+  'über': {t:'فوق / عبر', p:'أوبِر', ty:'حرف جر', n:'ü = شفتيك دائرة مع صوت إي'},
+  'Uhr': {t:'ساعة', p:'أور', ty:'اسم', n:'كم الساعة = Wie viel Uhr ist es?'},
+  'Urlaub': {t:'إجازة', p:'أورلاوپ', ty:'اسم', n:'au = أو'},
+  'und': {t:'و', p:'أوند', ty:'رابط', n:'أكثر كلمة شائعة في الألمانية'},
+// ف
 
-  // ===== تعابير وجمل مفيدة =====
-  'Guten Morgen':{t:'صباح الخير',p:'غوتِن مورغِن',ty:'تعبير',n:'تحية صباحية'},
-  'Guten Abend':{t:'مساء الخير',p:'غوتِن أبِنت',ty:'تعبير',n:'تحية مسائية'},
-  'Gute Nacht': {t:'تصبح على خير',p:'غوته ناخت',ty:'تعبير',n:'عند النوم'},
-  'Auf Wiedersehen':{t:'مع السلامة',p:'أوف فيدِر زيهِن',ty:'تعبير',n:'رسمية'},
-  'Bitte':     {t:'من فضلك / تفضل',p:'بيته',  ty:'تعبير',  n:''},
-  'Danke schön':{t:'شكراً جزيلاً',p:'دانكِه شون',ty:'تعبير',n:'sch = ش'},
-  'Bitte schön':{t:'عفواً / تفضل',p:'بيته شون',ty:'تعبير', n:'رد على شكر'},
-  'Es tut mir leid':{t:'آسف / معذرة',p:'إس توت مير لايت',ty:'تعبير',n:'ei = آي'},
-  'Wie geht es Ihnen':{t:'كيف حالك (رسمي)',p:'في غيت إس إينِن',ty:'تعبير',n:''},
-  'Wie geht\'s':{t:'كيف حالك؟',p:'في غيتس',  ty:'تعبير',  n:'عامية'},
-  'Gut, danke': {t:'بخير، شكراً',p:'غوت دانكِه',ty:'تعبير',n:''},
-  'Ich verstehe nicht':{t:'لا أفهم',p:'إيخ فير شتيهِه نيشت',ty:'تعبير',n:''},
-  'Sprechen Sie Englisch':{t:'هل تتكلم إنجليزي؟',p:'شبريخِن زي إنغليش',ty:'تعبير',n:'sch = ش'},
-  'Wie heißen Sie':{t:'ما اسمك؟ (رسمي)',p:'في هايسِن زي',ty:'تعبير',n:'ß = س'},
-  'Ich heiße':  {t:'اسمي...',   p:'إيخ هايسِه',ty:'تعبير',  n:'ß = س'},
-  'Wo wohnen Sie':{t:'أين تسكن؟',p:'فو فونِن زي',ty:'تعبير',n:''},
-  'Ich komme aus':{t:'أنا من...',p:'إيخ كومِه أوس',ty:'تعبير',n:''},
-  'Wie alt sind Sie':{t:'كم عمرك؟',p:'في ألت زيند زي',ty:'تعبير',n:''},
-  'Ich bin ... Jahre alt':{t:'عمري ... سنة',p:'إيخ بين يارِه ألت',ty:'تعبير',n:''},
-  'Hilfe':     {t:'نجدة / مساعدة',p:'هيلفِه',  ty:'تعبير',  n:''},
-  'Vorsicht':  {t:'انتبه / حذار',p:'فورزيشت', ty:'تعبير',  n:'sch = ش'},
-  'natürlich': {t:'بالطبع',    p:'ناتورليخ',  ty:'ظرف',    n:'ü + -lich'},
-  'vielleicht':{t:'ربما',      p:'فيلايشت',   ty:'ظرف',    n:'ie = إي + ei = آي'},
-  'leider':    {t:'للأسف',     p:'لايدِر',    ty:'ظرف',    n:'ei = آي'},
-  'wirklich':  {t:'حقاً',      p:'فيركليخ',   ty:'ظرف',    n:'-lich'},
-  'zusammen':  {t:'معاً',      p:'تسوزامِن',  ty:'ظرف',    n:'z = تس'},
-  'allein':    {t:'وحيد',      p:'أليين',     ty:'صفة/ظرف', n:'ei = آي'},
+  'Vater': {t:'أب', p:'فاتِر', ty:'اسم', n:'V = ف وليس v الإنجليزية — جمعها Väter'},
+  'Vogel': {t:'طائر', p:'فوغِل', ty:'اسم', n:'جمعها Vögel'},
+  'verstehen': {t:'يفهم', p:'فيرشتيين', ty:'فعل', n:'ver + stehen — st = شت'},
+  'viel': {t:'كثير', p:'فيل', ty:'صفة', n:'ie = إي طويلة'},
+  'vier': {t:'أربعة', p:'فير', ty:'عدد', n:'ie = إي طويلة'},
+// و
 
-  // ===== ضمائر وأدوات =====
-  'du':        {t:'أنت',       p:'دو',        ty:'ضمير',   n:''},
-  'er':        {t:'هو',        p:'إير',       ty:'ضمير',   n:''},
-  'sie':       {t:'هي / هم / حضرتك',p:'زي',  ty:'ضمير',   n:'s = ز + ie = إي'},
-  'es':        {t:'هو / هي (للجنس المحايد)',p:'إس',ty:'ضمير',n:'s = ز'},
-  'wir':       {t:'نحن',       p:'فير',       ty:'ضمير',   n:''},
-  'ihr':       {t:'أنتم',      p:'إير',       ty:'ضمير',   n:''},
-  'Sie':       {t:'حضرتك (رسمي)',p:'زي',      ty:'ضمير',   n:'s = ز — مع حرف كبير'},
-  'der':       {t:'الـ (مذكر)', p:'دير',      ty:'أداة',   n:'حرف التعريف المذكر'},
-  'die':       {t:'الـ (مؤنث / جمع)',p:'دي', ty:'أداة',   n:'ie = إي'},
-  'das':       {t:'الـ (محايد)',p:'داس',      ty:'أداة',   n:''},
-  'ein':       {t:'واحد / أحد (مذكر)',p:'آين',ty:'أداة',  n:'ei = آي'},
-  'eine':      {t:'واحدة (مؤنث)',p:'آينِه',  ty:'أداة',   n:'ei = آي'},
+  'Wasser': {t:'ماء', p:'فاسِر', ty:'اسم', n:'W = ف أسنانية (مثل v الإنجليزية)'},
+  'Wind': {t:'ريح', p:'فينت', ty:'اسم', n:'d في النهاية = t'},
+  'Wolf': {t:'ذئب', p:'فولف', ty:'اسم', n:'جمعها Wölfe'},
+  'Wort': {t:'كلمة', p:'فورت', ty:'اسم', n:'جمعها Wörter'},
+  'wohnen': {t:'يسكن', p:'فونِن', ty:'فعل', n:'ich wohne = أسكن'},
+  'weiß': {t:'أبيض', p:'فايس', ty:'صفة', n:'ei = آي — ß = س'},
+  'wie': {t:'كيف', p:'في', ty:'استفهام', n:'ie = إي طويلة'},
+  'wo': {t:'أين', p:'فو', ty:'استفهام', n:'W = ف'},
+  'was': {t:'ماذا', p:'فاس', ty:'استفهام', n:'W = ف — s في النهاية = س'},
+  'wer': {t:'من', p:'فير', ty:'استفهام', n:'W = ف'},
+  'wann': {t:'متى', p:'فان', ty:'استفهام', n:'nn مشددة'},
+// إكس
 
-  // ===== حروف جر مهمة =====
-  'in':        {t:'في / داخل', p:'إن',        ty:'حرف جر', n:''},
-  'auf':       {t:'على / فوق', p:'أوف',       ty:'حرف جر', n:'au = أو'},
-  'unter':     {t:'تحت',       p:'أونتِر',    ty:'حرف جر', n:''},
-  'vor':       {t:'أمام / قبل',p:'فور',       ty:'حرف جر', n:''},
-  'hinter':    {t:'خلف',       p:'هينتِر',    ty:'حرف جر', n:''},
-  'neben':     {t:'بجانب',     p:'نيبِن',     ty:'حرف جر', n:''},
-  'zwischen':  {t:'بين',       p:'تسفيشِن',   ty:'حرف جر', n:'z = تس + sch = ش'},
-  'mit':       {t:'مع',        p:'ميت',       ty:'حرف جر', n:''},
-  'ohne':      {t:'بدون',      p:'أونِه',     ty:'حرف جر', n:''},
-  'für':       {t:'لـ / من أجل',p:'فور',      ty:'حرف جر', n:'ü'},
-  'gegen':     {t:'ضد / نحو',  p:'غيغِن',    ty:'حرف جر', n:''},
-  'durch':     {t:'عبر / خلال',p:'دورش',     ty:'حرف جر', n:''},
-  'aus':       {t:'من / خارج', p:'أوس',      ty:'حرف جر', n:'au = أو'},
-  'nach':      {t:'إلى / بعد', p:'ناخ',      ty:'حرف جر', n:'ch = خ حلقي'},
-  'bei':       {t:'عند / بالقرب من',p:'باي', ty:'حرف جر', n:'ei = آي'},
-  'von':       {t:'من',        p:'فون',      ty:'حرف جر', n:'v = ف'},
-  'zu':        {t:'إلى / نحو', p:'تسو',      ty:'حرف جر', n:'z = تس'},
-  'seit':      {t:'منذ',       p:'زايت',     ty:'حرف جر', n:'s = ز + ei = آي'},
-  'bis':       {t:'حتى / إلى', p:'بيس',      ty:'حرف جر', n:''},
-  'über':      {t:'فوق / عبر', p:'أوبِر',    ty:'حرف جر', n:'ü'},
+  'Xylophon': {t:'إكسيلوفون', p:'كسولوفون', ty:'اسم', n:'X = كس'},
+// ي
 
-  // ===== روابط =====
-  'und':       {t:'و',         p:'أوند',     ty:'رابط',   n:''},
-  'oder':      {t:'أو',        p:'أودِر',    ty:'رابط',   n:''},
-  'aber':      {t:'لكن',       p:'أبِر',     ty:'رابط',   n:''},
-  'weil':      {t:'لأن',       p:'فايل',     ty:'رابط',   n:'ei = آي'},
-  'dass':      {t:'أن',        p:'داس',      ty:'رابط',   n:'ss = س'},
-  'wenn':      {t:'إذا / عندما',p:'فين',     ty:'رابط',   n:''},
-  'obwohl':    {t:'رغم أن',    p:'أوب فول',  ty:'رابط',   n:''},
-  'deshalb':   {t:'لذلك',      p:'ديس هالب', ty:'رابط',   n:''},
-  'trotzdem':  {t:'رغم ذلك',   p:'تروتس ديم',ty:'رابط',   n:'z = تس'},
-  'denn':      {t:'لأن / فـ',  p:'دين',      ty:'رابط',   n:''},
+  'Yoga': {t:'يوغا', p:'يوغا', ty:'اسم', n:'Y = ي وليس ج'},
+// ز
 
-  // ===== تقنية وحياة عصرية =====
-  'Handy':     {t:'موبايل / هاتف',p:'هاندي', ty:'اسم',   n:''},
-  'Computer':  {t:'كمبيوتر',   p:'كومبيوتِر',ty:'اسم',  n:'مستعارة من الإنجليزية'},
-  'Internet':  {t:'إنترنت',    p:'إنتِرنيت', ty:'اسم',   n:''},
-  'App':       {t:'تطبيق',     p:'أب',       ty:'اسم',   n:'مستعارة'},
-  'Passwort':  {t:'كلمة مرور', p:'باسفورت',  ty:'اسم',   n:''},
-  'E-Mail':    {t:'بريد إلكتروني',p:'إي ميل',ty:'اسم',   n:''},
-  'Foto':      {t:'صورة',      p:'فوتو',     ty:'اسم',   n:''},
-  'Video':     {t:'فيديو',     p:'فيديو',    ty:'اسم',   n:'v = ف'},
-  'Musik':     {t:'موسيقى',    p:'موزيك',    ty:'اسم',   n:'s = ز'},
-  'Kamera':    {t:'كاميرا',    p:'كاميرا',   ty:'اسم',   n:''},
-  'Fernseher': {t:'تلفزيون',   p:'فيرنزيهِر',ty:'اسم',   n:'Fern = بعيد + sehen = يرى'},
-  'Radio':     {t:'راديو',     p:'راديو',    ty:'اسم',   n:''},
+  'Zeit': {t:'وقت', p:'تسايت', ty:'اسم', n:'Z دائماً = تس — ei = آي'},
+  'Zucker': {t:'سكر', p:'تسوكِر', ty:'اسم', n:'Z = تس — ck = ك'},
+  'Zug': {t:'قطار', p:'تسوك', ty:'اسم', n:'Z = تس — g في النهاية = k'},
+  'zehn': {t:'عشرة', p:'تسين', ty:'عدد', n:'Z = تس'},
+  'zwei': {t:'اثنان', p:'تسفاي', ty:'عدد', n:'Z = تس — ei = آي'},
+// أوملاوت وخاص
 
-  // ===== كلمات من حصص A1.1 - أبريل/مايو 2025 =====
-  'Deutsch':     {t:'اللغة الألمانية / ألماني', p:'دويتش',   ty:'اسم/صفة', n:'eu = أوي + tsch = تش'},
-  'Deutschland': {t:'ألمانيا',     p:'دويتشلانت', ty:'اسم',   n:'Deutsch + Land (بلد)'},
-  'Symptom':     {t:'عَرَض / أعراض',p:'زيمتوم',   ty:'اسم',   n:'s = ز في البداية — y = مقطع قصير'},
-  'Spaß':        {t:'متعة / مرح',  p:'شباس',      ty:'اسم',   n:'sp = شب + ß = س — Viel Spaß! = تسلّى!'},
-  'Spass':       {t:'متعة / مرح',  p:'شباس',      ty:'اسم',   n:'كتابة بديلة لـ Spaß بدون ß'},
-  'Buch':        {t:'كتاب',        p:'بوخ',        ty:'اسم',   n:'ch بعد u = خ حلقي'},
-  'Bücher':      {t:'كتب (جمع)',   p:'بوشِر',      ty:'اسم',   n:'ch بعد ü = خ ناعم — جمع Buch'},
-  'Bauch':       {t:'بطن',         p:'باوخ',       ty:'اسم',   n:'au = أو + ch بعد au = خ حلقي'},
-  'Uhr':         {t:'ساعة (وقت)', p:'أور',        ty:'اسم',   n:'h صامتة — مختلفة عن Ohr'},
-  'Ohr':         {t:'أذن',         p:'أور',        ty:'اسم',   n:'h صامتة — نفس اللفظ تقريباً كـ Uhr'},
-  'Gott':        {t:'إله',         p:'غوت',        ty:'اسم',   n:'tt = ت مشددة — لا تخلط مع gut'},
-  'gut':         {t:'جيد / بخير',  p:'غوت',        ty:'صفة',   n:'Gott وgut يُلفظان متشابهين — الفرق بالسياق'},
-  'reden':       {t:'يتكلم / يتحدث',p:'ريدِن',    ty:'فعل',   n:'مرادف لـ sprechen لكن أكثر عامية'},
-  'sprechen':    {t:'يتكلم',       p:'شبريخِن',    ty:'فعل',   n:'sp = شب + ch = خ ناعم'},
+  'Käse': {t:'جبنة', p:'كيزِه', ty:'اسم', n:'ä = إيه'},
+  'Mädchen': {t:'بنت', p:'ميدخِن', ty:'اسم', n:'ä + ch بعد ä = خ ناعم'},
+  'Öl': {t:'زيت', p:'أول', ty:'اسم', n:'ö = شفتيك دائرة مع صوت إيه'},
+  'Österreich': {t:'النمسا', p:'أُستِرايخ', ty:'اسم', n:'ö + ei = آي + ch = خ'},
+  'Fuß': {t:'قدم', p:'فوس', ty:'اسم', n:'ß = س مشددة'},
+  'groß': {t:'كبير / طويل', p:'غروس', ty:'صفة', n:'ß = س — عكسها klein'},
+  'Glück': {t:'حظ / سعادة', p:'غلوك', ty:'اسم', n:'ü + ck = ك'},
+  'Tschüss': {t:'مع السلامة', p:'تشوس', ty:'تعبير', n:'tsch = تش — ü + ss = س'},
+  'Pferd': {t:'حصان', p:'بفيرت', ty:'اسم', n:'pf = بف — d في النهاية = t'},
+// أرقام وكلمات شائعة
 
-  // ===== كلمات من ورقة د. بلال الشريف =====
-  'Käfer':     {t:'خنفساء',    p:'كيفِر',      ty:'اسم',   n:'ä = إيه + ch = خ ناعم'},
-  'Bäume':     {t:'أشجار',     p:'بويمِه',     ty:'اسم',   n:'äu = أوي — مفردها Baum'},
-  'Pfeffer':   {t:'فلفل',      p:'بفيفِر',     ty:'اسم',   n:'pf = بف + ff = ف مشددة'},
-  'Frieden':   {t:'سلام',      p:'فريدِن',     ty:'اسم',   n:'ie = إي'},
-  'Theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت دائماً في الألمانية'},
-  'theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت دائماً في الألمانية'},
-  'Blitz':     {t:'برق',       p:'بليتس',      ty:'اسم',   n:'tz = تس دائماً'},
-  'Position':  {t:'موقع / موضع',p:'بوزيتسيون', ty:'اسم',   n:'-tion = تسيون — t في -tion دائماً تُلفظ'},
-  'Spiegel':   {t:'مرآة',      p:'شبيغِل',     ty:'اسم',   n:'sp = شب في البداية + ie = إي'},
-  'Stufe':     {t:'مستوى / درجة',p:'شتوفِه',   ty:'اسم',   n:'st = شت في البداية'},
-  'Dach':      {t:'سقف',       p:'داخ',        ty:'اسم',   n:'ch بعد a = خ حلقي — جمعها Dächer'},
-  'Christ':    {t:'مسيح / مسيحي',p:'كريست',   ty:'اسم',   n:'ch في كلمات أجنبية = ك'},
-  'Fahrer':    {t:'سائق',      p:'فارِر',      ty:'اسم',   n:'r في نهاية المقطع = يندمج مع e → صوت /ɐ/'},
-  'Ich liebe dich':{t:'أحبك',  p:'إيخ ليبِه ديخ',ty:'تعبير',n:'ich = إيخ + dich = ديخ (ch = خ ناعم)'},
-  'ich liebe dich':{t:'أحبك',  p:'إيخ ليبِه ديخ',ty:'تعبير',n:'أشهر جملة! ich + dich الـ ch = خ ناعم'},
-  'Kuh':       {t:'بقرة',      p:'كو',         ty:'اسم',   n:'h في نهاية المقطع صامت — لا يُلفظ'},
-  'Theorie':   {t:'نظرية',     p:'تيوريه',     ty:'اسم',   n:'th = ت'},
-  'besser':    {t:'أفضل',      p:'بيسِر',      ty:'صفة',   n:'ss بين حرفين = س مشددة'},
-  'Wasser':    {t:'ماء',       p:'فاسِر',      ty:'اسم',   n:'ss بين حرفين = س — V = ف'},
-  'Entschuldigung':{t:'عذراً / آسف',p:'إنتشولديغونغ',ty:'تعبير',n:'tsch = تش + -ig = إيخ + -ung = ونغ'},
-  'Syrien':    {t:'سوريا',     p:'زوريِن',     ty:'اسم',   n:'S = ز + y = مقطعان Sy·ri·en'},
-  'Ferien':    {t:'عطلة (مدرسية)',p:'فيريِن',  ty:'اسم',   n:'ie = إي + مقطعان Fe·ri·en'},
-  'Stadt':     {t:'مدينة',     p:'شتات',       ty:'اسم',   n:'st = شت + dt = ت واحدة — جمعها Städte'},
-  'Tochter':   {t:'ابنة',      p:'توختِر',     ty:'اسم',   n:'ch بعد o = خ حلقي'},
-  'Sechs':     {t:'ستة',       p:'زيكس',       ty:'عدد',   n:'chs = كس مثل حرف x — s = ز في البداية'},
-};
+  'eins': {t:'واحد', p:'آينس', ty:'عدد', n:'ei = آي'},
+  'fünf': {t:'خمسة', p:'فونف', ty:'عدد', n:'ü + nf'},
+  'sechs': {t:'ستة', p:'زيكس', ty:'عدد', n:'s = ز في البداية'},
+  'sieben': {t:'سبعة', p:'زيبِن', ty:'عدد', n:'s = ز — ie = إي'},
+  'acht': {t:'ثمانية', p:'أخت', ty:'عدد', n:'ch بعد a = خ حلقي'},
+  'neun': {t:'تسعة', p:'نوين', ty:'عدد', n:'eu = أوي'},
+  'Alphabet': {t:'أبجدية', p:'ألفابيت', ty:'اسم', n:'Das Alphabet = الأبجدية'},
+  'gut': {t:'جيد / بخير', p:'غوت', ty:'صفة', n:'Gott وgut يُلفظان متشابهين — الفرق بالسياق'},
+  'ja': {t:'نعم', p:'يا', ty:'تعبير', n:'J = ي وليس ج'},
+  'Guten Tag': {t:'مرحباً (نهار)', p:'غوتِن تاك', ty:'تعبير', n:'تحية نهارية رسمية'},
+  'Entschuldigung': {t:'عذراً / آسف', p:'إنت·شول·دي·غونغ', ty:'تعبير', n:'4 مقاطع: Ent·schul·di·gung'},
+  'Ich': {t:'أنا', p:'إيخ', ty:'ضمير', n:'ch بعد i = خ ناعم'},
+  'ich': {t:'أنا', p:'إيخ', ty:'ضمير', n:'ch بعد i = خ ناعم'},
+  'bin': {t:'أنا (فعل كون)', p:'بين', ty:'فعل', n:'ich bin = أنا'},
+  'haben': {t:'يملك / عنده', p:'هابِن', ty:'فعل', n:'ich habe = عندي'},
+  'gehen': {t:'يمشي / يذهب', p:'غيين', ty:'فعل', n:'ich gehe = أنا أذهب'},
+  'essen': {t:'يأكل', p:'إسِن', ty:'فعل', n:'s بين حرفين = ز'},
+  'Essen': {t:'طعام / أكل', p:'إسِن', ty:'اسم', n:'ss = س مشددة هنا'},
+  'Wohnzimmer': {t:'غرفة جلوس', p:'فونتسيمِر', ty:'اسم', n:'Wohn + Zimmer = مكان + غرفة'},
+  'Zimmer': {t:'غرفة', p:'تسيمِر', ty:'اسم', n:'Z = تس'},
+  'Schrank': {t:'خزانة', p:'شرانك', ty:'اسم', n:'sch = ش'},
+  'Kleid': {t:'فستان', p:'كلايت', ty:'اسم', n:'ei = آي — d في النهاية = t'},
+  'Geld': {t:'مال', p:'غيلت', ty:'اسم', n:'d في النهاية = t'},
+  'Garage': {t:'مرآب / جراج', p:'غاراجِه', ty:'اسم', n:'مستعارة من الفرنسية'},
+  'beachten': {t:'يلاحظ', p:'بِآختِن', ty:'فعل', n:'ch بعد a = خ حلقي'},
+  'Insel': {t:'جزيرة', p:'إنزِل', ty:'اسم', n:'جمعها Inseln'},
+  'Igel': {t:'قنفذ', p:'إغِل', ty:'اسم', n:'جمعها Igel'},
+  'lustig': {t:'مضحك', p:'لوستيخ', ty:'صفة', n:'-ig في النهاية = إيخ'},
+// ===== أيام الأسبوع =====
+
+  'Montag': {t:'الاثنين', p:'مونتاك', ty:'اسم', n:'g في النهاية = k'},
+  'Dienstag': {t:'الثلاثاء', p:'دينستاك', ty:'اسم', n:''},
+  'Mittwoch': {t:'الأربعاء', p:'ميتفوخ', ty:'اسم', n:'ch بعد o = خ حلقي'},
+  'Donnerstag': {t:'الخميس', p:'دونرستاك', ty:'اسم', n:''},
+  'Freitag': {t:'الجمعة', p:'فراي تاك', ty:'اسم', n:'ei = آي'},
+  'Samstag': {t:'السبت', p:'زامستاك', ty:'اسم', n:'s = ز في البداية'},
+  'Sonntag': {t:'الأحد', p:'زونتاك', ty:'اسم', n:'s = ز'},
+  'Wochenende': {t:'نهاية الأسبوع', p:'فوخِنِنده', ty:'اسم', n:'Woche = أسبوع + Ende = نهاية'},
+  'Woche': {t:'أسبوع', p:'فوخِه', ty:'اسم', n:'ch بعد o = خ حلقي'},
+// ===== الأشهر =====
+
+  'Januar': {t:'يناير', p:'يانوار', ty:'اسم', n:''},
+  'Februar': {t:'فبراير', p:'فيبروار', ty:'اسم', n:''},
+  'März': {t:'مارس', p:'ميرتس', ty:'اسم', n:'ä = إيه + z = تس'},
+  'April': {t:'أبريل', p:'أبريل', ty:'اسم', n:''},
+  'Mai': {t:'مايو', p:'ماي', ty:'اسم', n:'ai = آي'},
+  'Juni': {t:'يونيو', p:'يوني', ty:'اسم', n:''},
+  'Juli': {t:'يوليو', p:'يولي', ty:'اسم', n:''},
+  'August': {t:'أغسطس', p:'أوغوست', ty:'اسم', n:''},
+  'September': {t:'سبتمبر', p:'زيبتيمبر', ty:'اسم', n:'s = ز'},
+  'Oktober': {t:'أكتوبر', p:'أوكتوبر', ty:'اسم', n:''},
+  'November': {t:'نوفمبر', p:'نوفيمبر', ty:'اسم', n:'v = ف'},
+  'Dezember': {t:'ديسمبر', p:'ديتسيمبر', ty:'اسم', n:'z = تس'},
+// ===== أرقام =====
+
+  'elf': {t:'أحد عشر', p:'إلف', ty:'عدد', n:''},
+  'zwölf': {t:'اثنا عشر', p:'تسفولف', ty:'عدد', n:'ö + z = تس'},
+  'dreizehn': {t:'ثلاثة عشر', p:'دراي تسين', ty:'عدد', n:'ei + z = تس'},
+  'vierzehn': {t:'أربعة عشر', p:'فير تسين', ty:'عدد', n:'ie = إي'},
+  'fünfzehn': {t:'خمسة عشر', p:'فونف تسين', ty:'عدد', n:'ü'},
+  'sechzehn': {t:'ستة عشر', p:'زيختسين', ty:'عدد', n:''},
+  'siebzehn': {t:'سبعة عشر', p:'زيب تسين', ty:'عدد', n:''},
+  'achtzehn': {t:'ثمانية عشر', p:'أخت تسين', ty:'عدد', n:''},
+  'neunzehn': {t:'تسعة عشر', p:'نوين تسين', ty:'عدد', n:'eu = أوي'},
+  'zwanzig': {t:'عشرون', p:'تسفانتسيخ', ty:'عدد', n:'z = تس — ig = إيخ'},
+  'dreißig': {t:'ثلاثون', p:'دراي سيخ', ty:'عدد', n:'ß = س'},
+  'vierzig': {t:'أربعون', p:'فيرتسيخ', ty:'عدد', n:''},
+  'fünfzig': {t:'خمسون', p:'فونف تسيخ', ty:'عدد', n:''},
+  'sechzig': {t:'ستون', p:'زيختسيخ', ty:'عدد', n:''},
+  'siebzig': {t:'سبعون', p:'زيبتسيخ', ty:'عدد', n:''},
+  'achtzig': {t:'ثمانون', p:'أختسيخ', ty:'عدد', n:''},
+  'neunzig': {t:'تسعون', p:'نوينتسيخ', ty:'عدد', n:''},
+  'hundert': {t:'مئة', p:'هوندِرت', ty:'عدد', n:''},
+  'tausend': {t:'ألف', p:'تاوزِنت', ty:'عدد', n:'au = أو'},
+  'Million': {t:'مليون', p:'ميليون', ty:'عدد', n:''},
+// ===== ألوان =====
+
+  'grün': {t:'أخضر', p:'غرون', ty:'صفة', n:'ü = شفتيك دائرة'},
+  'gelb': {t:'أصفر', p:'غيلپ', ty:'صفة', n:'b في النهاية = p'},
+  'schwarz': {t:'أسود', p:'شفارتس', ty:'صفة', n:'sch = ش — z = تس'},
+  'grau': {t:'رمادي', p:'غراو', ty:'صفة', n:'au = أو'},
+  'braun': {t:'بني', p:'براون', ty:'صفة', n:'au = أو'},
+  'rosa': {t:'وردي', p:'روزا', ty:'صفة', n:''},
+  'lila': {t:'بنفسجي', p:'ليلا', ty:'صفة', n:''},
+  'orange': {t:'برتقالي', p:'أورانجِه', ty:'صفة', n:'مستعارة من الفرنسية'},
+// ===== العائلة =====
+
+  'Schwester': {t:'أخت', p:'شفيستِر', ty:'اسم', n:'sch = ش — جمعها Schwestern'},
+  'Onkel': {t:'عم / خال', p:'أونكِل', ty:'اسم', n:''},
+  'Tante': {t:'عمة / خالة', p:'تانته', ty:'اسم', n:''},
+  'Cousin': {t:'ابن العم', p:'كوزين', ty:'اسم', n:'مستعارة من الفرنسية'},
+  'Cousine': {t:'ابنة العم', p:'كوزينِه', ty:'اسم', n:''},
+  'Großvater': {t:'جد', p:'غروسفاتِر', ty:'اسم', n:'groß = كبير + Vater = أب'},
+  'Großmutter': {t:'جدة', p:'غروسموتِر', ty:'اسم', n:''},
+  'Enkel': {t:'حفيد', p:'إنكِل', ty:'اسم', n:'جمعها Enkel'},
+  'Enkelin': {t:'حفيدة', p:'إنكِلين', ty:'اسم', n:''},
+  'Baby': {t:'رضيع / طفل صغير', p:'بيبي', ty:'اسم', n:'Y هنا Vokal'},
+  'Ehemann': {t:'زوج', p:'إيه مان', ty:'اسم', n:'Ehe = زواج'},
+  'Ehefrau': {t:'زوجة', p:'إيه فراو', ty:'اسم', n:''},
+// ===== أجزاء الجسم =====
+
+  'Kopf': {t:'رأس', p:'كوبف', ty:'اسم', n:'pf = بف — جمعها Köpfe'},
+  'Haar': {t:'شعر', p:'هار', ty:'اسم', n:'جمعها Haare'},
+  'Auge': {t:'عين', p:'أوغِه', ty:'اسم', n:'جمعها Augen — au = أو'},
+  'Mund': {t:'فم', p:'مونت', ty:'اسم', n:'d في النهاية = t'},
+  'Zahn': {t:'سن', p:'تسان', ty:'اسم', n:'z = تس — جمعها Zähne'},
+  'Hals': {t:'رقبة / حلق', p:'هالس', ty:'اسم', n:'جمعها Hälse'},
+  'Schulter': {t:'كتف', p:'شولتِر', ty:'اسم', n:'sch = ش — جمعها Schultern'},
+  'Ellbogen': {t:'كوع', p:'إل بوغِن', ty:'اسم', n:''},
+  'Finger': {t:'إصبع', p:'فينغر', ty:'اسم', n:'ng = نغ'},
+  'Brust': {t:'صدر', p:'بروست', ty:'اسم', n:''},
+  'Bauch': {t:'بطن', p:'باوخ', ty:'اسم', n:'au = أو + ch بعد au = خ حلقي'},
+  'Rücken': {t:'ظهر', p:'روكِن', ty:'اسم', n:'ü = شفتيك دائرة'},
+  'Bein': {t:'ساق', p:'باين', ty:'اسم', n:'ei = آي — جمعها Beine'},
+  'Knie': {t:'ركبة', p:'كني', ty:'اسم', n:'ie = إي — جمعها Knie'},
+  'Zehe': {t:'إصبع القدم', p:'تسيهِه', ty:'اسم', n:'z = تس'},
+// ===== طعام وشراب =====
+
+  'Brötchen': {t:'خبزة صغيرة', p:'بروتخِن', ty:'اسم', n:'ch بعد t = خ ناعم'},
+  'Butter': {t:'زبدة', p:'بوتِر', ty:'اسم', n:''},
+  'Marmelade': {t:'مربى', p:'مارمِلادِه', ty:'اسم', n:''},
+  'Honig': {t:'عسل', p:'هونيخ', ty:'اسم', n:'-ig = إيخ'},
+  'Fleisch': {t:'لحم', p:'فلايش', ty:'اسم', n:'ei = آي + sch = ش'},
+  'Wurst': {t:'نقانق / سجق', p:'فورست', ty:'اسم', n:''},
+  'Hähnchen': {t:'دجاج', p:'هينخِن', ty:'اسم', n:'ä + ch = خ ناعم'},
+  'Rindfleisch': {t:'لحم بقر', p:'ريند فلايش', ty:'اسم', n:'ei = آي'},
+  'Kartoffel': {t:'بطاطا', p:'كارتوفِل', ty:'اسم', n:'جمعها Kartoffeln'},
+  'Tomate': {t:'طماطم', p:'توماتِه', ty:'اسم', n:'جمعها Tomaten'},
+  'Gurke': {t:'خيار', p:'غوركِه', ty:'اسم', n:'جمعها Gurken'},
+  'Karotte': {t:'جزرة', p:'كاروتِه', ty:'اسم', n:'جمعها Karotten'},
+  'Zwiebel': {t:'بصل', p:'تسفيبِل', ty:'اسم', n:'z = تس'},
+  'Knoblauch': {t:'ثوم', p:'كنوبلاوخ', ty:'اسم', n:'au = أو + ch = خ'},
+  'Salat': {t:'سلطة / خس', p:'زالات', ty:'اسم', n:'s = ز'},
+  'Suppe': {t:'حساء', p:'زوبِه', ty:'اسم', n:'s = ز'},
+  'Nudeln': {t:'معكرونة', p:'نودِلن', ty:'اسم', n:''},
+  'Reis': {t:'رز', p:'رايس', ty:'اسم', n:'ei = آي'},
+  'Kuchen': {t:'كعكة', p:'كوخِن', ty:'اسم', n:'ch بعد u = خ حلقي'},
+  'Torte': {t:'تورتة', p:'تورتِه', ty:'اسم', n:''},
+  'Schokolade': {t:'شوكولاتة', p:'شوكولادِه', ty:'اسم', n:'sch = ش'},
+  'Pfeffer': {t:'فلفل', p:'بفيفِر', ty:'اسم', n:'pf = بف + ff = ف مشددة'},
+  'Kaffee': {t:'قهوة', p:'كافيه', ty:'اسم', n:'ee = إي طويلة'},
+  'Saft': {t:'عصير', p:'زافت', ty:'اسم', n:'s = ز'},
+  'Bier': {t:'بيرة', p:'بير', ty:'اسم', n:'ie = إي'},
+  'Wein': {t:'نبيذ', p:'فاين', ty:'اسم', n:'ei = آي'},
+// ===== الملابس =====
+
+  'Hemd': {t:'قميص', p:'هيمت', ty:'اسم', n:'d في النهاية = t'},
+  'Hose': {t:'بنطلون', p:'هوزِه', ty:'اسم', n:'جمعها Hosen'},
+  'Rock': {t:'تنورة', p:'روك', ty:'اسم', n:'جمعها Röcke'},
+  'Jacke': {t:'جاكيت', p:'ياكِه', ty:'اسم', n:'j = ي'},
+  'Mantel': {t:'معطف', p:'مانتِل', ty:'اسم', n:'جمعها Mäntel'},
+  'Schuhe': {t:'أحذية', p:'شوهِه', ty:'اسم', n:'sch = ش'},
+  'Socken': {t:'جوارب', p:'زوكِن', ty:'اسم', n:'s = ز'},
+  'Mütze': {t:'قبعة صغيرة', p:'موتسِه', ty:'اسم', n:'ü + z = تس'},
+  'Schal': {t:'وشاح', p:'شال', ty:'اسم', n:'sch = ش'},
+  'Handschuhe': {t:'قفازات', p:'هاند شوهِه', ty:'اسم', n:'Hand = يد + Schuhe = أحذية'},
+  'Anzug': {t:'بدلة', p:'أنتسوك', ty:'اسم', n:'z = تس — جمعها Anzüge'},
+  'Kleidung': {t:'ملابس', p:'كلايدونغ', ty:'اسم', n:'ei = آي — اسم جماعي'},
+// ===== المنزل والأثاث =====
+
+  'Wohnung': {t:'شقة', p:'فونونغ', ty:'اسم', n:'جمعها Wohnungen'},
+  'Badezimmer': {t:'حمام', p:'بادِه تسيمِر', ty:'اسم', n:'Z = تس'},
+  'Schlafzimmer': {t:'غرفة نوم', p:'شلاف تسيمِر', ty:'اسم', n:'sch = ش'},
+  'Sofa': {t:'كنبة', p:'زوفا', ty:'اسم', n:'s = ز'},
+  'Regal': {t:'رف', p:'ريغال', ty:'اسم', n:'جمعها Regale'},
+  'Wand': {t:'جدار', p:'فانت', ty:'اسم', n:'d في النهاية = t — جمعها Wände'},
+  'Boden': {t:'أرضية', p:'بودِن', ty:'اسم', n:''},
+  'Decke': {t:'سقف / لحاف', p:'ديكِه', ty:'اسم', n:'ck = ك'},
+  'Treppe': {t:'سلّم / درج', p:'تريبِه', ty:'اسم', n:'جمعها Treppen'},
+  'Aufzug': {t:'مصعد', p:'أوف تسوك', ty:'اسم', n:'z = تس'},
+  'Schlüssel': {t:'مفتاح', p:'شلوسِل', ty:'اسم', n:'sch = ش + ü'},
+// ===== الطبيعة =====
+
+  'Blume': {t:'زهرة', p:'بلومِه', ty:'اسم', n:'جمعها Blumen'},
+  'Gras': {t:'عشب', p:'غراس', ty:'اسم', n:''},
+  'Berg': {t:'جبل', p:'بيرك', ty:'اسم', n:'g في النهاية = k — جمعها Berge'},
+  'Fluss': {t:'نهر', p:'فلوس', ty:'اسم', n:'ss = س — جمعها Flüsse'},
+  'See': {t:'بحيرة', p:'زيه', ty:'اسم', n:'s = ز — ee = إي'},
+  'Meer': {t:'بحر', p:'مير', ty:'اسم', n:'ee = إي'},
+  'Strand': {t:'شاطئ', p:'شترانت', ty:'اسم', n:'st = شت'},
+  'Wald': {t:'غابة', p:'فالت', ty:'اسم', n:'d في النهاية = t — جمعها Wälder'},
+  'Feld': {t:'حقل', p:'فيلت', ty:'اسم', n:'d في النهاية = t'},
+  'Himmel': {t:'سماء', p:'هيمِل', ty:'اسم', n:''},
+  'Wolke': {t:'سحابة', p:'فولكِه', ty:'اسم', n:'جمعها Wolken'},
+  'Schnee': {t:'ثلج', p:'شني', ty:'اسم', n:'sch = ش + ee = إي'},
+  'Eis': {t:'جليد / آيس كريم', p:'آيس', ty:'اسم', n:'ei = آي'},
+  'Stern': {t:'نجمة', p:'شتيرن', ty:'اسم', n:'st = شت — جمعها Sterne'},
+// ===== الحيوانات =====
+
+  'Kuh': {t:'بقرة', p:'كو', ty:'اسم', n:'h في نهاية المقطع صامت — لا يُلفظ'},
+  'Schwein': {t:'خنزير', p:'شفاين', ty:'اسم', n:'sch = ش + ei = آي'},
+  'Schaf': {t:'خروف', p:'شاف', ty:'اسم', n:'sch = ش — جمعها Schafe'},
+  'Huhn': {t:'دجاجة', p:'هون', ty:'اسم', n:'جمعها Hühner'},
+  'Maus': {t:'فأر', p:'ماوس', ty:'اسم', n:'au = أو — جمعها Mäuse'},
+  'Schlange': {t:'ثعبان', p:'شلانغِه', ty:'اسم', n:'sch = ش'},
+  'Frosch': {t:'ضفدع', p:'فروش', ty:'اسم', n:'sch = ش'},
+  'Biene': {t:'نحلة', p:'بينِه', ty:'اسم', n:'ie = إي'},
+  'Schmetterling': {t:'فراشة', p:'شمِترلينغ', ty:'اسم', n:'sch = ش + ng = نغ'},
+  'Elefant': {t:'فيل', p:'إليفانت', ty:'اسم', n:''},
+  'Tiger': {t:'نمر', p:'تيغر', ty:'اسم', n:''},
+  'Bär': {t:'دب', p:'بير', ty:'اسم', n:'ä = إيه'},
+  'Affe': {t:'قرد', p:'أفِه', ty:'اسم', n:'جمعها Affen'},
+// ===== المهن =====
+
+  'Arzt': {t:'طبيب', p:'أرتست', ty:'اسم', n:'z = تس — المؤنث: Ärztin'},
+  'Ärztin': {t:'طبيبة', p:'إرتستين', ty:'اسم', n:'ä = إيه + z = تس'},
+  'Lehrer': {t:'معلم', p:'ليرِر', ty:'اسم', n:'المؤنث: Lehrerin'},
+  'Lehrerin': {t:'معلمة', p:'ليرِرين', ty:'اسم', n:''},
+  'Schüler': {t:'تلميذ', p:'شولِر', ty:'اسم', n:'sch = ش'},
+  'Student': {t:'طالب جامعي', p:'شتودِنت', ty:'اسم', n:'st = شت'},
+  'Ingenieur': {t:'مهندس', p:'إنجينير', ty:'اسم', n:'مستعارة من الفرنسية'},
+  'Koch': {t:'طباخ', p:'كوخ', ty:'اسم', n:'ch بعد o = خ حلقي'},
+  'Bäcker': {t:'خباز', p:'بيكِر', ty:'اسم', n:'ä = إيه + ck = ك'},
+  'Verkäufer': {t:'بائع', p:'فير كويفِر', ty:'اسم', n:'äu = أوي'},
+  'Polizist': {t:'شرطي', p:'بوليتسيست', ty:'اسم', n:'z = تس'},
+  'Feuerwehr': {t:'إطفاء الحريق', p:'فويرفير', ty:'اسم', n:'eu = أوي'},
+  'Kellner': {t:'نادل', p:'كيلنِر', ty:'اسم', n:''},
+  'Programmierer': {t:'مبرمج', p:'بروغراميرِر', ty:'اسم', n:''},
+// ===== أماكن =====
+
+  'Apotheke': {t:'صيدلية', p:'أبوتيكِه', ty:'اسم', n:''},
+  'Supermarkt': {t:'سوبرماركت', p:'زوبِر مارك', ty:'اسم', n:'s = ز'},
+  'Bäckerei': {t:'مخبز', p:'بيكِرآي', ty:'اسم', n:'ei = آي'},
+  'Restaurant': {t:'مطعم', p:'ريستوران', ty:'اسم', n:'مستعارة من الفرنسية'},
+  'Hotel': {t:'فندق', p:'هوتيل', ty:'اسم', n:''},
+  'Bahnhof': {t:'محطة قطار', p:'بانهوف', ty:'اسم', n:'Bahn = قطار + Hof = ساحة'},
+  'Flughafen': {t:'مطار', p:'فلوك هافِن', ty:'اسم', n:'Flug = طيران + Hafen = ميناء'},
+  'Rathaus': {t:'بلدية', p:'راتهاوس', ty:'اسم', n:'Rat = مجلس + Haus = بيت'},
+  'Kirche': {t:'كنيسة', p:'كيرشِه', ty:'اسم', n:''},
+  'Moschee': {t:'مسجد', p:'موشيه', ty:'اسم', n:'sch = ش'},
+  'Museum': {t:'متحف', p:'موزيوم', ty:'اسم', n:''},
+  'Bibliothek': {t:'مكتبة', p:'بيبليوتيك', ty:'اسم', n:''},
+  'Markt': {t:'سوق', p:'مارك', ty:'اسم', n:''},
+  'Stadion': {t:'ملعب', p:'شتاديون', ty:'اسم', n:'st = شت'},
+  'Schwimmbad': {t:'مسبح', p:'شفيم بات', ty:'اسم', n:'sch = ش + mm'},
+// ===== وسائل النقل =====
+
+  'Fahrrad': {t:'دراجة هوائية', p:'فارات', ty:'اسم', n:'fahren = يقود + Rad = عجلة'},
+  'Motorrad': {t:'دراجة نارية', p:'موتورات', ty:'اسم', n:'Motor + Rad'},
+  'Flugzeug': {t:'طائرة', p:'فلوك تسوك', ty:'اسم', n:'z = تس — Flug = طيران'},
+  'Schiff': {t:'سفينة', p:'شيف', ty:'اسم', n:'sch = ش'},
+  'Taxi': {t:'تاكسي', p:'تاكسي', ty:'اسم', n:''},
+  'Straßenbahn': {t:'ترام', p:'شتراسِن بان', ty:'اسم', n:'ß + st = شت'},
+// ===== أفعال شائعة =====
+
+  'arbeiten': {t:'يعمل', p:'أربايتِن', ty:'فعل', n:'ei = آي'},
+  'leben': {t:'يعيش', p:'ليبِن', ty:'فعل', n:''},
+  'schlafen': {t:'ينام', p:'شلافِن', ty:'فعل', n:'sch = ش'},
+  'aufwachen': {t:'يصحى', p:'أوف فاخِن', ty:'فعل', n:'au = أو + ch = خ'},
+  'aufstehen': {t:'يقوم / ينهض', p:'أوف شتيهِن', ty:'فعل', n:'st = شت'},
+  'anziehen': {t:'يرتدي', p:'أن تسيهِن', ty:'فعل', n:'z = تس + ie = إي'},
+  'waschen': {t:'يغسل', p:'فاشِن', ty:'فعل', n:'sch = ش'},
+  'kochen': {t:'يطبخ', p:'كوخِن', ty:'فعل', n:'ch بعد o = خ حلقي'},
+  'bezahlen': {t:'يدفع', p:'بِتسالِن', ty:'فعل', n:'z = تس'},
+  'lernen': {t:'يتعلم', p:'ليرنِن', ty:'فعل', n:''},
+  'schreiben': {t:'يكتب', p:'شرايبِن', ty:'فعل', n:'sch = ش + ei = آي'},
+  'tanzen': {t:'يرقص', p:'تانتسِن', ty:'فعل', n:'z = تس'},
+  'singen': {t:'يغني', p:'زينغِن', ty:'فعل', n:'s = ز + ng = نغ'},
+  'reisen': {t:'يسافر', p:'رايزِن', ty:'فعل', n:'ei = آي'},
+  'fliegen': {t:'يطير', p:'فليغِن', ty:'فعل', n:'ie = إي'},
+  'schwimmen': {t:'يسبح', p:'شفيمِن', ty:'فعل', n:'sch = ش'},
+  'laufen': {t:'يجري', p:'لاوفِن', ty:'فعل', n:'au = أو'},
+  'treffen': {t:'يقابل', p:'تريفِن', ty:'فعل', n:''},
+  'besuchen': {t:'يزور', p:'بِزوخِن', ty:'فعل', n:'ch بعد u = خ حلقي'},
+  'einladen': {t:'يدعو', p:'آين لادِن', ty:'فعل', n:'ei = آي'},
+  'feiern': {t:'يحتفل', p:'فايِرن', ty:'فعل', n:'ei = آي'},
+  'fragen': {t:'يسأل', p:'فراغِن', ty:'فعل', n:''},
+  'antworten': {t:'يجيب', p:'أنت فورتِن', ty:'فعل', n:''},
+  'erklären': {t:'يشرح', p:'إر كليرِن', ty:'فعل', n:'ä = إيه'},
+  'schauen': {t:'يشاهد / ينظر', p:'شاوِن', ty:'فعل', n:'sch = ش + au = أو'},
+  'suchen': {t:'يبحث', p:'زوخِن', ty:'فعل', n:'s = ز + ch = خ'},
+  'finden': {t:'يجد', p:'فيندِن', ty:'فعل', n:'d في النهاية = t'},
+  'verlieren': {t:'يخسر / يضيع', p:'فير ليرِن', ty:'فعل', n:'ie = إي'},
+  'gewinnen': {t:'يفوز / يكسب', p:'غِفينِن', ty:'فعل', n:''},
+  'helfen': {t:'يساعد', p:'هيلفِن', ty:'فعل', n:''},
+  'brauchen': {t:'يحتاج', p:'براوخِن', ty:'فعل', n:'au = أو + ch = خ'},
+  'öffnen': {t:'يفتح', p:'أوفنِن', ty:'فعل', n:'ö'},
+  'schließen': {t:'يغلق', p:'شليسِن', ty:'فعل', n:'sch = ش + ß = س'},
+  'beginnen': {t:'يبدأ', p:'بِغينِن', ty:'فعل', n:''},
+  'enden': {t:'ينتهي', p:'إندِن', ty:'فعل', n:''},
+  'warten': {t:'ينتظر', p:'فارتِن', ty:'فعل', n:''},
+  'bleiben': {t:'يبقى', p:'بلايبِن', ty:'فعل', n:'ei = آي'},
+  'werden': {t:'يصبح', p:'فيردِن', ty:'فعل', n:'فعل مساعد مهم'},
+  'können': {t:'يستطيع', p:'كونِن', ty:'فعل', n:'فعل مودال — ich kann'},
+  'müssen': {t:'يجب عليه', p:'موسِن', ty:'فعل', n:'ü — فعل مودال'},
+  'wollen': {t:'يريد', p:'فولِن', ty:'فعل', n:'فعل مودال — ich will'},
+  'sollen': {t:'يُفترض أن', p:'زولِن', ty:'فعل', n:'s = ز — فعل مودال'},
+  'dürfen': {t:'يُسمح له', p:'دورفِن', ty:'فعل', n:'ü — فعل مودال'},
+  'mögen': {t:'يحب / يعجبه', p:'موغِن', ty:'فعل', n:'فعل مودال'},
+  'möchten': {t:'يرغب في', p:'موشتِن', ty:'فعل', n:'شكل مودال لـ mögen'},
+  'nehmen': {t:'يأخذ', p:'نيمِن', ty:'فعل', n:''},
+  'geben': {t:'يعطي', p:'غيبِن', ty:'فعل', n:'g في النهاية = k'},
+  'bringen': {t:'يجلب / يحضر', p:'برينغِن', ty:'فعل', n:'ng = نغ'},
+  'holen': {t:'يجلب', p:'هولِن', ty:'فعل', n:''},
+  'stellen': {t:'يضع / يحدد', p:'شتيلِن', ty:'فعل', n:'st = شت'},
+  'legen': {t:'يضع (أفقي)', p:'ليغِن', ty:'فعل', n:''},
+  'setzen': {t:'يضع / يجلس', p:'زيتسِن', ty:'فعل', n:'s = ز + z = تس'},
+  'stehen': {t:'يقف', p:'شتيهِن', ty:'فعل', n:'st = شت'},
+  'liegen': {t:'يرقد / يقع', p:'ليغِن', ty:'فعل', n:'ie = إي'},
+  'sitzen': {t:'يجلس', p:'زيتسِن', ty:'فعل', n:'s = ز + tz = تس'},
+  'schicken': {t:'يرسل', p:'شيكِن', ty:'فعل', n:'sch = ش + ck = ك'},
+  'anrufen': {t:'يتصل هاتفياً', p:'أن روفِن', ty:'فعل', n:''},
+  'lächeln': {t:'يبتسم', p:'ليشِلن', ty:'فعل', n:'ä + ch = خ'},
+  'weinen': {t:'يبكي', p:'فاينِن', ty:'فعل', n:'ei = آي'},
+  'lachen': {t:'يضحك', p:'لاخِن', ty:'فعل', n:'ch بعد a = خ حلقي'},
+// ===== صفات شائعة =====
+
+  'klein': {t:'صغير / قصير', p:'كلاين', ty:'صفة', n:'ei = آي'},
+  'dick': {t:'سمين / سميك', p:'ديك', ty:'صفة', n:'ck = ك'},
+  'dünn': {t:'نحيف / رفيع', p:'دون', ty:'صفة', n:'ü'},
+  'jung': {t:'صغير / شاب', p:'يونغ', ty:'صفة', n:'j = ي + ng = نغ'},
+  'hässlich': {t:'قبيح', p:'هيسليخ', ty:'صفة', n:'ä + ss + -lich'},
+  'schlecht': {t:'سيئ', p:'شليخت', ty:'صفة', n:'sch = ش + ch = خ'},
+  'falsch': {t:'خاطئ / غلط', p:'فالش', ty:'صفة', n:'sch = ش'},
+  'krank': {t:'مريض', p:'كرانك', ty:'صفة', n:'عكسها gesund'},
+  'gesund': {t:'صحيح / معافى', p:'غِزونت', ty:'صفة', n:'d = t'},
+  'müde': {t:'متعب / نعسان', p:'موده', ty:'صفة', n:'ü'},
+  'glücklich': {t:'سعيد', p:'غلوكليخ', ty:'صفة', n:'ü + ck + -lich'},
+  'traurig': {t:'حزين', p:'تراوريخ', ty:'صفة', n:'au = أو + -ig'},
+  'wütend': {t:'غاضب', p:'فوتِنت', ty:'صفة', n:'ü'},
+  'hungrig': {t:'جوعان', p:'هونغريخ', ty:'صفة', n:'ng = نغ + -ig'},
+  'durstig': {t:'عطشان', p:'دورستيخ', ty:'صفة', n:'-ig'},
+  'satt': {t:'شبعان', p:'زات', ty:'صفة', n:'s = ز'},
+  'warm': {t:'دافئ', p:'فارم', ty:'صفة', n:''},
+  'heiß': {t:'حار / ساخن', p:'هايس', ty:'صفة', n:'ei = آي + ß = س'},
+  'frisch': {t:'طازج', p:'فريش', ty:'صفة', n:'sch = ش'},
+  'sauber': {t:'نظيف', p:'زاوبِر', ty:'صفة', n:'s = ز + au = أو'},
+  'schmutzig': {t:'وسخ', p:'شموتسيخ', ty:'صفة', n:'sch = ش + z = تس'},
+  'laut': {t:'صاخب / بصوت عالٍ', p:'لاوت', ty:'صفة', n:'au = أو'},
+  'leise': {t:'هادئ / بصوت خفيض', p:'لايزِه', ty:'صفة', n:'ei = آي'},
+  'hell': {t:'مضيء / فاتح', p:'هيل', ty:'صفة', n:'عكسها dunkel'},
+  'schwer': {t:'ثقيل / صعب', p:'شفير', ty:'صفة', n:'sch = ش'},
+  'leicht': {t:'خفيف / سهل', p:'لايشت', ty:'صفة', n:'ei = آي + ch = خ'},
+  'einfach': {t:'بسيط / سهل', p:'آينفاخ', ty:'صفة', n:'ei = آي + ch = خ'},
+  'schwierig': {t:'صعب', p:'شفيريخ', ty:'صفة', n:'sch = ش + -ig'},
+  'möglich': {t:'ممكن', p:'موغليخ', ty:'صفة', n:'ö + -lich'},
+  'wichtig': {t:'مهم', p:'فيختيخ', ty:'صفة', n:'ch + -ig'},
+  'bereit': {t:'مستعد', p:'بِرايت', ty:'صفة', n:'ei = آي'},
+  'nett': {t:'لطيف', p:'نيت', ty:'صفة', n:''},
+  'freundlich': {t:'ودود', p:'فرويندليخ', ty:'صفة', n:'eu = أوي + -lich'},
+  'billig': {t:'رخيص', p:'بيليخ', ty:'صفة', n:'-ig'},
+  'teuer': {t:'غالي', p:'توير', ty:'صفة', n:'eu = أوي'},
+  'voll': {t:'ممتلئ', p:'فول', ty:'صفة', n:''},
+  'leer': {t:'فارغ', p:'لير', ty:'صفة', n:'ee = إي'},
+  'offen': {t:'مفتوح', p:'أوفِن', ty:'صفة', n:''},
+  'geschlossen': {t:'مغلق', p:'غِشلوسِن', ty:'صفة', n:'sch = ش + ss'},
+  'schnell': {t:'سريع', p:'شنيل', ty:'صفة', n:'sch = ش'},
+  'langsam': {t:'بطيء', p:'لانغزام', ty:'صفة', n:'ng = نغ + s = ز'},
+  'interessant': {t:'مثير للاهتمام', p:'إنتيريسانت', ty:'صفة', n:''},
+  'langweilig': {t:'ممل', p:'لانغفايليخ', ty:'صفة', n:'ng + ei = آي + -ig'},
+// ===== ظروف وأوقات =====
+
+  'morgen': {t:'غداً / صباحاً', p:'مورغِن', ty:'ظرف', n:''},
+  'gestern': {t:'أمس', p:'غيستِرن', ty:'ظرف', n:''},
+  'übermorgen': {t:'بعد غد', p:'أوبِر مورغِن', ty:'ظرف', n:'ü'},
+  'jetzt': {t:'الآن', p:'يِتست', ty:'ظرف', n:'z = تس'},
+  'später': {t:'لاحقاً', p:'شبيتِر', ty:'ظرف', n:'ä + sp = شب'},
+  'bald': {t:'قريباً', p:'بالت', ty:'ظرف', n:'d = t'},
+  'früh': {t:'مبكراً', p:'فرو', ty:'ظرف', n:'ü'},
+  'spät': {t:'متأخراً', p:'شبيت', ty:'ظرف', n:'sp = شب + ä'},
+  'immer': {t:'دائماً', p:'إيمِر', ty:'ظرف', n:''},
+  'nie': {t:'أبداً', p:'ني', ty:'ظرف', n:'ie = إي'},
+  'manchmal': {t:'أحياناً', p:'مانشمال', ty:'ظرف', n:'sch = ش'},
+  'oft': {t:'كثيراً', p:'أوفت', ty:'ظرف', n:''},
+  'selten': {t:'نادراً', p:'زيلتِن', ty:'ظرف', n:'s = ز'},
+  'Mittag': {t:'ظهر', p:'ميتاك', ty:'اسم', n:'Guten Mittag'},
+  'Monat': {t:'شهر', p:'موناتس', ty:'اسم', n:'جمعها Monate'},
+  'Jahr': {t:'سنة', p:'يار', ty:'اسم', n:'j = ي — جمعها Jahre'},
+// ===== كلمات استفهام =====
+
+  'woher': {t:'من أين', p:'فوهير', ty:'استفهام', n:''},
+  'wohin': {t:'إلى أين', p:'فوهين', ty:'استفهام', n:''},
+  'warum': {t:'لماذا', p:'فاروم', ty:'استفهام', n:''},
+  'wieviel': {t:'كم (كمية)', p:'فيفيل', ty:'استفهام', n:'ie = إي'},
+  'welcher': {t:'أي / أيّ', p:'فيلشِر', ty:'استفهام', n:''},
+// ===== تعابير وجمل مفيدة =====
+
+  'Guten Morgen': {t:'صباح الخير', p:'غوتِن مورغِن', ty:'تعبير', n:'تحية صباحية'},
+  'Guten Abend': {t:'مساء الخير', p:'غوتِن أبِنت', ty:'تعبير', n:'تحية مسائية'},
+  'Gute Nacht': {t:'تصبح على خير', p:'غوته ناخت', ty:'تعبير', n:'عند النوم'},
+  'Auf Wiedersehen': {t:'مع السلامة', p:'أوف فيدِر زيهِن', ty:'تعبير', n:'رسمية'},
+  'Bitte': {t:'من فضلك / تفضل', p:'بيته', ty:'تعبير', n:''},
+  'Danke schön': {t:'شكراً جزيلاً', p:'دانكِه شون', ty:'تعبير', n:'sch = ش'},
+  'Bitte schön': {t:'عفواً / تفضل', p:'بيته شون', ty:'تعبير', n:'رد على شكر'},
+  'Es tut mir leid': {t:'آسف / معذرة', p:'إس توت مير لايت', ty:'تعبير', n:'ei = آي'},
+  'Wie geht es Ihnen': {t:'كيف حالك (رسمي)', p:'في غيت إس إينِن', ty:'تعبير', n:''},
+  's': {t:'كيف حالك؟', p:'في غيتس', ty:'تعبير', n:'عامية'},
+  'Gut, danke': {t:'بخير، شكراً', p:'غوت دانكِه', ty:'تعبير', n:''},
+  'Ich verstehe nicht': {t:'لا أفهم', p:'إيخ فير شتيهِه نيشت', ty:'تعبير', n:''},
+  'Sprechen Sie Englisch': {t:'هل تتكلم إنجليزي؟', p:'شبريخِن زي إنغليش', ty:'تعبير', n:'sch = ش'},
+  'Wie heißen Sie': {t:'ما اسمك؟ (رسمي)', p:'في هايسِن زي', ty:'تعبير', n:'ß = س'},
+  'Ich heiße': {t:'اسمي...', p:'إيخ هايسِه', ty:'تعبير', n:'ß = س'},
+  'Wo wohnen Sie': {t:'أين تسكن؟', p:'فو فونِن زي', ty:'تعبير', n:''},
+  'Ich komme aus': {t:'أنا من...', p:'إيخ كومِه أوس', ty:'تعبير', n:''},
+  'Wie alt sind Sie': {t:'كم عمرك؟', p:'في ألت زيند زي', ty:'تعبير', n:''},
+  'Ich bin ... Jahre alt': {t:'عمري ... سنة', p:'إيخ بين يارِه ألت', ty:'تعبير', n:''},
+  'Hilfe': {t:'نجدة / مساعدة', p:'هيلفِه', ty:'تعبير', n:''},
+  'Vorsicht': {t:'انتبه / حذار', p:'فورزيشت', ty:'تعبير', n:'sch = ش'},
+  'natürlich': {t:'بالطبع', p:'ناتورليخ', ty:'ظرف', n:'ü + -lich'},
+  'vielleicht': {t:'ربما', p:'فيلايشت', ty:'ظرف', n:'ie = إي + ei = آي'},
+  'leider': {t:'للأسف', p:'لايدِر', ty:'ظرف', n:'ei = آي'},
+  'wirklich': {t:'حقاً', p:'فيركليخ', ty:'ظرف', n:'-lich'},
+  'zusammen': {t:'معاً', p:'تسوزامِن', ty:'ظرف', n:'z = تس'},
+  'allein': {t:'وحيد', p:'أليين', ty:'صفة/ظرف', n:'ei = آي'},
+// ===== ضمائر وأدوات =====
+
+  'er': {t:'هو', p:'إير', ty:'ضمير', n:''},
+  'es': {t:'هو / هي (للجنس المحايد)', p:'إس', ty:'ضمير', n:'s = ز'},
+  'wir': {t:'نحن', p:'فير', ty:'ضمير', n:''},
+  'ihr': {t:'أنتم', p:'إير', ty:'ضمير', n:''},
+  'Sie': {t:'حضرتك (رسمي)', p:'زي', ty:'ضمير', n:'s = ز — مع حرف كبير'},
+  'der': {t:'الـ (مذكر)', p:'دير', ty:'أداة', n:'حرف التعريف المذكر'},
+  'die': {t:'الـ (مؤنث / جمع)', p:'دي', ty:'أداة', n:'ie = إي'},
+  'das': {t:'الـ (محايد)', p:'داس', ty:'أداة', n:''},
+  'ein': {t:'واحد / أحد (مذكر)', p:'آين', ty:'أداة', n:'ei = آي'},
+  'eine': {t:'واحدة (مؤنث)', p:'آينِه', ty:'أداة', n:'ei = آي'},
+// ===== حروف جر مهمة =====
+
+  'in': {t:'في / داخل', p:'إن', ty:'حرف جر', n:''},
+  'auf': {t:'على / فوق', p:'أوف', ty:'حرف جر', n:'au = أو'},
+  'unter': {t:'تحت', p:'أونتِر', ty:'حرف جر', n:''},
+  'vor': {t:'أمام / قبل', p:'فور', ty:'حرف جر', n:''},
+  'hinter': {t:'خلف', p:'هينتِر', ty:'حرف جر', n:''},
+  'neben': {t:'بجانب', p:'نيبِن', ty:'حرف جر', n:''},
+  'zwischen': {t:'بين', p:'تسفيشِن', ty:'حرف جر', n:'z = تس + sch = ش'},
+  'mit': {t:'مع', p:'ميت', ty:'حرف جر', n:''},
+  'ohne': {t:'بدون', p:'أونِه', ty:'حرف جر', n:''},
+  'für': {t:'لـ / من أجل', p:'فور', ty:'حرف جر', n:'ü'},
+  'gegen': {t:'ضد / نحو', p:'غيغِن', ty:'حرف جر', n:''},
+  'durch': {t:'عبر / خلال', p:'دورش', ty:'حرف جر', n:''},
+  'aus': {t:'من / خارج', p:'أوس', ty:'حرف جر', n:'au = أو'},
+  'nach': {t:'إلى / بعد', p:'ناخ', ty:'حرف جر', n:'ch = خ حلقي'},
+  'bei': {t:'عند / بالقرب من', p:'باي', ty:'حرف جر', n:'ei = آي'},
+  'von': {t:'من', p:'فون', ty:'حرف جر', n:'v = ف'},
+  'zu': {t:'إلى / نحو', p:'تسو', ty:'حرف جر', n:'z = تس'},
+  'seit': {t:'منذ', p:'زايت', ty:'حرف جر', n:'s = ز + ei = آي'},
+  'bis': {t:'حتى / إلى', p:'بيس', ty:'حرف جر', n:''},
+// ===== روابط =====
+
+  'oder': {t:'أو', p:'أودِر', ty:'رابط', n:''},
+  'aber': {t:'لكن', p:'أبِر', ty:'رابط', n:''},
+  'weil': {t:'لأن', p:'فايل', ty:'رابط', n:'ei = آي'},
+  'dass': {t:'أن', p:'داس', ty:'رابط', n:'ss = س'},
+  'wenn': {t:'إذا / عندما', p:'فين', ty:'رابط', n:''},
+  'obwohl': {t:'رغم أن', p:'أوب فول', ty:'رابط', n:''},
+  'deshalb': {t:'لذلك', p:'ديس هالب', ty:'رابط', n:''},
+  'trotzdem': {t:'رغم ذلك', p:'تروتس ديم', ty:'رابط', n:'z = تس'},
+  'denn': {t:'لأن / فـ', p:'دين', ty:'رابط', n:''},
+// ===== تقنية وحياة عصرية =====
+
+  'Handy': {t:'موبايل / هاتف', p:'هاندي', ty:'اسم', n:''},
+  'Computer': {t:'كمبيوتر', p:'كومبيوتِر', ty:'اسم', n:'مستعارة من الإنجليزية'},
+  'Internet': {t:'إنترنت', p:'إنتِرنيت', ty:'اسم', n:''},
+  'App': {t:'تطبيق', p:'أب', ty:'اسم', n:'مستعارة'},
+  'Passwort': {t:'كلمة مرور', p:'باسفورت', ty:'اسم', n:''},
+  'E-Mail': {t:'بريد إلكتروني', p:'إي ميل', ty:'اسم', n:''},
+  'Foto': {t:'صورة', p:'فوتو', ty:'اسم', n:''},
+  'Video': {t:'فيديو', p:'فيديو', ty:'اسم', n:'v = ف'},
+  'Musik': {t:'موسيقى', p:'موزيك', ty:'اسم', n:'s = ز'},
+  'Kamera': {t:'كاميرا', p:'كاميرا', ty:'اسم', n:''},
+  'Fernseher': {t:'تلفزيون', p:'فيرنزيهِر', ty:'اسم', n:'Fern = بعيد + sehen = يرى'},
+  'Radio': {t:'راديو', p:'راديو', ty:'اسم', n:''},
+// ===== كلمات من حصص A1.1 - أبريل/مايو 2025 =====
+
+  'Deutschland': {t:'ألمانيا', p:'دويتشلانت', ty:'اسم', n:'Deutsch + Land (بلد)'},
+  'Symptom': {t:'عَرَض / أعراض', p:'زيمتوم', ty:'اسم', n:'s = ز في البداية — y = مقطع قصير'},
+  'Spaß': {t:'متعة / مرح', p:'شباس', ty:'اسم', n:'sp = شب + ß = س — Viel Spaß! = تسلّى!'},
+  'Spass': {t:'متعة / مرح', p:'شباس', ty:'اسم', n:'كتابة بديلة لـ Spaß بدون ß'},
+  'Bücher': {t:'كتب (جمع)', p:'بوشِر', ty:'اسم', n:'ch بعد ü = خ ناعم — جمع Buch'},
+  'Gott': {t:'إله', p:'غوت', ty:'اسم', n:'tt = ت مشددة — لا تخلط مع gut'},
+  'reden': {t:'يتكلم / يتحدث', p:'ريدِن', ty:'فعل', n:'مرادف لـ sprechen لكن أكثر عامية'},
+// ===== كلمات من ورقة د. بلال الشريف =====
+
+  'Käfer': {t:'خنفساء', p:'كيفِر', ty:'اسم', n:'ä = إيه + ch = خ ناعم'},
+  'Bäume': {t:'أشجار', p:'بويمِه', ty:'اسم', n:'äu = أوي — مفردها Baum'},
+  'Frieden': {t:'سلام', p:'فريدِن', ty:'اسم', n:'ie = إي'},
+  'Theorie': {t:'نظرية', p:'تيوريه', ty:'اسم', n:'th = ت دائماً في الألمانية'},
+  'theorie': {t:'نظرية', p:'تيوريه', ty:'اسم', n:'th = ت دائماً في الألمانية'},
+  'Blitz': {t:'برق', p:'بليتس', ty:'اسم', n:'tz = تس دائماً'},
+  'Position': {t:'موقع / موضع', p:'بوزيتسيون', ty:'اسم', n:'-tion = تسيون — t في -tion دائماً تُلفظ'},
+  'Spiegel': {t:'مرآة', p:'شبيغِل', ty:'اسم', n:'sp = شب في البداية + ie = إي'},
+  'Stufe': {t:'مستوى / درجة', p:'شتوفِه', ty:'اسم', n:'st = شت في البداية'},
+  'Christ': {t:'مسيح / مسيحي', p:'كريست', ty:'اسم', n:'ch في كلمات أجنبية = ك'},
+  'Fahrer': {t:'سائق', p:'فارِر', ty:'اسم', n:'r في نهاية المقطع = يندمج مع e → صوت /ɐ/'},
+  'Ich liebe dich': {t:'أحبك', p:'إيخ ليبِه ديخ', ty:'تعبير', n:'ich = إيخ + dich = ديخ (ch = خ ناعم)'},
+  'ich liebe dich': {t:'أحبك', p:'إيخ ليبِه ديخ', ty:'تعبير', n:'أشهر جملة! ich + dich الـ ch = خ ناعم'},
+  'besser': {t:'أفضل', p:'بيسِر', ty:'صفة', n:'ss بين حرفين = س مشددة'},
+  'Possessiv': {t:'ضمير ملكية', p:'بوسيسيف', ty:'اسم', n:'ss بين حرفين = س — v في النهاية = ف'},
+  'Syrien': {t:'سوريا', p:'زو·ري·ين', ty:'اسم', n:'3 مقاطع: Sy·ri·en — S = ز'},
+  'Ferien': {t:'عطلة (مدرسية)', p:'فِ·ري·ين', ty:'اسم', n:'3 مقاطع: Fe·ri·en'},
+  'Sechs': {t:'ستة', p:'زيكس', ty:'عدد', n:'chs = كس مثل حرف x — s = ز في البداية'},
+};;
 
 
 // ======= GERMAN PHONETIC CONVERTER =======
