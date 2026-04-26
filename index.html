@@ -356,25 +356,27 @@
   .next-btn:hover { background: #e0b530; }
   .quiz-type-btns {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 16px;
     flex-wrap: wrap;
   }
   .quiz-type-btn {
-    flex: 1;
-    min-width: 120px;
-    padding: 10px;
+    flex: 1 1 calc(33% - 6px);
+    min-width: 100px;
+    padding: 9px 8px;
     border: 1.5px solid var(--border);
     border-radius: 10px;
     background: var(--surface);
     color: var(--text2);
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 600;
     font-family: 'Tajawal', sans-serif;
     text-align: center;
     transition: all 0.2s;
   }
-  .quiz-type-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.06); }
+  .quiz-type-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .quiz-type-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.06); transform: translateY(-1px); }
   .quiz-results {
     text-align: center;
     padding: 30px 20px;
@@ -491,6 +493,47 @@
   }
 
   /* PHONETICS SECTION */
+
+  /* Sub-tabs for phonetics */
+  .sub-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    scrollbar-width: thin;
+    border-bottom: 1px solid var(--border);
+  }
+  .sub-tabs::-webkit-scrollbar { height: 4px; }
+  .sub-tab {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border-radius: 10px 10px 0 0;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-bottom: none;
+    color: var(--text2);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .sub-tab:hover { color: var(--accent); border-color: var(--accent); }
+  .sub-tab.active {
+    background: var(--bg);
+    color: var(--accent);
+    border-color: var(--accent);
+    border-bottom: 2px solid var(--bg);
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .sub-section { display: none; }
+  .sub-section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
   .facts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1093,9 +1136,15 @@
 <!-- QUIZ TAB -->
 <div id="sec-quiz" class="section">
   <div class="quiz-type-btns">
-    <div class="quiz-type-btn active" onclick="setQuizType('sound', this)">🔤 ما اسم الحرف؟</div>
-    <div class="quiz-type-btn" onclick="setQuizType('letter', this)">🔊 أي حرف هذا الصوت؟</div>
-    <div class="quiz-type-btn" onclick="setQuizType('word', this)">📖 ما معنى الكلمة؟</div>
+    <div class="quiz-type-btn active" onclick="setQuizType('sound', this)">🔤 اسم الحرف</div>
+    <div class="quiz-type-btn" onclick="setQuizType('letter', this)">🔊 الصوت ↔ الحرف</div>
+    <div class="quiz-type-btn" onclick="setQuizType('word', this)">📖 معنى الكلمة</div>
+    <div class="quiz-type-btn" onclick="setQuizType('vokal', this)">🟡 Vokal/Konsonant</div>
+    <div class="quiz-type-btn" onclick="setQuizType('voiced', this)">🔴 جهر/همس</div>
+    <div class="quiz-type-btn" onclick="setQuizType('auslaut', this)">⚡ تصلّب النهاية</div>
+    <div class="quiz-type-btn" onclick="setQuizType('silbe', this)">🔡 المقاطع</div>
+    <div class="quiz-type-btn" onclick="setQuizType('rule', this)">📐 قواعد النطق</div>
+    <div class="quiz-type-btn" onclick="setQuizType('mixed', this)" style="border-color:var(--accent2);color:var(--accent2);">🎲 شامل (مختلط)</div>
   </div>
 
   <div class="quiz-header">
@@ -1135,6 +1184,17 @@
 <!-- PHONETICS TAB -->
 <div id="sec-phonetics" class="section">
 
+  <!-- Sub-tabs navigation -->
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchSubTab('overview', this)">🏠 نظرة عامة</button>
+    <button class="sub-tab" onclick="switchSubTab('table', this)">📋 الجدول الشامل</button>
+    <button class="sub-tab" onclick="switchSubTab('auslaut', this)">⚡ تصلّب النهاية</button>
+    <button class="sub-tab" onclick="switchSubTab('silbe', this)">🔡 المقاطع</button>
+    <button class="sub-tab" onclick="switchSubTab('rules', this)">📐 قواعد تفاعلية</button>
+  </div>
+
+  <!-- OVERVIEW SUB-SECTION -->
+  <div class="sub-section active" id="sub-overview">
   <div class="section-title">📋 معلومات أساسية — Das deutsche Alphabet hat</div>
   <div class="facts-grid">
     <div class="fact-card">
@@ -1264,6 +1324,84 @@
     💡 هالمعلومات من كتاب مقدمة في أصوات اللغة الألمانية — Die Vokale und Konsonanten
   </div>
 
+
+  <!-- جدول الحروف الصحيحة من د. بلال -->
+  <div class="section-title" style="margin-top:20px;">📊 جدول الحروف الصحيحة — مخارج الأصوات</div>
+  <div class="special-note" style="color:var(--text);">من كتاب د. بلال الشريف — اضغط على أي حرف لتسمعه 🔊</div>
+
+  <div style="overflow-x:auto;margin-bottom:16px;">
+  <table style="width:100%;border-collapse:collapse;font-size:0.78rem;direction:rtl;">
+    <thead>
+      <tr style="background:var(--surface2);color:var(--text2);">
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">#</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الحرف</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">مثال</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">المعنى</th>
+        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">اللفظ</th>
+      </tr>
+    </thead>
+    <tbody id="consonants-table-body"></tbody>
+  </table>
+  </div>
+
+  <script>
+  const consonantsData = [
+    {n:1,  ch:'p',          ex:'Papier',   mean:'ورق',      pron:'بابير',       stimm:'مهموس', color:'#E74C3C'},
+    {n:2,  ch:'b',          ex:'Band',     mean:'شريط',     pron:'بانت',        stimm:'مجهور', color:'#2ECC71'},
+    {n:3,  ch:'f',          ex:'Fenster',  mean:'شباك',     pron:'فينستِر',     stimm:'مهموس', color:'#E74C3C'},
+    {n:4,  ch:'v / w',      ex:'Wasser',   mean:'ماء',      pron:'فاسِر',       stimm:'مجهور', color:'#2ECC71'},
+    {n:5,  ch:'s',          ex:'Bus',      mean:'باص',      pron:'بوس',         stimm:'مهموس', color:'#E74C3C'},
+    {n:6,  ch:'s → ز',      ex:'Sohn',     mean:'ابن',      pron:'زون',         stimm:'مجهور', color:'#2ECC71'},
+    {n:7,  ch:'t',          ex:'Auto',     mean:'سيارة',    pron:'أوتو',        stimm:'مهموس', color:'#E74C3C'},
+    {n:8,  ch:'d',          ex:'du',       mean:'أنت',      pron:'دو',          stimm:'مجهور', color:'#2ECC71'},
+    {n:9,  ch:'k',          ex:'Kind',     mean:'طفل',      pron:'كينت',        stimm:'مهموس', color:'#E74C3C'},
+    {n:10, ch:'g',          ex:'gut',      mean:'جيد',      pron:'غوت',         stimm:'مجهور', color:'#2ECC71'},
+    {n:11, ch:'j (fr.)',    ex:'Garage',   mean:'مرآب',     pron:'غاراجِه',     stimm:'مجهور', color:'#2ECC71'},
+    {n:12, ch:'sch',        ex:'Schule',   mean:'مدرسة',    pron:'شولِه',       stimm:'مهموس', color:'#E74C3C'},
+    {n:13, ch:'ch (ناعم)',  ex:'König',    mean:'ملك',      pron:'كونيخ',       stimm:'مهموس', color:'#E74C3C'},
+    {n:14, ch:'همزة وصل',  ex:'beachten', mean:'يلاحظ',    pron:'بِآختِن',     stimm:'مهموس', color:'#E74C3C'},
+    {n:15, ch:'h',          ex:'Hand',     mean:'يد',       pron:'هانت',        stimm:'مهموس', color:'#E74C3C'},
+    {n:16, ch:'n',          ex:'nein',     mean:'لا',       pron:'ناين',        stimm:'مجهور', color:'#2ECC71'},
+    {n:17, ch:'m',          ex:'Mutter',   mean:'أم',       pron:'موتِر',       stimm:'مجهور', color:'#2ECC71'},
+    {n:18, ch:'ng',         ex:'lang',     mean:'طويل',     pron:'لانغ',        stimm:'مجهور', color:'#2ECC71'},
+    {n:19, ch:'l',          ex:'Lärm',     mean:'ضجيج',     pron:'ليرم',        stimm:'مجهور', color:'#2ECC71'},
+    {n:20, ch:'j',          ex:'ja',       mean:'نعم',      pron:'يا',          stimm:'مجهور', color:'#2ECC71'},
+    {n:21, ch:'ch (حلقي)',  ex:'Buch',     mean:'كتاب',     pron:'بوخ',         stimm:'مهموس', color:'#E74C3C'},
+    {n:22, ch:'r',          ex:'rot',      mean:'أحمر',     pron:'روت',         stimm:'مجهور', color:'#2ECC71'},
+  ];
+  // Expose globally for quiz
+  window.consonantsData = consonantsData;
+  (function buildTable() {
+    const tbody = document.getElementById('consonants-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = consonantsData.map(row => `
+      <tr style="cursor:pointer;transition:background 0.15s;"
+          onclick="speak('${row.ex}')"
+          onmouseover="this.style.background='rgba(245,200,66,0.06)'"
+          onmouseout="this.style.background=''">
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);text-align:center;">${row.n}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <strong style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);">${row.ch}</strong>
+        </td>
+        <td style="padding:7px 10px;border:1px solid var(--border);font-weight:700;color:var(--accent2);">${row.ex}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);">${row.mean}</td>
+        <td style="padding:7px 10px;border:1px solid var(--border);">
+          <span style="color:var(--text);font-weight:600;">${row.pron}</span>
+          <span style="font-size:0.68rem;margin-right:6px;padding:1px 6px;border-radius:4px;
+            background:${row.color==='#2ECC71'?'rgba(46,204,113,0.12)':'rgba(231,76,60,0.12)'};
+            color:${row.color};">${row.stimm}</span>
+        </td>
+      </tr>
+    `).join('');
+  })();
+  </script>
+
+  <!-- PRONUNCIATION RULES -->
+
+  </div>
+
+  <!-- TABLE SUB-SECTION -->
+  <div class="sub-section" id="sub-table">
   <!-- جدول قواعد النطق الكامل من د. بلال (26 قاعدة) -->
   <div class="section-title" style="margin-top:20px;">📋 جدول قواعد النطق الشامل — 26 قاعدة</div>
   <div class="special-note" style="color:var(--text);">المرجع الكامل من كتاب د. بلال الشريف — اضغط على أي مثال لتسمعه 🔊</div>
@@ -1325,6 +1463,9 @@
     'ch':    'rgba(139,92,246,0.08)',   // بنفسجي لقواعد ch
   };
 
+  // Expose for quiz access
+  window.fullPronTable = fullPronTable;
+
   (function buildFullPronTable() {
     const tbody = document.getElementById('full-pron-table-body');
     if (!tbody) return;
@@ -1361,6 +1502,12 @@
     <div style="background:rgba(255,107,107,0.05);border:1px solid var(--border);padding:4px 10px;border-radius:6px;">🔴 نهاية الكلمة</div>
   </div>
 
+  <!-- Auslautverhärtung — ملخص بصري -->
+
+  </div>
+
+  <!-- AUSLAUT SUB-SECTION -->
+  <div class="sub-section" id="sub-auslaut">
   <!-- Auslautverhärtung — ملخص بصري -->
   <div class="section-title" style="margin-top:20px;">⚡ Auslautverhärtung — تصلّب الأصوات في النهاية</div>
   <div class="special-note" style="color:var(--text);">الأصوات المجهورة تصبح مهموسة في نهاية المقطع الصوتي — قاعدة شاملة لـ 4 أصوات</div>
@@ -1411,6 +1558,12 @@
     </div>
   </div>
 
+  <!-- Silbentrennung — تقسيم المقاطع -->
+
+  </div>
+
+  <!-- SILBE SUB-SECTION -->
+  <div class="sub-section" id="sub-silbe">
   <!-- Silbentrennung — تقسيم المقاطع -->
   <div class="section-title" style="margin-top:20px;">🔡 Silbentrennung — تقسيم المقاطع الصوتية</div>
   <div class="special-note" style="color:var(--text);">كل كلمة ألمانية تتكون من مقاطع صوتية (Silben) — مهم لتعلم النطق الصحيح</div>
@@ -1481,74 +1634,11 @@
   </div>
 
   <!-- جدول الحروف الصحيحة من د. بلال -->
-  <div class="section-title" style="margin-top:20px;">📊 جدول الحروف الصحيحة — مخارج الأصوات</div>
-  <div class="special-note" style="color:var(--text);">من كتاب د. بلال الشريف — اضغط على أي حرف لتسمعه 🔊</div>
 
-  <div style="overflow-x:auto;margin-bottom:16px;">
-  <table style="width:100%;border-collapse:collapse;font-size:0.78rem;direction:rtl;">
-    <thead>
-      <tr style="background:var(--surface2);color:var(--text2);">
-        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">#</th>
-        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الحرف</th>
-        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">مثال</th>
-        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">المعنى</th>
-        <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">اللفظ</th>
-      </tr>
-    </thead>
-    <tbody id="consonants-table-body"></tbody>
-  </table>
   </div>
 
-  <script>
-  const consonantsData = [
-    {n:1,  ch:'p',          ex:'Papier',   mean:'ورق',      pron:'بابير',       stimm:'مهموس', color:'#E74C3C'},
-    {n:2,  ch:'b',          ex:'Band',     mean:'شريط',     pron:'بانت',        stimm:'مجهور', color:'#2ECC71'},
-    {n:3,  ch:'f',          ex:'Fenster',  mean:'شباك',     pron:'فينستِر',     stimm:'مهموس', color:'#E74C3C'},
-    {n:4,  ch:'v / w',      ex:'Wasser',   mean:'ماء',      pron:'فاسِر',       stimm:'مجهور', color:'#2ECC71'},
-    {n:5,  ch:'s',          ex:'Bus',      mean:'باص',      pron:'بوس',         stimm:'مهموس', color:'#E74C3C'},
-    {n:6,  ch:'s → ز',      ex:'Sohn',     mean:'ابن',      pron:'زون',         stimm:'مجهور', color:'#2ECC71'},
-    {n:7,  ch:'t',          ex:'Auto',     mean:'سيارة',    pron:'أوتو',        stimm:'مهموس', color:'#E74C3C'},
-    {n:8,  ch:'d',          ex:'du',       mean:'أنت',      pron:'دو',          stimm:'مجهور', color:'#2ECC71'},
-    {n:9,  ch:'k',          ex:'Kind',     mean:'طفل',      pron:'كينت',        stimm:'مهموس', color:'#E74C3C'},
-    {n:10, ch:'g',          ex:'gut',      mean:'جيد',      pron:'غوت',         stimm:'مجهور', color:'#2ECC71'},
-    {n:11, ch:'j (fr.)',    ex:'Garage',   mean:'مرآب',     pron:'غاراجِه',     stimm:'مجهور', color:'#2ECC71'},
-    {n:12, ch:'sch',        ex:'Schule',   mean:'مدرسة',    pron:'شولِه',       stimm:'مهموس', color:'#E74C3C'},
-    {n:13, ch:'ch (ناعم)',  ex:'König',    mean:'ملك',      pron:'كونيخ',       stimm:'مهموس', color:'#E74C3C'},
-    {n:14, ch:'همزة وصل',  ex:'beachten', mean:'يلاحظ',    pron:'بِآختِن',     stimm:'مهموس', color:'#E74C3C'},
-    {n:15, ch:'h',          ex:'Hand',     mean:'يد',       pron:'هانت',        stimm:'مهموس', color:'#E74C3C'},
-    {n:16, ch:'n',          ex:'nein',     mean:'لا',       pron:'ناين',        stimm:'مجهور', color:'#2ECC71'},
-    {n:17, ch:'m',          ex:'Mutter',   mean:'أم',       pron:'موتِر',       stimm:'مجهور', color:'#2ECC71'},
-    {n:18, ch:'ng',         ex:'lang',     mean:'طويل',     pron:'لانغ',        stimm:'مجهور', color:'#2ECC71'},
-    {n:19, ch:'l',          ex:'Lärm',     mean:'ضجيج',     pron:'ليرم',        stimm:'مجهور', color:'#2ECC71'},
-    {n:20, ch:'j',          ex:'ja',       mean:'نعم',      pron:'يا',          stimm:'مجهور', color:'#2ECC71'},
-    {n:21, ch:'ch (حلقي)',  ex:'Buch',     mean:'كتاب',     pron:'بوخ',         stimm:'مهموس', color:'#E74C3C'},
-    {n:22, ch:'r',          ex:'rot',      mean:'أحمر',     pron:'روت',         stimm:'مجهور', color:'#2ECC71'},
-  ];
-  (function buildTable() {
-    const tbody = document.getElementById('consonants-table-body');
-    if (!tbody) return;
-    tbody.innerHTML = consonantsData.map(row => `
-      <tr style="cursor:pointer;transition:background 0.15s;"
-          onclick="speak('${row.ex}')"
-          onmouseover="this.style.background='rgba(245,200,66,0.06)'"
-          onmouseout="this.style.background=''">
-        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);text-align:center;">${row.n}</td>
-        <td style="padding:7px 10px;border:1px solid var(--border);">
-          <strong style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);">${row.ch}</strong>
-        </td>
-        <td style="padding:7px 10px;border:1px solid var(--border);font-weight:700;color:var(--accent2);">${row.ex}</td>
-        <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);">${row.mean}</td>
-        <td style="padding:7px 10px;border:1px solid var(--border);">
-          <span style="color:var(--text);font-weight:600;">${row.pron}</span>
-          <span style="font-size:0.68rem;margin-right:6px;padding:1px 6px;border-radius:4px;
-            background:${row.color==='#2ECC71'?'rgba(46,204,113,0.12)':'rgba(231,76,60,0.12)'};
-            color:${row.color};">${row.stimm}</span>
-        </td>
-      </tr>
-    `).join('');
-  })();
-  </script>
-
+  <!-- RULES SUB-SECTION -->
+  <div class="sub-section" id="sub-rules">
   <!-- PRONUNCIATION RULES -->
   <div class="section-title" style="margin-top:20px;">📐 قواعد النطق — Ausspracheregeln</div>
   <div class="special-note" style="color:var(--text);">اضغط على أي قاعدة لتشوف التفاصيل والأمثلة 🔊</div>
@@ -1566,6 +1656,9 @@
   </div>
 
   <div id="rules-container"></div>
+
+  </div>
+
 </div>
 
 <!-- VOCAB + TRANSLATOR TAB -->
@@ -2133,6 +2226,38 @@ let qIndex = 0;
 let qScore = 0;
 let answered = false;
 
+// ===== Quiz data sets =====
+const vokaleSet = ['a','e','i','o','u','ä','ö','ü','A','E','I','O','U','Ä','Ö','Ü'];
+const konsonantSet = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z','ß'];
+
+// المقاطع الصوتية - مرجع
+const silbenData = [
+  {word:'Buch', count:1, parts:'Buch'},
+  {word:'Tag', count:1, parts:'Tag'},
+  {word:'Hund', count:1, parts:'Hund'},
+  {word:'Schule', count:2, parts:'Schu·le'},
+  {word:'Mutter', count:2, parts:'Mut·ter'},
+  {word:'Wasser', count:2, parts:'Was·ser'},
+  {word:'Vater', count:2, parts:'Va·ter'},
+  {word:'lesen', count:2, parts:'le·sen'},
+  {word:'Syrien', count:3, parts:'Sy·ri·en'},
+  {word:'Ferien', count:3, parts:'Fe·ri·en'},
+  {word:'Theorie', count:3, parts:'The·o·rie'},
+  {word:'Entschuldigung', count:4, parts:'Ent·schul·di·gung'},
+  {word:'Familie', count:4, parts:'Fa·mi·li·e'},
+];
+
+// قواعد التصلّب
+const auslautData = [
+  {sound:'d', becomes:'t', word:'Hund', pron:'هونت'},
+  {sound:'b', becomes:'p', word:'halb', pron:'هالپ'},
+  {sound:'g', becomes:'k', word:'Tag',  pron:'تاك'},
+  {sound:'v', becomes:'f', word:'aktiv',pron:'أكتيف'},
+  {sound:'d', becomes:'t', word:'Bild', pron:'بيلت'},
+  {sound:'b', becomes:'p', word:'gelb', pron:'غيلپ'},
+  {sound:'g', becomes:'k', word:'Berg', pron:'بيرك'},
+];
+
 function setQuizType(type, btn) {
   quizType = type;
   document.querySelectorAll('.quiz-type-btn').forEach(b => b.classList.remove('active'));
@@ -2151,9 +2276,181 @@ function startQuiz() {
   showQuestion();
 }
 
+// ===== Question generators =====
+// كل دالة بترجع { type, display, question, hint, correct, options, speakWord }
+function pickRandom(arr, n) {
+  return [...arr].sort(() => Math.random() - 0.5).slice(0, n);
+}
+
+function genSoundQ() {
+  const q = pickRandom(allLetters, 1)[0];
+  const wrongs = pickRandom(allLetters.filter(x => x.l !== q.l), 3).map(x => x.sound);
+  return {
+    type:'sound',
+    display: q.l,
+    displayBig: true,
+    question: 'ما اسم هذا الحرف؟',
+    hint: 'اختر النطق الصحيح',
+    correct: q.sound,
+    options: [q.sound, ...wrongs].sort(() => Math.random() - 0.5),
+    speakWord: q.speak || q.l,
+  };
+}
+
+function genLetterQ() {
+  const q = pickRandom(allLetters, 1)[0];
+  const wrongs = pickRandom(allLetters.filter(x => x.l !== q.l), 3).map(x => x.l);
+  return {
+    type:'letter',
+    display: '?',
+    displayBig: true,
+    question: `أي حرف يُنطق: "${q.sound}" ؟`,
+    hint: 'اختر الحرف الصحيح',
+    correct: q.l,
+    options: [q.l, ...wrongs].sort(() => Math.random() - 0.5),
+    speakWord: q.speak || q.l,
+  };
+}
+
+function genWordQ() {
+  const valid = allLetters.filter(x => x.examples && x.examples.length > 0);
+  const q = pickRandom(valid, 1)[0];
+  const ex = q.examples[0];
+  const wrongs = pickRandom(
+    valid.filter(x => x.l !== q.l).map(x => x.examples[0].mean),
+    3
+  );
+  return {
+    type:'word',
+    display: ex.word,
+    displayBig: false,
+    question: `ما معنى كلمة: "${ex.word}" ؟`,
+    hint: 'اختر الترجمة الصحيحة',
+    correct: ex.mean,
+    options: [ex.mean, ...wrongs].sort(() => Math.random() - 0.5),
+    speakWord: ex.word,
+  };
+}
+
+function genVokalQ() {
+  // اختر حرف واسأل: Vokal أم Konsonant؟
+  const useVokal = Math.random() > 0.5;
+  const pool = useVokal ? vokaleSet : konsonantSet;
+  const letter = pool[Math.floor(Math.random() * pool.length)];
+  const isVokal = vokaleSet.includes(letter);
+  return {
+    type:'vokal',
+    display: letter,
+    displayBig: true,
+    question: `هل الحرف "${letter}" حرف صوتي أم صحيح؟`,
+    hint: 'Vokale = صوتية (a,e,i,o,u,ä,ö,ü) — Konsonanten = صحيحة',
+    correct: isVokal ? 'Vokal — حرف صوتي' : 'Konsonant — حرف صحيح',
+    options: ['Vokal — حرف صوتي', 'Konsonant — حرف صحيح'].sort(() => Math.random() - 0.5),
+    speakWord: letter,
+  };
+}
+
+function genVoicedQ() {
+  // اختر حرف من consonantsData واسأل: مجهور أم مهموس؟
+  const data = window.consonantsData || [];
+  if (data.length === 0) return genSoundQ();
+  const row = data[Math.floor(Math.random() * data.length)];
+  return {
+    type:'voiced',
+    display: row.ex,
+    displayBig: false,
+    question: `الحرف "${row.ch}" في كلمة "${row.ex}" — مجهور أم مهموس؟`,
+    hint: 'مجهور 🟢 = الحبال الصوتية تهتز • مهموس 🔴 = لا تهتز',
+    correct: row.stimm === 'مجهور' ? 'مجهور 🟢' : 'مهموس 🔴',
+    options: ['مجهور 🟢', 'مهموس 🔴'].sort(() => Math.random() - 0.5),
+    speakWord: row.ex,
+  };
+}
+
+function genAuslautQ() {
+  const row = auslautData[Math.floor(Math.random() * auslautData.length)];
+  const allTransforms = ['t','p','k','f'];
+  const wrongs = allTransforms.filter(x => x !== row.becomes);
+  return {
+    type:'auslaut',
+    display: row.word,
+    displayBig: false,
+    question: `كيف تُنطق "${row.sound}" في نهاية كلمة "${row.word}"؟`,
+    hint: 'الأصوات المجهورة تصبح مهموسة في نهاية الكلمة (Auslautverhärtung)',
+    correct: row.becomes,
+    options: [row.becomes, ...wrongs].sort(() => Math.random() - 0.5),
+    speakWord: row.word,
+  };
+}
+
+function genSilbeQ() {
+  const row = silbenData[Math.floor(Math.random() * silbenData.length)];
+  // generate 4 option counts around correct
+  const counts = new Set([row.count]);
+  while (counts.size < 4) {
+    const n = Math.max(1, row.count + Math.floor(Math.random() * 5) - 2);
+    counts.add(n);
+  }
+  const opts = [...counts].sort((a,b) => a-b).map(n => `${n} ${n===1?'مقطع':'مقاطع'}`);
+  return {
+    type:'silbe',
+    display: row.word,
+    displayBig: false,
+    question: `كم مقطعاً صوتياً (Silbe) في كلمة "${row.word}"؟`,
+    hint: `تذكير: المقاطع تُقسم بالنقاط — مثال: ${row.parts}`,
+    correct: `${row.count} ${row.count===1?'مقطع':'مقاطع'}`,
+    options: opts,
+    speakWord: row.word,
+  };
+}
+
+function genRuleQ() {
+  // استخدم fullPronTable
+  const data = window.fullPronTable || [];
+  if (data.length === 0) return genSoundQ();
+  const row = data[Math.floor(Math.random() * data.length)];
+  const wrongs = pickRandom(
+    data.filter(x => x.sound !== row.sound).map(x => x.sound),
+    3
+  );
+  return {
+    type:'rule',
+    display: row.rule,
+    displayBig: true,
+    question: `كيف تُلفظ القاعدة "${row.rule}" في الألمانية؟`,
+    hint: row.ex ? `مثال: ${row.ex} = ${row.pron} (${row.tr})` : 'اختر اللفظ الصحيح',
+    correct: row.sound,
+    options: [row.sound, ...wrongs].sort(() => Math.random() - 0.5),
+    speakWord: row.ex.split(/[\/،]/)[0].trim(),
+  };
+}
+
+const generators = {
+  sound:   genSoundQ,
+  letter:  genLetterQ,
+  word:    genWordQ,
+  vokal:   genVokalQ,
+  voiced:  genVoicedQ,
+  auslaut: genAuslautQ,
+  silbe:   genSilbeQ,
+  rule:    genRuleQ,
+};
+
 function buildQuestions() {
-  const shuffled = [...allLetters].sort(() => Math.random() - 0.5).slice(0, 10);
-  quizQuestions = shuffled;
+  quizQuestions = [];
+  if (quizType === 'mixed') {
+    // 10 أسئلة من أنواع مختلفة
+    const types = Object.keys(generators);
+    for (let i = 0; i < 10; i++) {
+      const t = types[Math.floor(Math.random() * types.length)];
+      try { quizQuestions.push(generators[t]()); } catch(e){ i--; }
+    }
+  } else {
+    const gen = generators[quizType] || genSoundQ;
+    for (let i = 0; i < 10; i++) {
+      try { quizQuestions.push(gen()); } catch(e){ i--; }
+    }
+  }
 }
 
 function showQuestion() {
@@ -2162,57 +2459,37 @@ function showQuestion() {
   document.getElementById('next-btn').classList.remove('show');
 
   const q = quizQuestions[qIndex];
+  if (!q) { showResults(); return; }
+
   document.getElementById('q-counter').textContent = `${qIndex+1} / 10`;
   document.getElementById('q-score').textContent = qScore;
 
-  let displayLetter = q.l;
-  let question = '';
-  let hint = '';
-  let correctAnswer = '';
-  let wrongPool = [];
+  const letterEl = document.getElementById('q-letter');
+  letterEl.textContent = q.display;
+  // Adjust font size based on display type
+  letterEl.style.fontSize = q.displayBig ? '80px' : '40px';
 
-  if (quizType === 'sound') {
-    question = 'ما اسم هذا الحرف؟';
-    displayLetter = q.l;
-    correctAnswer = q.sound;
-    hint = 'اختر النطق الصحيح';
-    wrongPool = allLetters.filter(x => x.l !== q.l).map(x => x.sound);
-  } else if (quizType === 'letter') {
-    question = `أي حرف يُنطق: "${q.sound}" ؟`;
-    displayLetter = '?';
-    correctAnswer = q.l;
-    hint = 'اختر الحرف الصحيح';
-    wrongPool = allLetters.filter(x => x.l !== q.l).map(x => x.l);
-  } else {
-    if (!q.examples || q.examples.length === 0) {
-      nextQuestion(); return;
-    }
-    const ex = q.examples[0];
-    question = `ما معنى كلمة: "${ex.word}" ؟`;
-    displayLetter = ex.word;
-    correctAnswer = ex.mean;
-    hint = 'اختر الترجمة الصحيحة';
-    wrongPool = allLetters.filter(x => x.l !== q.l && x.examples && x.examples.length > 0).map(x => x.examples[0].mean);
-  }
-
-  document.getElementById('q-question').textContent = question;
-  document.getElementById('q-letter').textContent = displayLetter;
-  document.getElementById('q-hint').textContent = hint;
-
-  const wrongs = wrongPool.sort(() => Math.random() - 0.5).slice(0, 3);
-  const opts = [correctAnswer, ...wrongs].sort(() => Math.random() - 0.5);
+  document.getElementById('q-question').textContent = q.question;
+  document.getElementById('q-hint').textContent = q.hint;
 
   const container = document.getElementById('q-options');
   container.innerHTML = '';
-  opts.forEach(opt => {
+  // Use 1 column if any option is long
+  const longOpt = q.options.some(o => o.length > 18);
+  container.style.gridTemplateColumns = longOpt ? '1fr' : '1fr 1fr';
+
+  q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'quiz-opt';
     btn.textContent = opt;
-    btn.onclick = () => checkAnswer(opt, correctAnswer, btn);
+    btn.onclick = () => checkAnswer(opt, q.correct, btn);
     container.appendChild(btn);
   });
 
-  if (deVoice && quizType !== 'word') speak(q.speak || q.l);
+  // Speak only for letter/word/voiced/auslaut/silbe/rule, not for vokal text questions
+  if (deVoice && q.speakWord && !['word','vokal'].includes(q.type)) {
+    speak(q.speakWord);
+  }
 }
 
 function checkAnswer(chosen, correct, btn) {
@@ -2338,6 +2615,21 @@ function switchTab(name, clickedTab) {
   if (name === 'saved') { renderSaved(); updateProgress(); }
   if (name === 'phonetics') {
     // Re-render rules when tab is opened (ensures DOM element exists)
+    setTimeout(() => renderRules(currentRuleFilter || 'all'), 50);
+  }
+}
+
+// Sub-tabs for phonetics page
+function switchSubTab(name, clickedTab) {
+  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  const target = document.getElementById('sub-' + name);
+  if (target) target.classList.add('active');
+  if (clickedTab) clickedTab.classList.add('active');
+  // Scroll sub-tabs nav into view
+  if (clickedTab) clickedTab.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  // Re-render rules if rules sub-tab opened
+  if (name === 'rules') {
     setTimeout(() => renderRules(currentRuleFilter || 'all'), 50);
   }
 }
