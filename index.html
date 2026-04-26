@@ -675,6 +675,125 @@
     gap: 8px;
     margin-bottom: 20px;
   }
+
+  /* Vocab filter buttons */
+  .vocab-filter {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    padding: 6px 14px;
+    color: var(--text2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .vocab-filter:hover { border-color: var(--accent); color: var(--accent); }
+  .vocab-filter.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  .vocab-type-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 8px;
+    border-radius: 99px;
+    margin-top: 4px;
+  }
+  .vocab-type-اسم    { background: rgba(245,200,66,0.15);  color: var(--accent); }
+  .vocab-type-فعل    { background: rgba(46,204,113,0.15);  color: var(--green); }
+  .vocab-type-صفة    { background: rgba(78,205,196,0.15);  color: var(--accent2); }
+  .vocab-type-ظرف    { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+  .vocab-type-عدد    { background: rgba(255,107,107,0.15); color: var(--accent3); }
+  .vocab-type-ضمير   { background: rgba(255,159,67,0.15);  color: #ff9f43; }
+  .vocab-type-default{ background: var(--surface2);        color: var(--text2); }
+
+  .vocab-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text2);
+    font-size: 0.95rem;
+    grid-column: 1 / -1;
+  }
+
+  /* Memorize button */
+  .memorize-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .memorize-btn:hover {
+    border-color: var(--accent2);
+    transform: scale(1.1);
+  }
+  .memorize-btn.on {
+    background: rgba(46,204,113,0.15);
+    border-color: var(--green);
+  }
+  .vocab-card.memorized {
+    background: linear-gradient(135deg, rgba(46,204,113,0.04), var(--surface));
+    border-color: rgba(46,204,113,0.4);
+  }
+  .vocab-card.user-added {
+    background: linear-gradient(135deg, rgba(78,205,196,0.06), var(--surface));
+    border-color: rgba(78,205,196,0.35);
+  }
+  .vocab-card.user-added.memorized {
+    background: linear-gradient(135deg, rgba(46,204,113,0.06), rgba(78,205,196,0.06));
+    border-color: rgba(46,204,113,0.5);
+  }
+  .vocab-cat-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-top: 4px;
+    background: rgba(78,205,196,0.12);
+    color: var(--accent2);
+  }
+
+  /* Vocab progress bar */
+  .vocab-progress-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .vocab-progress-text {
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .vocab-progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .vocab-progress-fill-el {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--accent2));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
   .vocab-card {
     background: var(--surface);
     border: 1.5px solid var(--border);
@@ -976,6 +1095,10 @@
     transition: border-color 0.2s;
   }
   .rule-card:hover { border-color: rgba(245,200,66,0.4); }
+  .rule-card.rule-memorized {
+    border-color: rgba(46,204,113,0.5);
+    background: linear-gradient(135deg, rgba(46,204,113,0.04), var(--surface));
+  }
   .rule-header {
     display: flex;
     justify-content: space-between;
@@ -1108,6 +1231,9 @@
   <div class="tab" onclick="switchTab('vocab', this)">
     <span class="tab-icon">📖</span>مفردات + ترجمة
   </div>
+  <div class="tab" onclick="switchTab('dictionary', this)">
+    <span class="tab-icon">📚</span>قاموس
+  </div>
   <div class="tab" onclick="switchTab('quiz', this)">
     <span class="tab-icon">❓</span>اختبار
   </div>
@@ -1144,6 +1270,7 @@
     <div class="quiz-type-btn" onclick="setQuizType('auslaut', this)">⚡ تصلّب النهاية</div>
     <div class="quiz-type-btn" onclick="setQuizType('silbe', this)">🔡 المقاطع</div>
     <div class="quiz-type-btn" onclick="setQuizType('rule', this)">📐 قواعد النطق</div>
+    <div class="quiz-type-btn" onclick="setQuizType('pair', this)" style="border-color:var(--accent3);color:var(--accent3);">🔀 متشابهة</div>
     <div class="quiz-type-btn" onclick="setQuizType('mixed', this)" style="border-color:var(--accent2);color:var(--accent2);">🎲 شامل (مختلط)</div>
   </div>
 
@@ -1190,6 +1317,7 @@
     <button class="sub-tab" onclick="switchSubTab('table', this)">📋 الجدول الشامل</button>
     <button class="sub-tab" onclick="switchSubTab('auslaut', this)">⚡ تصلّب النهاية</button>
     <button class="sub-tab" onclick="switchSubTab('silbe', this)">🔡 المقاطع</button>
+    <button class="sub-tab" onclick="switchSubTab('pairs', this)">🔀 متشابهة</button>
     <button class="sub-tab" onclick="switchSubTab('rules', this)">📐 قواعد تفاعلية</button>
   </div>
 
@@ -1631,17 +1759,389 @@
         <li>التركيبات مثل sch، ch، ng تبقى مع بعضها (En·tschul·di·gung)</li>
       </ul>
     </div>
+
+    <!-- جدول مرجعي شامل لتقسيم المقاطع -->
+    <div class="section-title" style="margin-top:24px;">📊 مرجع تقسيم المقاطع — A1.1</div>
+    <div class="special-note" style="color:var(--text);">جدول مرجعي شامل — اضغط على أي كلمة لتسمعها 🔊</div>
+
+    <!-- Filter by syllable count -->
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;overflow-x:auto;">
+      <button class="vocab-filter active" onclick="filterSilben('all',this)">الكل</button>
+      <button class="vocab-filter" onclick="filterSilben(1,this)">1 مقطع</button>
+      <button class="vocab-filter" onclick="filterSilben(2,this)">2 مقاطع</button>
+      <button class="vocab-filter" onclick="filterSilben(3,this)">3 مقاطع</button>
+      <button class="vocab-filter" onclick="filterSilben(4,this)">4 مقاطع</button>
+      <button class="vocab-filter" onclick="filterSilben(5,this)">5+ مقاطع</button>
+    </div>
+
+    <div id="silben-table"></div>
+
+    <script>
+    const silbenTable = [
+      // 1 مقطع
+      {de:'Buch',     ar:'كتاب',         parts:'Buch',           pron:'بوخ',         count:1},
+      {de:'Tag',      ar:'يوم',          parts:'Tag',            pron:'تاك',         count:1},
+      {de:'Hund',     ar:'كلب',          parts:'Hund',           pron:'هونت',        count:1},
+      {de:'Schach',   ar:'شطرنج',        parts:'Schach',         pron:'شاخ',         count:1},
+      {de:'Stadt',    ar:'مدينة',        parts:'Stadt',          pron:'شتات',        count:1},
+      {de:'Welt',     ar:'عالم',         parts:'Welt',           pron:'فيلت',        count:1},
+      // 2 مقاطع
+      {de:'Schule',   ar:'مدرسة',        parts:'Schu·le',        pron:'شو·لِه',      count:2},
+      {de:'Mutter',   ar:'أم',           parts:'Mut·ter',        pron:'موت·تِر',     count:2},
+      {de:'Wasser',   ar:'ماء',          parts:'Was·ser',        pron:'فاس·سِر',     count:2},
+      {de:'Vater',    ar:'أب',           parts:'Va·ter',         pron:'فا·تِر',      count:2},
+      {de:'lesen',    ar:'يقرأ',         parts:'le·sen',         pron:'لي·زِن',      count:2},
+      {de:'Freitag',  ar:'الجمعة',       parts:'Frei·tag',       pron:'فراي·تاك',    count:2},
+      {de:'Freude',   ar:'فرح',          parts:'Freu·de',        pron:'فروي·دِه',    count:2},
+      {de:'Freiheit', ar:'حرية',         parts:'Frei·heit',      pron:'فراي·هايت',   count:2},
+      {de:'später',   ar:'لاحقاً',       parts:'spä·ter',        pron:'شبي·تِر',     count:2},
+      {de:'Lehrer',   ar:'معلم',         parts:'Leh·rer',        pron:'لي·رِر',      count:2},
+      {de:'Handy',    ar:'موبايل',       parts:'Han·dy',         pron:'هان·دي',      count:2},
+      {de:'Laptop',   ar:'لابتوب',       parts:'Lap·top',        pron:'لاب·توپ',     count:2},
+      {de:'Training', ar:'تدريب',        parts:'Trai·ning',      pron:'تراي·نينغ',   count:2},
+      {de:'Chaos',    ar:'فوضى',         parts:'Cha·os',         pron:'كا·وس',       count:2},
+      {de:'Chance',   ar:'فرصة',         parts:'Chan·ce',        pron:'شان·س',       count:2},
+      {de:'wissen',   ar:'يعرف',         parts:'wis·sen',        pron:'فيس·سِن',     count:2},
+      {de:'fühlen',   ar:'يشعر',         parts:'füh·len',        pron:'فوه·لِن',     count:2},
+      {de:'malen',    ar:'يرسم',         parts:'ma·len',         pron:'ما·لِن',      count:2},
+      {de:'Klavier',  ar:'بيانو',        parts:'Kla·vier',       pron:'كلا·فير',     count:2},
+      {de:'Tanzkurs', ar:'دورة رقص',     parts:'Tanz·kurs',      pron:'تانتس·كورس',  count:2},
+      {de:'Zauber',   ar:'سحر',          parts:'Zau·ber',        pron:'تساو·بِر',    count:2},
+      {de:'Sorge',    ar:'قلق',          parts:'Sor·ge',         pron:'زور·غِه',     count:2},
+      {de:'Hänschen', ar:'هانسشن (تصغير)',parts:'Häns·chen',     pron:'هينس·شِن',    count:2},
+      {de:'vorher',   ar:'قبل',          parts:'vor·her',        pron:'فور·هير',     count:2},
+      {de:'WLAN',     ar:'واي فاي',      parts:'W·LAN',          pron:'في·لان',      count:2},
+      {de:'zeichnen', ar:'يرسم (قلم)',   parts:'zeich·nen',      pron:'تساي·شنِن',   count:2},
+      {de:'Bauch',    ar:'بطن',          parts:'Bauch',          pron:'باوخ',        count:1},
+      {de:'Bücher',   ar:'كتب (جمع)',    parts:'Bü·cher',        pron:'بو·شِر',      count:2},
+      // 3 مقاطع
+      {de:'Syrien',   ar:'سوريا',        parts:'Sy·ri·en',       pron:'زو·ري·ين',    count:3},
+      {de:'Ferien',   ar:'عطلة',         parts:'Fe·ri·en',       pron:'فِ·ري·ين',    count:3},
+      {de:'Theorie',  ar:'نظرية',        parts:'The·o·rie',      pron:'تي·و·ري',     count:3},
+      {de:'Buchhalter',ar:'محاسب',       parts:'Buch·hal·ter',   pron:'بوخ·هال·تِر', count:3},
+      {de:'beweisen', ar:'يُثبت',         parts:'be·wei·sen',     pron:'بِ·فاي·زِن',  count:3},
+      {de:'beherrschen',ar:'يُتقن',       parts:'be·herr·schen',  pron:'بِ·هير·شِن',  count:3},
+      {de:'trainieren',ar:'يتدرب',       parts:'trai·nie·ren',   pron:'تراي·ني·رِن', count:3},
+      {de:'Diskussion',ar:'مناقشة',       parts:'Dis·kus·sion',   pron:'ديس·كو·سيون', count:3},
+      {de:'Erfahrung',ar:'خبرة',         parts:'Er·fah·rung',    pron:'إر·فا·رونغ',  count:3},
+      {de:'erzählen', ar:'يحكي',         parts:'er·zäh·len',     pron:'إر·تسي·لِن',  count:3},
+      {de:'erkennen', ar:'يتعرّف',       parts:'er·ken·nen',     pron:'إر·كِن·نِن',  count:3},
+      {de:'Arbeiter', ar:'عامل',         parts:'Ar·bei·ter',     pron:'أر·باي·تِر',  count:3},
+      {de:'Einladung',ar:'دعوة',         parts:'Ein·la·dung',    pron:'آين·لا·دونغ', count:3},
+      {de:'maximal',  ar:'أقصى',         parts:'ma·xi·mal',      pron:'ماك·سي·مال', count:3},
+      {de:'Vorliebe', ar:'تفضيل',        parts:'Vor·lie·be',     pron:'فور·لي·بِه',  count:3},
+      {de:'Briefmarken',ar:'طوابع',      parts:'Brief·mar·ken',  pron:'بريف·مار·كِن',count:3},
+      {de:'sammeln',  ar:'يجمع',         parts:'sam·meln',       pron:'زام·مِلن',    count:3},
+      // 4 مقاطع
+      {de:'Familie',         ar:'عائلة',                parts:'Fa·mi·li·e',          pron:'فا·مي·لي·يِه',          count:4},
+      {de:'Entschuldigung',  ar:'عذراً',                parts:'Ent·schul·di·gung',   pron:'إنت·شول·دي·غونغ',       count:4},
+      {de:'Engagement',      ar:'التزام',               parts:'En·ga·ge·ment',       pron:'أنغا·جِ·مون',           count:4},
+      {de:'Psychologie',     ar:'علم النفس',            parts:'Psy·cho·lo·gie',      pron:'پسي·كو·لو·غي',          count:4},
+      {de:'Ermäßigung',      ar:'خصم',                  parts:'Er·mä·ßi·gung',       pron:'إر·مي·سي·غونغ',         count:4},
+      // 5+ مقاطع
+      {de:'Bauchspeicheldrüse',ar:'البنكرياس',          parts:'Bauch·spei·chel·drü·se', pron:'باوخ·شباي·شِل·دروه·زِه', count:5},
+      {de:'Entsorgungsbetriebe',ar:'شركات النفايات',    parts:'Ent·sor·gungs·be·trie·be', pron:'إنت·زور·غونغس·بِ·تري·بِه', count:6},
+      {de:'Nationalsozialismus',ar:'النازية',           parts:'Na·tio·nal·so·zia·lis·mus', pron:'نا·تسيو·نال·زو·تسيا·ليس·موس', count:7},
+    ];
+
+    let silbenFilter = 'all';
+    function filterSilben(n, btn) {
+      silbenFilter = n;
+      document.querySelectorAll('#sub-silbe .vocab-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSilbenTable();
+    }
+
+    function renderSilbenTable() {
+      const container = document.getElementById('silben-table');
+      if (!container) return;
+      let filtered = silbenFilter === 'all' ? silbenTable :
+                     silbenFilter === 5 ? silbenTable.filter(x => x.count >= 5) :
+                     silbenTable.filter(x => x.count === silbenFilter);
+      // Sort by count then alphabetically
+      filtered.sort((a,b) => a.count - b.count || a.de.localeCompare(b.de, 'de'));
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2);">لا توجد كلمات</div>';
+        return;
+      }
+
+      // Render as compact table
+      container.innerHTML = `
+        <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;direction:rtl;background:var(--surface);">
+          <thead>
+            <tr style="background:var(--surface2);color:var(--text2);">
+              <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">الكلمة</th>
+              <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">المعنى</th>
+              <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">التقسيم</th>
+              <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;">اللفظ</th>
+              <th style="padding:8px 10px;border:1px solid var(--border);text-align:right;width:40px;">#</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(row => `
+              <tr style="cursor:pointer;transition:background 0.15s;"
+                  onclick="speak('${row.de}')"
+                  onmouseover="this.style.background='rgba(245,200,66,0.05)'"
+                  onmouseout="this.style.background=''">
+                <td style="padding:7px 10px;border:1px solid var(--border);">
+                  <strong style="font-family:'Playfair Display',serif;color:var(--accent);">${row.de}</strong>
+                </td>
+                <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text2);">${row.ar}</td>
+                <td style="padding:7px 10px;border:1px solid var(--border);font-family:'Playfair Display',serif;color:var(--accent2);font-weight:700;">
+                  ${row.parts}
+                </td>
+                <td style="padding:7px 10px;border:1px solid var(--border);color:var(--text);">${row.pron}</td>
+                <td style="padding:7px 10px;border:1px solid var(--border);text-align:center;">
+                  <span style="background:var(--accent);color:#000;font-weight:800;padding:2px 8px;border-radius:99px;font-size:0.7rem;">${row.count}</span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        </div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;text-align:center;">
+          📊 ${filtered.length} كلمة من أصل ${silbenTable.length}
+        </div>
+      `;
+    }
+    window.filterSilben = filterSilben;
+    renderSilbenTable();
+    </script>
   </div>
 
   <!-- جدول الحروف الصحيحة من د. بلال -->
 
   </div>
 
+  <!-- PAIRS SUB-SECTION (كلمات متشابهة) -->
+  <div class="sub-section" id="sub-pairs">
+    <div class="section-title">🔀 كلمات متشابهة — Verwechslungsgefahr</div>
+    <div class="special-note" style="color:var(--text);">⚠️ هذه الكلمات تتشابه في النطق أو الكتابة — انتبه للفرق الدقيق! اضغط على أي كلمة لتسمعها 🔊</div>
+
+    <!-- Pair 1: Uhr vs Ohr -->
+    <div style="background:var(--surface);border:1.5px solid rgba(255,107,107,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent3);color:white;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">⚠️ خطر اللبس</span>
+        <span style="font-weight:700;color:var(--text);">Uhr vs Ohr — نفس النطق تقريباً!</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Uhr')">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Uhr</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">⏰ ساعة (وقت)</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ أور</div>
+        </div>
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Ohr')">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Ohr</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">👂 أذن</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ أور</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>الفرق:</strong> الفرق دقيق في النطق — Uhr (U طويلة)، Ohr (O طويلة). انتبه للسياق!
+      </div>
+    </div>
+
+    <!-- Pair 2: Gott vs gut -->
+    <div style="background:var(--surface);border:1.5px solid rgba(255,107,107,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent3);color:white;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">⚠️ خطر اللبس</span>
+        <span style="font-weight:700;color:var(--text);">Gott vs gut — حرف صوتي قصير/طويل</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Gott')">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Gott</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">🙏 إله</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ غُت (o قصيرة)</div>
+        </div>
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('gut')">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">gut</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">👍 جيد</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ غووت (u طويلة)</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>القاعدة:</strong> الحرف المضاعف (tt) يجعل الصوت قبله قصيراً. الحرف المفرد بعد حرف صوتي = طويل.
+      </div>
+    </div>
+
+    <!-- Pair 3: Buch vs Bauch vs Bücher -->
+    <div style="background:var(--surface);border:1.5px solid rgba(245,200,66,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent);color:black;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">📖 عائلة كلمات</span>
+        <span style="font-weight:700;color:var(--text);">Buch / Bücher / Bauch</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Buch')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Buch</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">📕 كتاب</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ بوخ</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Bücher')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Bücher</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">📚 كتب</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ بوشِر</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Bauch')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Bauch</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">🫃 بطن</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ باوخ</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>الفرق:</strong> Buch (u عادية) → Bücher (ü أوملاوت) جمع. Bauch (au) كلمة مختلفة!
+      </div>
+    </div>
+
+    <!-- Pair 4: König vs king -->
+    <div style="background:var(--surface);border:1.5px solid rgba(78,205,196,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent2);color:black;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">🌍 جذور مشتركة</span>
+        <span style="font-weight:700;color:var(--text);">König ≈ king (ألماني/إنجليزي)</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('König')">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">König</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">👑 ملك (ألماني)</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ كونيش</div>
+        </div>
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;text-align:center;border:1px solid var(--border);">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--text2);font-family:'Playfair Display',serif;">king</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">👑 ملك (إنجليزي)</div>
+          <div style="font-size:0.75rem;color:var(--text2);margin-top:2px;">🗣️ كينغ</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>اشتقاق:</strong> الكلمتان من نفس الجذر الجرماني القديم. تذكرها بسهولة عبر الإنجليزية!
+      </div>
+    </div>
+
+    <!-- Pair 5: sprechen vs reden -->
+    <div style="background:var(--surface);border:1.5px solid rgba(46,204,113,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--green);color:white;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">💬 مرادفات</span>
+        <span style="font-weight:700;color:var(--text);">sprechen vs reden — كلاهما "يتكلم"</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('sprechen')">
+          <div style="font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">sprechen</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">🗨️ يتكلم (رسمي)</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ شبريخِن</div>
+        </div>
+        <div style="background:var(--surface2);padding:12px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('reden')">
+          <div style="font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">reden</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-top:4px;">💬 يتحدث (عامي)</div>
+          <div style="font-size:0.75rem;color:var(--accent2);margin-top:2px;">🗣️ ريدِن</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>الفرق:</strong> sprechen أكثر رسمية (أتكلم لغة، أتحدث في موضوع). reden أكثر عامية (أتدردش، أحكي).
+      </div>
+    </div>
+
+    <!-- Pair 6: viel vs Vater (V pronounced as F) -->
+    <div style="background:var(--surface);border:1.5px solid rgba(139,92,246,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:#8B5CF6;color:white;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">🔠 V = F</span>
+        <span style="font-weight:700;color:var(--text);">حرف V يُنطق "ف" — لا تنطقه "ڤ"!</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Vater')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Vater</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">👨 أب</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ فاتِر</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('viel')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">viel</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">📊 كثير</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ فيل</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Vogel')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Vogel</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">🐦 طائر</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ فوغِل</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        💡 <strong>القاعدة:</strong> V في الكلمات الألمانية الأصلية = ف. لكن في الكلمات الأجنبية مثل Vase, Visum = ڤ.
+      </div>
+    </div>
+
+    <!-- Pair 7: W vs V -->
+    <div style="background:var(--surface);border:1.5px solid rgba(78,205,196,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent2);color:black;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">🔠 W = ڤ</span>
+        <span style="font-weight:700;color:var(--text);">حرف W يُنطق "ڤ" — مثل V الإنجليزية!</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Wasser')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Wasser</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">💧 ماء</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ڤاسِر</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Wind')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Wind</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">💨 ريح</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ڤينت</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('was')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">was</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">❓ ماذا</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ڤاس</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        ⚠️ <strong>تحذير:</strong> W الألمانية ≠ W الإنجليزية! إذا قلت "Wasser" بالإنجليزية = خطأ.
+      </div>
+    </div>
+
+    <!-- Pair 8: J pronounced as Y -->
+    <div style="background:var(--surface);border:1.5px solid rgba(245,200,66,0.3);border-radius:14px;padding:14px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:var(--accent);color:black;font-weight:800;border-radius:6px;padding:2px 8px;font-size:0.72rem;">🔠 J = ي</span>
+        <span style="font-weight:700;color:var(--text);">حرف J يُنطق "ي" — وليس جيم!</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('ja')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">ja</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">✅ نعم</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ يا</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Jahr')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Jahr</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">📅 سنة</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ يار</div>
+        </div>
+        <div style="background:var(--surface2);padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;border:1px solid var(--border);" onclick="speak('Junge')">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">Junge</div>
+          <div style="font-size:0.78rem;color:var(--text2);margin-top:4px;">👦 ولد</div>
+          <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ يونغِه</div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text2);margin-top:10px;line-height:1.6;">
+        ⚠️ <strong>تحذير:</strong> "Jahr" ليست "جار"! و"Junge" ليست "جونج"!
+      </div>
+    </div>
+
+    <div class="special-note" style="margin-top:16px;">
+      💡 <strong>نصيحة:</strong> هذه الأخطاء الشائعة عند المتعلمين العرب — تدرب على هذه الأزواج خاصة!
+    </div>
+  </div>
+
   <!-- RULES SUB-SECTION -->
   <div class="sub-section" id="sub-rules">
   <!-- PRONUNCIATION RULES -->
   <div class="section-title" style="margin-top:20px;">📐 قواعد النطق — Ausspracheregeln</div>
-  <div class="special-note" style="color:var(--text);">اضغط على أي قاعدة لتشوف التفاصيل والأمثلة 🔊</div>
+  <div class="special-note" style="color:var(--text);">اضغط على أي قاعدة لتشوف التفاصيل — اضغط 📌 للحفظ</div>
+
+  <!-- Rules progress -->
+  <div class="vocab-progress-box">
+    <div class="vocab-progress-text" id="rules-progress">0 / 33 قاعدة محفوظة</div>
+    <div class="vocab-progress-bar">
+      <div class="vocab-progress-fill-el" id="rules-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
 
   <div class="rules-filter">
     <button class="rule-filter-btn active" onclick="filterRules('all',this)">الكل</button>
@@ -1678,16 +2178,88 @@
     </div>
   </div>
 
-  <!-- VOCAB LIST -->
-  <div class="section-title">🔊 مفردات A1 — اضغط للاستماع</div>
-  <div class="voice-info" id="voice-info">اضغط على أي كلمة لتسمع نطقها</div>
+  <!-- SIMPLE A1 VOCAB LIST -->
+  <div class="section-title">📖 مفردات للحفظ — كلمات A1.1</div>
+
+  <!-- Progress -->
+  <div class="vocab-progress-box">
+    <div class="vocab-progress-text" id="vocab-progress">0 / 0 كلمة محفوظة</div>
+    <div class="vocab-progress-bar">
+      <div class="vocab-progress-fill-el" id="vocab-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="voice-info" id="voice-info-vocab">اضغط 📌 للحفظ — اضغط على الكلمة للاستماع 🔊</div>
+
+  <!-- Category filters -->
+  <div id="vocab-cat-filters" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;">
+    <button class="vocab-filter active" onclick="setVocabFilter('all',this)">الكل</button>
+    <button class="vocab-filter" onclick="setVocabFilter('A1.1',this)">📅 A1.1</button>
+    <button class="vocab-filter" onclick="setVocabFilter('الأصوات',this)">🎵 أمثلة الأصوات</button>
+    <button class="vocab-filter" onclick="setVocabFilter('متشابهة',this)">🔀 متشابهة</button>
+    <button class="vocab-filter" onclick="setVocabFilter('تعابير',this)">💬 تعابير</button>
+    <button class="vocab-filter" onclick="setVocabFilter('مركّبة',this)">🔗 مركّبة</button>
+    <button class="vocab-filter" onclick="setVocabFilter('memorized',this)" style="border-color:var(--green);color:var(--green);">✅ المحفوظة</button>
+    <button class="vocab-filter" onclick="setVocabFilter('unmemorized',this)" style="border-color:var(--accent3);color:var(--accent3);">📌 غير محفوظة</button>
+  </div>
+
   <div id="voice-selector-row" style="margin-bottom:10px;display:none;">
     <select id="voice-select" onchange="changeVoice(this.value)"
       style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
       padding:8px 12px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.82rem;cursor:pointer;">
     </select>
   </div>
-  <div class="vocab-grid" id="vocab-grid"></div>
+
+  <div class="vocab-grid" id="vocab-grid-simple"></div>
+
+  <div style="text-align:center;margin-top:14px;padding:14px;background:var(--surface2);border-radius:12px;border:1px dashed var(--border);">
+    <div style="font-size:0.88rem;color:var(--text2);margin-bottom:8px;">🔎 بدك تشوف القاموس الكامل بـ 600 كلمة؟</div>
+    <button onclick="switchTab('dictionary', document.querySelectorAll('.tab')[3])"
+      style="background:var(--accent);color:#000;border:none;border-radius:10px;padding:10px 20px;font-family:'Tajawal',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">
+      📚 افتح القاموس الكامل
+    </button>
+  </div>
+
+</div>
+
+<!-- DICTIONARY TAB -->
+<div id="sec-dictionary" class="section">
+
+  <div class="section-title">📚 القاموس الكامل — <span id="dict-count" style="font-size:0.85rem;color:var(--text2);font-weight:400;"></span></div>
+  <div class="voice-info">اضغط على أي كلمة لتسمع نطقها 🔊 — وشُف الترجمة والنوع والملاحظات</div>
+
+  <!-- Search bar -->
+  <div style="margin-bottom:10px;">
+    <input type="text" id="dict-search" placeholder="🔍 ابحث بالألماني (Haus) أو العربي (بيت)..."
+      oninput="filterDictionary()" 
+      style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Tajawal',sans-serif;font-size:0.9rem;outline:none;direction:rtl;">
+  </div>
+
+  <!-- Type filter buttons -->
+  <div id="dict-filters" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;">
+    <button class="vocab-filter active" data-type="all" onclick="filterDictByType('all',this)">الكل</button>
+    <button class="vocab-filter" data-type="اسم" onclick="filterDictByType('اسم',this)">📦 اسم</button>
+    <button class="vocab-filter" data-type="فعل" onclick="filterDictByType('فعل',this)">⚡ فعل</button>
+    <button class="vocab-filter" data-type="صفة" onclick="filterDictByType('صفة',this)">🎨 صفة</button>
+    <button class="vocab-filter" data-type="ظرف" onclick="filterDictByType('ظرف',this)">📍 ظرف</button>
+    <button class="vocab-filter" data-type="عدد" onclick="filterDictByType('عدد',this)">🔢 عدد</button>
+    <button class="vocab-filter" data-type="ضمير" onclick="filterDictByType('ضمير',this)">👤 ضمير</button>
+    <button class="vocab-filter" data-type="حرف جر" onclick="filterDictByType('حرف جر',this)">🔗 حرف جر</button>
+    <button class="vocab-filter" data-type="استفهام" onclick="filterDictByType('استفهام',this)">❓ استفهام</button>
+    <button class="vocab-filter" data-type="تعبير" onclick="filterDictByType('تعبير',this)">💬 تعبير</button>
+    <button class="vocab-filter" data-type="رابط" onclick="filterDictByType('رابط',this)">🪢 رابط</button>
+  </div>
+
+  <div class="vocab-grid" id="dict-grid"></div>
+
+  <!-- Load more button -->
+  <div style="text-align:center;margin-top:12px;">
+    <button id="dict-load-more" onclick="loadMoreDict()"
+      style="display:none;background:var(--surface);border:1.5px solid var(--accent);color:var(--accent);
+      border-radius:10px;padding:10px 24px;font-family:'Tajawal',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;">
+      عرض المزيد ↓
+    </button>
+  </div>
 
 </div>
 
@@ -1707,8 +2279,14 @@
 
   <div class="saved-stats">
     <div><div class="stat-num" id="stat-learned">0</div><div class="stat-label">حرف تعلمته</div></div>
+    <div><div class="stat-num" id="stat-mem-words" style="color:var(--accent2)">0</div><div class="stat-label">كلمة محفوظة</div></div>
+    <div><div class="stat-num" id="stat-mem-rules" style="color:#a78bfa">0</div><div class="stat-label">قاعدة محفوظة</div></div>
+  </div>
+
+  <div class="saved-stats" style="margin-top:10px;">
     <div><div class="stat-num" id="stat-quiz-score">0</div><div class="stat-label">أفضل نتيجة</div></div>
     <div><div class="stat-num" id="stat-sessions">0</div><div class="stat-label">جلسة تعلم</div></div>
+    <div><div class="stat-num" id="stat-total-mem" style="color:var(--green)">0</div><div class="stat-label">إجمالي المحفوظ</div></div>
   </div>
 
   <div class="section-title">الحروف المحفوظة</div>
@@ -1912,6 +2490,8 @@ const STORAGE_KEY_LEARNED = 'de_learned_v2';
 const STORAGE_KEY_NOTES   = 'de_notes_v2';
 const STORAGE_KEY_BEST    = 'de_best_score_v2';
 const STORAGE_KEY_SESS    = 'de_sessions_v2';
+const STORAGE_KEY_MEM_WORDS = 'de_memorized_words_v1';
+const STORAGE_KEY_MEM_RULES = 'de_memorized_rules_v1';
 
 function safeGet(key, fallback) {
   try {
@@ -1939,6 +2519,32 @@ function setBestScore(s) { safeSet(STORAGE_KEY_BEST, s); }
 function getSessions()   { return safeGet(STORAGE_KEY_SESS, 0); }
 function incSessions()   { safeSet(STORAGE_KEY_SESS, getSessions() + 1); }
 
+// ===== Memorized Words =====
+function getMemorizedWords() { return safeGet(STORAGE_KEY_MEM_WORDS, []); }
+function setMemorizedWords(arr) { safeSet(STORAGE_KEY_MEM_WORDS, arr); }
+function isWordMemorized(w) { return getMemorizedWords().includes(w); }
+function toggleWordMemorized(w) {
+  const list = getMemorizedWords();
+  const idx = list.indexOf(w);
+  if (idx >= 0) list.splice(idx, 1);
+  else list.push(w);
+  setMemorizedWords(list);
+  return idx < 0; // returns true if now memorized
+}
+
+// ===== Memorized Rules =====
+function getMemorizedRules() { return safeGet(STORAGE_KEY_MEM_RULES, []); }
+function setMemorizedRules(arr) { safeSet(STORAGE_KEY_MEM_RULES, arr); }
+function isRuleMemorized(id) { return getMemorizedRules().includes(id); }
+function toggleRuleMemorized(id) {
+  const list = getMemorizedRules();
+  const idx = list.indexOf(id);
+  if (idx >= 0) list.splice(idx, 1);
+  else list.push(id);
+  setMemorizedRules(list);
+  return idx < 0;
+}
+
 // تصدير واستيراد البيانات
 function exportData() {
   const data = {
@@ -1946,6 +2552,9 @@ function exportData() {
     notes: getNotes(),
     bestScore: getBestScore(),
     sessions: getSessions(),
+    memorizedWords: getMemorizedWords(),
+    memorizedRules: getMemorizedRules(),
+    userDict: getUserDict(),
     exportedAt: new Date().toLocaleDateString('ar')
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -1963,9 +2572,15 @@ function importData(file) {
       if (data.notes) safeSet(STORAGE_KEY_NOTES, data.notes);
       if (data.bestScore) setBestScore(data.bestScore);
       if (data.sessions) safeSet(STORAGE_KEY_SESS, data.sessions);
+      if (data.memorizedWords) setMemorizedWords(data.memorizedWords);
+      if (data.memorizedRules) setMemorizedRules(data.memorizedRules);
+      if (data.userDict) setUserDict(data.userDict);
       updateProgress();
       renderSaved();
       renderGrid_refresh();
+      if (typeof renderVocab === 'function') renderVocab();
+      if (typeof renderDictionary === 'function') renderDictionary();
+      if (typeof renderRules === 'function') renderRules(currentRuleFilter || 'all');
       alert('✅ تم استيراد بياناتك بنجاح!');
     } catch { alert('⚠️ الملف غير صحيح'); }
   };
@@ -2211,6 +2826,17 @@ function updateProgress() {
   document.getElementById('stat-learned').textContent = n;
   document.getElementById('stat-quiz-score').textContent = getBestScore() + '/10';
   document.getElementById('stat-sessions').textContent = getSessions();
+
+  // New stats: memorized words & rules
+  const memWords = getMemorizedWords().length;
+  const memRules = getMemorizedRules().length;
+  const memWordsEl = document.getElementById('stat-mem-words');
+  const memRulesEl = document.getElementById('stat-mem-rules');
+  const totalMemEl = document.getElementById('stat-total-mem');
+  if (memWordsEl) memWordsEl.textContent = memWords;
+  if (memRulesEl) memRulesEl.textContent = memRules;
+  if (totalMemEl) totalMemEl.textContent = (n + memWords + memRules);
+
   // Badges
   if (n >= 10) document.getElementById('badge-10').classList.add('earned');
   if (n >= 20) document.getElementById('badge-20').classList.add('earned');
@@ -2425,6 +3051,45 @@ function genRuleQ() {
   };
 }
 
+// أزواج متشابهة من قسم Verwechslungsgefahr
+const pairsData = [
+  {word:'Uhr',     mean:'ساعة',   wrong:'أذن'},
+  {word:'Ohr',     mean:'أذن',    wrong:'ساعة'},
+  {word:'Gott',    mean:'إله',    wrong:'جيد'},
+  {word:'gut',     mean:'جيد',    wrong:'إله'},
+  {word:'Buch',    mean:'كتاب',   wrong:'بطن'},
+  {word:'Bauch',   mean:'بطن',    wrong:'كتاب'},
+  {word:'Bücher',  mean:'كتب',    wrong:'بطون'},
+  {word:'sprechen',mean:'يتكلم (رسمي)', wrong:'يتحدث (عامي)'},
+  {word:'reden',   mean:'يتحدث (عامي)', wrong:'يتكلم (رسمي)'},
+  {word:'Vater',   mean:'أب',     wrong:'كثير'},
+  {word:'viel',    mean:'كثير',   wrong:'أب'},
+  {word:'ja',      mean:'نعم',    wrong:'لا'},
+  {word:'Jahr',    mean:'سنة',    wrong:'يوم'},
+  {word:'Wasser',  mean:'ماء',    wrong:'هواء'},
+  {word:'Wind',    mean:'ريح',    wrong:'ماء'},
+];
+
+function genPairQ() {
+  const data = pairsData;
+  const row = data[Math.floor(Math.random() * data.length)];
+  // wrong options: row.wrong + 2 random others
+  const otherWrongs = pickRandom(
+    data.filter(x => x.mean !== row.mean && x.mean !== row.wrong).map(x => x.mean),
+    2
+  );
+  return {
+    type:'pair',
+    display: row.word,
+    displayBig: false,
+    question: `ما المعنى الصحيح لكلمة "${row.word}"؟`,
+    hint: '⚠️ احذر — هناك كلمة مشابهة بمعنى مختلف!',
+    correct: row.mean,
+    options: [row.mean, row.wrong, ...otherWrongs].sort(() => Math.random() - 0.5),
+    speakWord: row.word,
+  };
+}
+
 const generators = {
   sound:   genSoundQ,
   letter:  genLetterQ,
@@ -2434,6 +3099,7 @@ const generators = {
   auslaut: genAuslautQ,
   silbe:   genSilbeQ,
   rule:    genRuleQ,
+  pair:    genPairQ,
 };
 
 function buildQuestions() {
@@ -2548,6 +3214,9 @@ function renderSaved() {
   const notes = getNotes();
   const allData = [...letters, ...special];
 
+  // Update all stats
+  updateProgress();
+
   // Learned letters
   const container = document.getElementById('saved-content');
   if (learned.length === 0) {
@@ -2587,17 +3256,22 @@ function renderSaved() {
 }
 
 function clearSaved() {
-  if (confirm('هل تريد مسح كل شي؟ (الحروف + الملاحظات + الإحصائيات)')) {
+  if (confirm('هل تريد مسح كل شي؟ (الحروف + الكلمات المحفوظة + القواعد + الملاحظات)')) {
     try {
       localStorage.removeItem(STORAGE_KEY_LEARNED);
       localStorage.removeItem(STORAGE_KEY_NOTES);
       localStorage.removeItem(STORAGE_KEY_BEST);
       localStorage.removeItem(STORAGE_KEY_SESS);
+      localStorage.removeItem(STORAGE_KEY_MEM_WORDS);
+      localStorage.removeItem(STORAGE_KEY_MEM_RULES);
     } catch {}
     document.querySelectorAll('.alpha-btn.learned').forEach(b => b.classList.remove('learned'));
     document.querySelectorAll('.alpha-btn.has-note').forEach(b => b.classList.remove('has-note'));
     updateProgress();
     renderSaved();
+    if (typeof renderVocab === 'function') renderVocab();
+    if (typeof renderDictionary === 'function') renderDictionary();
+    if (typeof renderRules === 'function') renderRules('all');
   }
 }
 
@@ -2607,12 +3281,14 @@ function switchTab(name, clickedTab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('sec-' + name).classList.add('active');
   const tabs = document.querySelectorAll('.tab');
-  const names = ['letters', 'phonetics', 'vocab', 'quiz', 'saved'];
+  const names = ['letters', 'phonetics', 'vocab', 'dictionary', 'quiz', 'saved'];
   const idx = names.indexOf(name);
   if (idx >= 0) tabs[idx].classList.add('active');
 
   if (name === 'quiz') startQuiz();
   if (name === 'saved') { renderSaved(); updateProgress(); }
+  if (name === 'vocab') { setTimeout(() => renderVocab(), 50); }
+  if (name === 'dictionary') { setTimeout(() => renderDictionary(), 50); }
   if (name === 'phonetics') {
     // Re-render rules when tab is opened (ensures DOM element exists)
     setTimeout(() => renderRules(currentRuleFilter || 'all'), 50);
@@ -2636,50 +3312,182 @@ function switchSubTab(name, clickedTab) {
 
 // Fix tab click handlers
 document.querySelectorAll('.tab').forEach((tab, i) => {
-  const names = ['letters', 'phonetics', 'vocab', 'quiz', 'saved'];
+  const names = ['letters', 'phonetics', 'vocab', 'dictionary', 'quiz', 'saved'];
   tab.onclick = () => switchTab(names[i], tab);
 });
 
-// ======= VOCAB DATA =======
+// ======= VOCAB DATA (قائمة الكلمات للحفظ) =======
+// قائمة منتقاة من حصص A1.1 + أمثلة الأصوات من د. بلال
 const vocabList = [
-  { de:'Papier', ar:'ورق',        pron:'بابير',      color:'#F5C842' },
-  { de:'Band',   ar:'شريط',       pron:'بانت',       color:'#FF6B6B' },
-  { de:'Fenster',ar:'شباك',       pron:'فينستِر',    color:'#4ECDC4' },
-  { de:'Wasser', ar:'ماء',        pron:'فاسِر',      color:'#4ECDC4' },
-  { de:'Bus',    ar:'باص',        pron:'بوس',        color:'#FF6B6B' },
-  { de:'Sohn',   ar:'ابن',        pron:'زون',        color:'#F5C842' },
-  { de:'Auto',   ar:'سيارة',      pron:'أوتو',       color:'#4ECDC4' },
-  { de:'du',     ar:'أنت',        pron:'دو',         color:'#F5C842' },
-  { de:'Kind',   ar:'طفل',        pron:'كينت',       color:'#4ECDC4' },
-  { de:'gut',    ar:'جيد',        pron:'غوت',        color:'#2ECC71' },
-  { de:'Garage', ar:'مراب / جراج',pron:'غاراجِه',    color:'#FF6B6B' },
-  { de:'Schule', ar:'مدرسة',      pron:'شولِه',      color:'#4ECDC4' },
-  { de:'König',  ar:'ملك',        pron:'كونيخ',      color:'#F5C842' },
-  { de:'beachten',ar:'يلاحظ',     pron:'بِآختِن',    color:'#2ECC71' },
-  { de:'Hand',   ar:'يد',         pron:'هانت',       color:'#4ECDC4' },
-  { de:'nein',   ar:'لا',         pron:'ناين',       color:'#FF6B6B' },
-  { de:'Mutter', ar:'أم',         pron:'موتِر',      color:'#F5C842' },
-  { de:'lang',   ar:'طويل',       pron:'لانغ',       color:'#2ECC71' },
-  { de:'Lärm',   ar:'ضجيج',       pron:'ليرم',       color:'#FF6B6B' },
-  { de:'ja',     ar:'نعم',        pron:'يا',         color:'#2ECC71' },
-  { de:'Buch',   ar:'كتاب',       pron:'بوخ',        color:'#F5C842' },
-  { de:'rot',    ar:'أحمر',       pron:'روت',        color:'#FF6B6B' },
+  // ===== أمثلة الأصوات (د. بلال) =====
+  { de:'Papier',  ar:'ورق',         pron:'بابير',     cat:'الأصوات' },
+  { de:'Band',    ar:'شريط',        pron:'بانت',      cat:'الأصوات' },
+  { de:'Fenster', ar:'شباك',        pron:'فينستِر',   cat:'الأصوات' },
+  { de:'Wasser',  ar:'ماء',         pron:'فاسِر',     cat:'الأصوات' },
+  { de:'Bus',     ar:'باص',         pron:'بوس',       cat:'الأصوات' },
+  { de:'Sohn',    ar:'ابن',         pron:'زون',       cat:'الأصوات' },
+  { de:'Auto',    ar:'سيارة',       pron:'أوتو',      cat:'الأصوات' },
+  { de:'du',      ar:'أنت',         pron:'دو',        cat:'الأصوات' },
+  { de:'Kind',    ar:'طفل',         pron:'كينت',      cat:'الأصوات' },
+  { de:'Garage',  ar:'مرآب / جراج', pron:'غاراجِه',   cat:'الأصوات' },
+  { de:'Schule',  ar:'مدرسة',       pron:'شولِه',     cat:'الأصوات' },
+  { de:'beachten',ar:'يلاحظ',       pron:'بِآختِن',   cat:'الأصوات' },
+  { de:'Hand',    ar:'يد',          pron:'هانت',      cat:'الأصوات' },
+  { de:'nein',    ar:'لا',          pron:'ناين',      cat:'الأصوات' },
+  { de:'Mutter',  ar:'أم',          pron:'موتِر',     cat:'الأصوات' },
+  { de:'lang',    ar:'طويل',        pron:'لانغ',      cat:'الأصوات' },
+  { de:'Lärm',    ar:'ضجيج',        pron:'ليرم',      cat:'الأصوات' },
+  { de:'ja',      ar:'نعم',         pron:'يا',        cat:'الأصوات' },
+  { de:'rot',     ar:'أحمر',        pron:'روت',       cat:'الأصوات' },
+
+  // ===== كلمات متشابهة (Verwechslungsgefahr) =====
+  { de:'Buch',    ar:'كتاب',        pron:'بوخ',       cat:'متشابهة' },
+  { de:'Bauch',   ar:'بطن',         pron:'باوخ',      cat:'متشابهة' },
+  { de:'Bücher',  ar:'كتب (جمع)',   pron:'بوشِر',     cat:'متشابهة' },
+  { de:'Uhr',     ar:'ساعة (وقت)',  pron:'أور',       cat:'متشابهة' },
+  { de:'Ohr',     ar:'أذن',         pron:'أور',       cat:'متشابهة' },
+  { de:'Gott',    ar:'إله',         pron:'غُت',       cat:'متشابهة' },
+  { de:'gut',     ar:'جيد',         pron:'غووت',      cat:'متشابهة' },
+  { de:'sprechen',ar:'يتكلم (رسمي)',pron:'شبريخِن',   cat:'متشابهة' },
+  { de:'reden',   ar:'يتحدث (عامي)',pron:'ريدِن',     cat:'متشابهة' },
+  { de:'König',   ar:'ملك (= king)',pron:'كونيش',     cat:'متشابهة' },
+
+  // ===== A1.1 أبريل 2025 =====
+  { de:'Quadrat',     ar:'مربع',                 pron:'كفادرات',     cat:'A1.1' },
+  { de:'Frau',        ar:'امرأة / سيدة',         pron:'فراو',        cat:'A1.1' },
+  { de:'Bücherei',    ar:'مكتبة (للإعارة)',      pron:'بوشِراي',     cat:'A1.1' },
+  { de:'leicht',      ar:'سهل / خفيف',           pron:'لايشت',       cat:'A1.1' },
+  { de:'Pferde',      ar:'خيول (جمع Pferd)',     pron:'پفيردِه',     cat:'A1.1' },
+  { de:'heute',       ar:'اليوم',                pron:'هويتِه',      cat:'A1.1' },
+  { de:'Heimweh',     ar:'حنين للوطن',           pron:'هايم·فيه',    cat:'A1.1' },
+  { de:'Qualität',    ar:'جودة',                 pron:'كفاليتيت',    cat:'A1.1' },
+  { de:'heimlich',    ar:'سرّاً / خفية',         pron:'هايم·ليش',    cat:'A1.1' },
+  { de:'erzeugen',    ar:'يُنتج / يولّد',         pron:'إر·تسوي·غِن', cat:'A1.1' },
+  { de:'ausgeprägt',  ar:'بارز / مميز',          pron:'أوس·غِ·پريكت',cat:'A1.1' },
+  { de:'Jubiläum',    ar:'ذكرى / احتفال',        pron:'يو·بي·ليوم',  cat:'A1.1' },
+  { de:'Thema',       ar:'موضوع',                pron:'تيما',        cat:'A1.1' },
+  { de:'zum',         ar:'إلى الـ',              pron:'تسوم',        cat:'A1.1' },
+  { de:'sehr',        ar:'جداً',                 pron:'زير',         cat:'A1.1' },
+  { de:'Quatsch',     ar:'هراء / كلام فارغ',     pron:'كفاتش',       cat:'A1.1' },
+  { de:'Juli',        ar:'يوليو',                pron:'يولي',        cat:'A1.1' },
+  { de:'Mannschaft',  ar:'فريق',                 pron:'مان·شافت',    cat:'A1.1' },
+  { de:'vermutlich',  ar:'من المرجح',            pron:'فير·موت·ليش', cat:'A1.1' },
+  { de:'Juni',        ar:'يونيو',                pron:'يوني',        cat:'A1.1' },
+  { de:'vielleicht',  ar:'ربما',                 pron:'فيلايشت',     cat:'A1.1' },
+  { de:'wahrscheinlich',ar:'من المحتمل',         pron:'فار·شاين·ليش',cat:'A1.1' },
+  { de:'können',      ar:'يستطيع',               pron:'كونِن',       cat:'A1.1' },
+  { de:'tatsächlich', ar:'في الواقع / فعلاً',    pron:'تات·زيش·ليش', cat:'A1.1' },
+  { de:'Aktion',      ar:'عمل / حملة',           pron:'أكت·سيون',    cat:'A1.1' },
+  { de:'Zucker',      ar:'سكر',                  pron:'تسوكِر',      cat:'A1.1' },
+  { de:'zählen',      ar:'يَعدّ / يحسب',          pron:'تسي·لِن',      cat:'A1.1' },
+  { de:'Deutsch',     ar:'ألماني / اللغة الألمانية',pron:'دويتش',     cat:'A1.1' },
+  { de:'Deutschland', ar:'ألمانيا',              pron:'دويتشلانت',   cat:'A1.1' },
+  { de:'Spaß',        ar:'متعة / مرح',           pron:'شباس',        cat:'A1.1' },
+  { de:'Symptom',     ar:'عَرَض',                 pron:'زيمتوم',      cat:'A1.1' },
+
+  // ===== كلمات إضافية A1.1 (جديدة) =====
+  { de:'Freiheit',           ar:'الحرية',                pron:'فراي·هايت',          cat:'A1.1' },
+  { de:'Freude',             ar:'الفرح / السرور',        pron:'فروي·دِه',           cat:'A1.1' },
+  { de:'Buchhalter',         ar:'محاسب',                pron:'بوخ·هال·تِر',        cat:'A1.1' },
+  { de:'beweisen',           ar:'يُثبت',                 pron:'بِ·فاي·زِن',         cat:'A1.1' },
+  { de:'beherrschen',        ar:'يُتقن / يسيطر',         pron:'بِ·هير·شِن',         cat:'A1.1' },
+  { de:'Training',           ar:'تدريب',                pron:'تراي·نينغ',          cat:'A1.1' },
+  { de:'trainieren',         ar:'يتدرّب',               pron:'تراي·ني·رِن',        cat:'A1.1' },
+  { de:'Diskussion',         ar:'مناقشة',               pron:'ديس·كو·سيون',        cat:'A1.1' },
+  { de:'Chaos',              ar:'فوضى',                 pron:'كا·وس',              cat:'A1.1' },
+  { de:'Chance',             ar:'فرصة',                 pron:'شان·س',              cat:'A1.1' },
+  { de:'Erfahrung',          ar:'خبرة',                 pron:'إر·فا·رونغ',         cat:'A1.1' },
+  { de:'erzählen',           ar:'يحكي / يروي',          pron:'إر·تسي·لِن',         cat:'A1.1' },
+  { de:'erkennen',           ar:'يتعرّف / يدرك',        pron:'إر·كِن·نِن',         cat:'A1.1' },
+  { de:'Arbeiter',           ar:'عامل',                 pron:'أر·باي·تِر',         cat:'A1.1' },
+  { de:'Familie',            ar:'عائلة',                pron:'فا·مي·لي·يِه',       cat:'A1.1' },
+  { de:'Engagement',         ar:'التزام / مشاركة',     pron:'أنغا·جِ·مون',        cat:'A1.1' },
+  { de:'Laptop',             ar:'لابتوب',               pron:'لاب·توپ',            cat:'A1.1' },
+  { de:'WLAN',               ar:'واي فاي',              pron:'في·لان',             cat:'A1.1' },
+  { de:'Einladung',          ar:'دعوة',                 pron:'آين·لا·دونغ',        cat:'A1.1' },
+  { de:'wissen',             ar:'يعرف / يعلم',          pron:'فيس·سِن',            cat:'A1.1' },
+  { de:'maximal',            ar:'أقصى',                 pron:'ماك·سي·مال',         cat:'A1.1' },
+  { de:'Vorliebe',           ar:'تفضيل / ميل',         pron:'فور·لي·بِه',         cat:'A1.1' },
+  { de:'fühlen',             ar:'يشعر',                 pron:'فوه·لِن',            cat:'A1.1' },
+  { de:'Psychologie',        ar:'علم النفس',            pron:'پسي·كو·لو·غي',       cat:'A1.1' },
+  { de:'Ermäßigung',         ar:'خصم / تخفيض',          pron:'إر·مي·سي·غونغ',      cat:'A1.1' },
+  { de:'Tanzkurs',           ar:'دورة رقص',             pron:'تانتس·كورس',         cat:'A1.1' },
+  { de:'vorher',             ar:'قبل / من قبل',         pron:'فور·هير',            cat:'A1.1' },
+  { de:'Sorge',              ar:'قلق / همّ',             pron:'زور·غِه',            cat:'A1.1' },
+  { de:'malen',              ar:'يرسم (بألوان)',        pron:'ما·لِن',             cat:'A1.1' },
+  { de:'zeichnen',           ar:'يرسم (بقلم)',          pron:'تساي·شنِن',          cat:'A1.1' },
+  { de:'Zauber',             ar:'سحر',                  pron:'تساو·بِر',           cat:'A1.1' },
+  { de:'Klavier',            ar:'بيانو',                pron:'كلا·فير',            cat:'A1.1' },
+  { de:'Schach',             ar:'شطرنج',                pron:'شاخ',                cat:'A1.1' },
+  { de:'Briefmarken',        ar:'طوابع بريدية',         pron:'بريف·مار·كِن',       cat:'A1.1' },
+  { de:'sammeln',            ar:'يجمع',                 pron:'زام·مِلن',           cat:'A1.1' },
+  { de:'Mein Name ist',      ar:'اسمي هو',              pron:'ماين نا·مِه إست',    cat:'تعابير' },
+  { de:'ich heiße',          ar:'أُدعى / اسمي',         pron:'إخ هاي·سِه',         cat:'تعابير' },
+  { de:'ich bin',            ar:'أنا',                  pron:'إخ بين',             cat:'تعابير' },
+
+  // كلمات طويلة (مركبة)
+  { de:'Entsorgungsbetriebe',ar:'شركات التخلص من النفايات',pron:'إنت·زور·غونغس·بِ·تري·بِه',cat:'مركّبة' },
+  { de:'Bauchspeicheldrüse', ar:'البنكرياس',            pron:'باوخ·شباي·شِل·دروه·زِه',  cat:'مركّبة' },
+  { de:'Nationalsozialismus',ar:'النازية',             pron:'نا·تسيو·نال·زو·تسيا·ليس·موس',cat:'مركّبة' },
 ];
 
+// ===== SIMPLE VOCAB (curated A1.1 list) — for vocab tab =====
+let vocabCategoryFilter = 'all'; // 'all' | 'الأصوات' | 'متشابهة' | 'A1.1' | 'memorized' | 'unmemorized'
+
+function setVocabFilter(cat, btn) {
+  vocabCategoryFilter = cat;
+  document.querySelectorAll('#vocab-cat-filters .vocab-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVocab();
+}
+
 function renderVocab() {
-  const g = document.getElementById('vocab-grid');
-  if (!g || g.children.length > 0) return;
-  vocabList.forEach(item => {
+  const g = document.getElementById('vocab-grid-simple');
+  if (!g) return;
+  g.innerHTML = '';
+
+  const memorized = getMemorizedWords();
+  const memCount = vocabList.filter(w => memorized.includes(w.de)).length;
+
+  // Update progress display
+  const progressEl = document.getElementById('vocab-progress');
+  if (progressEl) {
+    const pct = Math.round((memCount / vocabList.length) * 100);
+    progressEl.innerHTML = `<strong style="color:var(--accent2)">${memCount}</strong> / ${vocabList.length} كلمة محفوظة (${pct}%)`;
+  }
+  const fillEl = document.getElementById('vocab-progress-fill');
+  if (fillEl) fillEl.style.width = ((memCount / vocabList.length) * 100) + '%';
+
+  // Filter
+  const filtered = vocabList.filter(item => {
+    if (vocabCategoryFilter === 'all') return true;
+    if (vocabCategoryFilter === 'memorized') return memorized.includes(item.de);
+    if (vocabCategoryFilter === 'unmemorized') return !memorized.includes(item.de);
+    return item.cat === vocabCategoryFilter;
+  });
+
+  if (filtered.length === 0) {
+    g.innerHTML = '<div class="vocab-empty">لا توجد كلمات في هذا الفلتر</div>';
+    return;
+  }
+
+  filtered.forEach(item => {
+    const isMemorized = memorized.includes(item.de);
     const card = document.createElement('div');
-    card.className = 'vocab-card';
+    card.className = 'vocab-card' + (isMemorized ? ' memorized' : '');
     card.innerHTML = `
       <div style="flex:1;min-width:0;">
         <div class="vocab-de">${item.de}</div>
         <div class="vocab-ar">${item.ar}</div>
         <div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ${item.pron}</div>
+        ${item.cat ? `<span class="vocab-cat-badge">${item.cat}</span>` : ''}
       </div>
-      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-        <div class="color-dot" style="background:${item.color}"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;">
+        <button class="memorize-btn ${isMemorized?'on':''}" 
+          onclick="event.stopPropagation();handleToggleMemorized('${item.de.replace(/'/g, "\\'")}')"
+          title="${isMemorized?'محفوظة — اضغط لإلغاء':'اضغط للحفظ'}">
+          ${isMemorized ? '✅' : '📌'}
+        </button>
         <span class="vocab-sound-icon">🔊</span>
       </div>
     `;
@@ -2691,6 +3499,170 @@ function renderVocab() {
     };
     g.appendChild(card);
   });
+}
+
+// Universal toggle that re-renders all relevant UI
+function handleToggleMemorized(word) {
+  toggleWordMemorized(word);
+  renderVocab();
+  if (typeof renderDictionary === 'function') renderDictionary();
+  if (typeof renderSaved === 'function') renderSaved();
+}
+
+// ===== FULL DICTIONARY (600 words) — for dictionary tab =====
+let dictFilteredList = [];
+let dictDisplayLimit = 60;
+let dictCurrentTypeFilter = 'all';
+let dictCurrentSearch = '';
+
+function buildDictArray() {
+  const result = [];
+  // Main dict
+  if (typeof dict !== 'undefined') {
+    Object.entries(dict).forEach(([de, info]) => {
+      result.push({
+        de: de,
+        ar: info.t || '',
+        pron: info.p || '',
+        ty: info.ty || '',
+        note: info.n || '',
+        userAdded: false,
+      });
+    });
+  }
+  // User-added dict
+  const userDict = getUserDict();
+  Object.entries(userDict).forEach(([de, info]) => {
+    // Avoid duplicates with main dict
+    if (typeof dict !== 'undefined' && dict[de]) return;
+    result.push({
+      de: de,
+      ar: info.t || '',
+      pron: info.p || '',
+      ty: info.ty || '',
+      note: info.n || '',
+      userAdded: true,
+    });
+  });
+  return result;
+}
+
+function getTypeColor(ty) {
+  const colors = {
+    'اسم':'#F5C842', 'فعل':'#2ECC71', 'صفة':'#4ECDC4', 'ظرف':'#a78bfa',
+    'عدد':'#FF6B6B', 'ضمير':'#ff9f43', 'حرف جر':'#5dade2',
+    'استفهام':'#ec7063', 'تعبير':'#bb8fce', 'رابط':'#85c1e9',
+  };
+  return colors[ty] || '#9895B5';
+}
+
+function applyDictFilters() {
+  const all = buildDictArray();
+  dictFilteredList = all.filter(item => {
+    if (dictCurrentTypeFilter !== 'all' && item.ty !== dictCurrentTypeFilter) return false;
+    if (dictCurrentSearch) {
+      const s = dictCurrentSearch.toLowerCase();
+      if (!item.de.toLowerCase().includes(s) && !item.ar.includes(s)) return false;
+    }
+    return true;
+  });
+  dictFilteredList.sort((a, b) => a.de.localeCompare(b.de, 'de'));
+}
+
+function filterDictionary() {
+  dictCurrentSearch = document.getElementById('dict-search').value.trim();
+  dictDisplayLimit = 60;
+  renderDictionary();
+}
+
+function filterDictByType(type, btn) {
+  dictCurrentTypeFilter = type;
+  // Only update buttons inside dict-filters container
+  document.querySelectorAll('#dict-filters .vocab-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  dictDisplayLimit = 60;
+  renderDictionary();
+}
+
+function loadMoreDict() {
+  dictDisplayLimit += 60;
+  renderDictionary();
+}
+
+function renderDictionary() {
+  const g = document.getElementById('dict-grid');
+  if (!g) return;
+
+  applyDictFilters();
+
+  const total = dictFilteredList.length;
+  const visible = Math.min(dictDisplayLimit, total);
+
+  const countEl = document.getElementById('dict-count');
+  if (countEl) {
+    if (dictCurrentSearch || dictCurrentTypeFilter !== 'all') {
+      countEl.textContent = `(${visible} / ${total} كلمة)`;
+    } else {
+      countEl.textContent = `(${total} كلمة بالمجموع)`;
+    }
+  }
+
+  if (total === 0) {
+    g.innerHTML = '<div class="vocab-empty">🔍 لا توجد نتائج — جرب كلمة ثانية</div>';
+    const lm = document.getElementById('dict-load-more');
+    if (lm) lm.style.display = 'none';
+    return;
+  }
+
+  g.innerHTML = '';
+  const memorized = getMemorizedWords();
+  for (let i = 0; i < visible; i++) {
+    const item = dictFilteredList[i];
+    const isMemorized = memorized.includes(item.de);
+    const card = document.createElement('div');
+    card.className = 'vocab-card' + (isMemorized ? ' memorized' : '') + (item.userAdded ? ' user-added' : '');
+    const tyClass = ['اسم','فعل','صفة','ظرف','عدد','ضمير'].includes(item.ty)
+      ? `vocab-type-${item.ty}` : 'vocab-type-default';
+    card.innerHTML = `
+      <div style="flex:1;min-width:0;">
+        <div class="vocab-de">
+          ${item.de}
+          ${item.userAdded ? '<span style="font-size:0.6rem;font-weight:700;background:rgba(78,205,196,0.18);color:var(--accent2);padding:1px 6px;border-radius:99px;margin-right:4px;vertical-align:middle;">⭐ مُضاف</span>' : ''}
+        </div>
+        <div class="vocab-ar">${item.ar}</div>
+        ${item.pron ? `<div style="font-size:0.7rem;color:var(--accent2);margin-top:2px;">🗣️ ${item.pron}</div>` : ''}
+        ${item.ty ? `<span class="vocab-type-badge ${tyClass}">${item.ty}</span>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;">
+        <button class="memorize-btn ${isMemorized?'on':''}" 
+          onclick="event.stopPropagation();handleToggleMemorized('${item.de.replace(/'/g, "\\'")}')"
+          title="${isMemorized?'محفوظة':'اضغط للحفظ'}">
+          ${isMemorized ? '✅' : '📌'}
+        </button>
+        ${item.userAdded ? `<button class="memorize-btn" style="border-color:var(--accent3);font-size:0.7rem;" 
+          onclick="event.stopPropagation();removeFromDictionary('${item.de.replace(/'/g, "\\'")}')"
+          title="حذف من الكلمات المضافة">🗑️</button>` : ''}
+        <span class="vocab-sound-icon">🔊</span>
+      </div>
+    `;
+    card.onclick = () => {
+      document.querySelectorAll('.vocab-card').forEach(c => c.classList.remove('playing'));
+      card.classList.add('playing');
+      speak(item.de);
+      setTimeout(() => card.classList.remove('playing'), 1500);
+    };
+    g.appendChild(card);
+  }
+
+  const btn = document.getElementById('dict-load-more');
+  if (btn) {
+    if (visible < total) {
+      btn.style.display = 'inline-block';
+      btn.textContent = `عرض المزيد ↓ (${total - visible} متبقية)`;
+    } else {
+      btn.style.display = 'none';
+    }
+  }
 }
 
 // ======= OFFLINE DICTIONARY =======
@@ -3373,7 +4345,74 @@ const dict = {
   'Syrien': {t:'سوريا', p:'زو·ري·ين', ty:'اسم', n:'3 مقاطع: Sy·ri·en — S = ز'},
   'Ferien': {t:'عطلة (مدرسية)', p:'فِ·ري·ين', ty:'اسم', n:'3 مقاطع: Fe·ri·en'},
   'Sechs': {t:'ستة', p:'زيكس', ty:'عدد', n:'chs = كس مثل حرف x — s = ز في البداية'},
-};;
+
+  // ===== كلمات إضافية من حصص A1.1 =====
+  'Quadrat':       {t:'مربع',                 p:'كفادرات',       ty:'اسم',   n:'qu = كف — d في النهاية = ت'},
+  'Bücherei':      {t:'مكتبة (للإعارة)',      p:'بوشِراي',       ty:'اسم',   n:'ü = خ ناعم في الـ ch — ei = أي'},
+  'Leicht':        {t:'سهل / خفيف',           p:'لايشت',         ty:'صفة',   n:'ei = أي + ch ناعم بعد ei'},
+  'Pferde':        {t:'خيول (جمع Pferd)',     p:'پفيردِه',       ty:'اسم',   n:'pf = پف + r حلقية + e نهاية مخففة'},
+  'Heute':         {t:'اليوم',                p:'هويتِه',         ty:'ظرف',   n:'eu = أوي — كلمة شائعة جداً'},
+  'Heimweh':       {t:'حنين للوطن',           p:'هايم·فيه',       ty:'اسم',   n:'Heim (بيت) + Weh (ألم) — مقطعان'},
+  'Qualität':      {t:'جودة / نوعية',         p:'كفاليتيت',       ty:'اسم',   n:'qu = كف — ä = إيه طويلة'},
+  'heimlich':      {t:'سرّاً / خفية',         p:'هايم·ليش',       ty:'صفة',   n:'ei = أي — -lich = ليش (خ ناعم)'},
+  'erzeugen':      {t:'يُنتج / يولّد',         p:'إر·تسوي·غِن',    ty:'فعل',   n:'er- بادئة + z = تس + eu = أوي'},
+  'ausgeprägt':    {t:'بارز / واضح / مميز',   p:'أوس·غِ·پريكت',   ty:'صفة',   n:'au = أو + ä + g→k نهاية + tصامت'},
+  'Jubiläum':      {t:'ذكرى / احتفال',        p:'يو·بي·ليوم',     ty:'اسم',   n:'J = ي + 4 مقاطع: Ju·bi·lä·um'},
+  'Thema':         {t:'موضوع',                p:'تيما',           ty:'اسم',   n:'th = ت — h صامتة'},
+  'zum':           {t:'إلى الـ (مذكر/محايد)', p:'تسوم',           ty:'حرف جر',n:'اختصار zu + dem — z = تس'},
+  'sehr':          {t:'جداً',                 p:'زير',            ty:'ظرف',   n:'s = ز + h صامتة + r حلقية'},
+  'Quatsch':       {t:'هراء / كلام فارغ',     p:'كفاتش',          ty:'اسم',   n:'qu = كف + tsch = تش'},
+  'Mannschaft':    {t:'فريق',                 p:'مان·شافت',       ty:'اسم',   n:'sch = ش — مقطعان'},
+  'vermutlich':    {t:'من المرجح / يُحتمل',   p:'فير·موت·ليش',    ty:'ظرف',   n:'v = ف + -lich = ليش'},
+  'wahrscheinlich':{t:'من المحتمل / غالباً',   p:'فار·شاين·ليش',   ty:'ظرف',   n:'sch = ش + ei = أي + -lich'},
+  'tatsächlich':   {t:'في الواقع / فعلاً',    p:'تات·زيش·ليش',    ty:'ظرف',   n:'tats = تاتس + ä + ch ناعم'},
+  'Aktion':        {t:'عمل / حملة / إجراء',   p:'أكت·سيون',       ty:'اسم',   n:'-tion = تسيون دائماً'},
+  'zählen':        {t:'يَعدّ / يحسب',          p:'تسي·لِن',         ty:'فعل',   n:'z = تس + ä = إيه طويلة'},
+
+  // ===== كلمات إضافية A1.1 - أبريل 2025 =====
+  'Entsorgungsbetriebe':{t:'شركات التخلص من النفايات', p:'إنت·زور·غونغس·بِ·تري·بِه',  ty:'اسم', n:'6 مقاطع — مركّبة من Entsorgung + Betriebe'},
+  'Bauchspeicheldrüse':{t:'البنكرياس',            p:'باوخ·شباي·شِل·دروه·زِه',     ty:'اسم', n:'5 مقاطع — Bauch+Speichel+Drüse'},
+  'Nationalsozialismus':{t:'النازية / الاشتراكية القومية', p:'نا·تسيو·نال·زو·تسيا·ليس·موس', ty:'اسم', n:'7 مقاطع — tion = تسيون'},
+  'Freiheit':      {t:'الحرية',               p:'فراي·هايت',       ty:'اسم',   n:'2 مقاطع: Frei·heit — heit = هايت'},
+  'Freude':        {t:'الفرح / السرور',       p:'فروي·دِه',        ty:'اسم',   n:'2 مقاطع: Freu·de — eu = أوي'},
+  'Buchhalter':    {t:'محاسب',                p:'بوخ·هال·تِر',     ty:'اسم',   n:'3 مقاطع: Buch·hal·ter — مركّبة'},
+  'beweisen':      {t:'يُثبت',                 p:'بِ·فاي·زِن',      ty:'فعل',   n:'3 مقاطع: be·wei·sen — be بادئة'},
+  'beherrschen':   {t:'يُتقن / يسيطر على',    p:'بِ·هير·شِن',      ty:'فعل',   n:'3 مقاطع: be·herr·schen — rr مشددة'},
+  'Training':      {t:'تدريب',                p:'تراي·نينغ',       ty:'اسم',   n:'2 مقاطع: Trai·ning — كلمة دخيلة'},
+  'trainieren':    {t:'يتدرّب',               p:'تراي·ني·رِن',     ty:'فعل',   n:'3 مقاطع: trai·nie·ren'},
+  'Diskussion':    {t:'مناقشة',               p:'ديس·كو·سيون',     ty:'اسم',   n:'3 مقاطع — sion = زيون'},
+  'Chaos':         {t:'فوضى',                 p:'كاوس',            ty:'اسم',   n:'2 مقاطع: Cha·os — Ch = ك (يوناني)'},
+  'Chance':        {t:'فرصة',                 p:'شانس',            ty:'اسم',   n:'2 مقاطع: Chan·ce — Ch = ش (فرنسي)'},
+  'Erfahrung':     {t:'خبرة',                 p:'إر·فا·رونغ',      ty:'اسم',   n:'3 مقاطع: Er·fah·rung — er- بادئة'},
+  'erzählen':      {t:'يحكي / يروي',          p:'إر·تسي·لِن',      ty:'فعل',   n:'3 مقاطع: er·zäh·len — z = تس'},
+  'erkennen':      {t:'يتعرّف / يدرك',        p:'إر·كِن·نِن',      ty:'فعل',   n:'3 مقاطع: er·ken·nen — nn مشددة'},
+  'Arbeiter':      {t:'عامل',                 p:'أر·باي·تِر',      ty:'اسم',   n:'3 مقاطع: Ar·bei·ter — ei = أي'},
+  'Familie':       {t:'عائلة',                p:'فا·مي·لي·يِه',    ty:'اسم',   n:'4 مقاطع: Fa·mi·li·e'},
+  'Engagement':    {t:'التزام / مشاركة',     p:'أنغا·جِ·مون',      ty:'اسم',   n:'4 مقاطع — كلمة فرنسية'},
+  'Laptop':        {t:'لابتوب / حاسوب محمول', p:'لاب·توپ',          ty:'اسم',   n:'2 مقاطع — كلمة دخيلة'},
+  'WLAN':          {t:'واي فاي / شبكة لاسلكية',p:'في·لان',          ty:'اسم',   n:'اختصار: Wireless LAN'},
+  'Einladung':     {t:'دعوة',                 p:'آين·لا·دونغ',     ty:'اسم',   n:'3 مقاطع: Ein·la·dung — ein = آين'},
+  'wissen':        {t:'يعرف / يعلم',          p:'فيس·سِن',          ty:'فعل',   n:'2 مقاطع: wis·sen — ss مشددة = س قصيرة'},
+  'maximal':       {t:'أقصى / حدّ أعلى',      p:'ماك·سي·مال',      ty:'صفة',   n:'3 مقاطع: ma·xi·mal — x = كس'},
+  'Vorliebe':      {t:'تفضيل / ميل',         p:'فور·لي·بِه',       ty:'اسم',   n:'3 مقاطع: Vor·lie·be — V = ف'},
+  'fühlen':        {t:'يشعر / يحسّ',          p:'فوه·لِن',         ty:'فعل',   n:'2 مقاطع: füh·len — h صامتة'},
+  'Psychologie':   {t:'علم النفس',            p:'پسي·كو·لو·غي',    ty:'اسم',   n:'4 مقاطع — Ps في البداية تُلفظ معاً'},
+  'Ermäßigung':    {t:'خصم / تخفيض',          p:'إر·مي·سي·غونغ',   ty:'اسم',   n:'4 مقاطع: Er·mä·ßi·gung — ß = س'},
+  'Tanzkurs':      {t:'دورة رقص',             p:'تانتس·كورس',      ty:'اسم',   n:'2 مقاطع: Tanz·kurs — z = تس'},
+  'vorher':        {t:'قبل / من قبل',         p:'فور·هير',         ty:'ظرف',   n:'2 مقاطع: vor·her'},
+  'Sorge':         {t:'قلق / همّ',             p:'زور·غِه',         ty:'اسم',   n:'2 مقاطع: Sor·ge — Keine Sorge = لا تقلق'},
+  'Hänschen':      {t:'هانسشن (اسم تصغير)',   p:'هينس·شِن',        ty:'اسم',   n:'2 مقاطع — تصغير لـ Hans'},
+  'malen':         {t:'يرسم (بالألوان)',     p:'ما·لِن',           ty:'فعل',   n:'2 مقاطع: ma·len'},
+  'zeichnen':      {t:'يرسم (بالقلم)',       p:'تساي·شنِن',        ty:'فعل',   n:'2 مقاطع: zeich·nen — z = تس'},
+  'Zauber':        {t:'سحر',                 p:'تساو·بِر',         ty:'اسم',   n:'2 مقاطع: Zau·ber — au = أو'},
+  'Klavier':       {t:'بيانو',               p:'كلا·فير',          ty:'اسم',   n:'2 مقاطع: Kla·vier — V = ف'},
+  'Schach':        {t:'شطرنج',               p:'شاخ',              ty:'اسم',   n:'1 مقطع — Sch = ش + ach = اخ'},
+  'Briefmarken':   {t:'طوابع بريدية',        p:'بريف·مار·كِن',    ty:'اسم',   n:'3 مقاطع: Brief·mar·ken'},
+  'sammeln':       {t:'يجمع',                p:'زام·مِلن',         ty:'فعل',   n:'2 مقاطع: sam·meln — mm مشددة'},
+  'Mein Name ist': {t:'اسمي هو',             p:'ماين نا·مِه إست', ty:'تعبير', n:'تعريف بالنفس + اسم'},
+  'ich heiße':     {t:'أُدعى / اسمي',        p:'إخ هاي·سِه',      ty:'تعبير', n:'ß = س — تعريف بالنفس'},
+  'ich bin':       {t:'أنا (في حالة)',       p:'إخ بين',          ty:'تعبير', n:'استخدام: ich bin Mohammad'},
+};
 
 
 // ======= GERMAN PHONETIC CONVERTER =======
@@ -3517,6 +4556,12 @@ async function doTranslate() {
 }
 
 function buildResultHTML(word, translation, pron, type, note, source) {
+  // Check if word already exists in user-added dictionary or main dict
+  const userDict = getUserDict();
+  const existsInMain = (typeof dict !== 'undefined' && dict[word]) ? true : false;
+  const existsInUser = userDict[word] ? true : false;
+  const exists = existsInMain || existsInUser;
+
   return `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
       <div class="result-word">${word}</div>
@@ -3530,9 +4575,63 @@ function buildResultHTML(word, translation, pron, type, note, source) {
     ${note ? `<div class="result-note">💡 ${note}</div>` : ''}
     <div class="result-actions">
       <button class="play-btn" onclick="speak('${word.replace(/'/g,"\\'")}')">🔊 استمع</button>
+      ${exists 
+        ? `<button class="play-btn2" style="border-color:var(--green);color:var(--green);" disabled>✓ موجود في القاموس</button>`
+        : `<button class="play-btn" id="add-to-dict-btn" 
+            style="background:var(--accent2);color:#000;"
+            onclick="addToDictionary('${word.replace(/'/g,"\\'")}', '${translation.replace(/'/g,"\\'")}', '${pron.replace(/'/g,"\\'")}', '${(type||'').replace(/'/g,"\\'")}', '${(note||'').replace(/'/g,"\\'")}')">
+            ➕ أضف للقاموس
+          </button>`
+      }
       <button class="play-btn2" onclick="clearTranslator()">✕ مسح</button>
     </div>
   `;
+}
+
+// User-added dictionary (separate from main dict)
+const STORAGE_KEY_USER_DICT = 'de_user_dict_v1';
+function getUserDict() { return safeGet(STORAGE_KEY_USER_DICT, {}); }
+function setUserDict(d) { safeSet(STORAGE_KEY_USER_DICT, d); }
+
+function addToDictionary(word, translation, pron, type, note) {
+  if (!word || !translation) return;
+  const userDict = getUserDict();
+  userDict[word] = {
+    t: translation,
+    p: pron || '',
+    ty: type || '',
+    n: note || '',
+    addedAt: new Date().toISOString(),
+  };
+  setUserDict(userDict);
+
+  // Show success feedback
+  const btn = document.getElementById('add-to-dict-btn');
+  if (btn) {
+    btn.innerHTML = '✓ تمت الإضافة!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '✓ موجود في القاموس';
+      btn.style.background = '';
+      btn.style.borderColor = 'var(--green)';
+      btn.style.color = 'var(--green)';
+      btn.classList.remove('play-btn');
+      btn.classList.add('play-btn2');
+    }, 1500);
+  }
+
+  // Refresh dictionary view if it's showing
+  if (typeof renderDictionary === 'function') renderDictionary();
+}
+
+function removeFromDictionary(word) {
+  if (!confirm(`هل تريد حذف "${word}" من الكلمات المضافة؟`)) return;
+  const userDict = getUserDict();
+  delete userDict[word];
+  setUserDict(userDict);
+  if (typeof renderDictionary === 'function') renderDictionary();
 }
 
 function clearTranslator() {
@@ -3891,6 +4990,56 @@ const pronRules = [
       {de:'Katze', ar:'قطة', pron:'كاتسِه'},
       {de:'jetzt', ar:'الآن', pron:'يِتست'},
     ]},
+
+  // ===== قواعد إضافية من جدول د. بلال =====
+  { id:'j1', level:'A1', cat:'combo', trigger:'j', short:'= ي (مثل ياء عربية)', badge:'special', badgeText:'تركيب',
+    desc:'حرف J في الألمانية يُنطق دائماً مثل الياء العربية — وليس "ج"! هذا من أكبر الأخطاء عند المتعلمين.',
+    examples:[
+      {de:'Jahr', ar:'سنة', pron:'يار'},
+      {de:'ja', ar:'نعم', pron:'يا'},
+      {de:'Junge', ar:'ولد', pron:'يونغِه'},
+      {de:'Juni', ar:'يونيو', pron:'يوني'},
+      {de:'Juli', ar:'يوليو', pron:'يولي'},
+    ]},
+
+  { id:'z1', level:'A1', cat:'combo', trigger:'z', short:'= تس دائماً', badge:'special', badgeText:'تركيب',
+    desc:'حرف Z في الألمانية يُنطق دائماً "تس" — وليس "ز"! هذا غير حرف الـ s الذي قد يُنطق ز.',
+    examples:[
+      {de:'Zahn', ar:'سن', pron:'تسان'},
+      {de:'Zucker', ar:'سكر', pron:'تسوكِر'},
+      {de:'Zeit', ar:'وقت', pron:'تسايت'},
+      {de:'Zug', ar:'قطار', pron:'تسوك'},
+      {de:'zehn', ar:'عشرة', pron:'تسين'},
+    ]},
+
+  { id:'tion1', level:'A1', cat:'combo', trigger:'-tion', short:'= تسيون دائماً', badge:'special', badgeText:'لاحقة',
+    desc:'لاحقة -tion في كل الكلمات تُلفظ "تسيون" (مع تشديد على المقطع الأخير). كثيرة في الكلمات الأكاديمية.',
+    examples:[
+      {de:'Position', ar:'موقع', pron:'بوزي·تسيون'},
+      {de:'Aktion', ar:'عمل / حملة', pron:'أكت·سيون'},
+      {de:'Information', ar:'معلومة', pron:'إنفور·ما·تسيون'},
+      {de:'Nation', ar:'أمة', pron:'نا·تسيون'},
+      {de:'Station', ar:'محطة', pron:'شتا·تسيون'},
+    ]},
+
+  { id:'ae1', level:'A1', cat:'vowel', trigger:'ä', short:'= أيه (إيه طويلة)', badge:'special', badgeText:'صوتي',
+    desc:'الأوملاوت ä يُنطق "إيه" طويلة — أعرض من e العادية. يُكتب أحياناً ae إذا ما عندك لوحة مفاتيح ألمانية.',
+    examples:[
+      {de:'Käfer', ar:'خنفساء', pron:'كيفِر'},
+      {de:'Käse', ar:'جبنة', pron:'كيزِه'},
+      {de:'Mädchen', ar:'بنت', pron:'ميدشِن'},
+      {de:'spät', ar:'متأخر', pron:'شبيت'},
+      {de:'erzählen', ar:'يحكي', pron:'إر·تسي·لِن'},
+    ]},
+
+  { id:'sion1', level:'A2', cat:'combo', trigger:'-sion', short:'= زيون', badge:'special', badgeText:'لاحقة',
+    desc:'لاحقة -sion (عادة بعد s) تُلفظ "زيون" بصوت ز. لاحظ الفرق عن -tion التي هي "تسيون".',
+    examples:[
+      {de:'Diskussion', ar:'مناقشة', pron:'ديس·كو·سيون'},
+      {de:'Vision', ar:'رؤية', pron:'في·زيون'},
+      {de:'Explosion', ar:'انفجار', pron:'إكس·پلو·زيون'},
+      {de:'Mission', ar:'مهمة', pron:'مي·سيون'},
+    ]},
 ];
 
 let currentRuleFilter = 'all';
@@ -3906,8 +5055,11 @@ function renderRules(cat) {
   let filtered = cat === 'all' ? pronRules :
     (cat === 'A1' || cat === 'A2') ? pronRules.filter(r => r.level === cat) :
     pronRules.filter(r => r.cat === cat);
-  container.innerHTML = filtered.map(rule => `
-    <div class="rule-card" id="rule-${rule.id}" onclick="toggleRule('${rule.id}')">
+  const memorized = getMemorizedRules();
+  container.innerHTML = filtered.map(rule => {
+    const isMem = memorized.includes(rule.id);
+    return `
+    <div class="rule-card${isMem?' rule-memorized':''}" id="rule-${rule.id}" onclick="toggleRule('${rule.id}')">
       <div class="rule-header">
         <div class="rule-trigger">${rule.trigger}</div>
         <div class="rule-short">${rule.short}</div>
@@ -3915,6 +5067,12 @@ function renderRules(cat) {
           background:${rule.level==='A1'?'rgba(46,204,113,0.15)':'rgba(245,200,66,0.12)'};
           color:${rule.level==='A1'?'#2ECC71':'#F5C842'};">${rule.level}</span>
         <span class="rule-badge ${rule.badge}">${rule.badgeText}</span>
+        <button class="memorize-btn ${isMem?'on':''}" 
+          onclick="event.stopPropagation();handleToggleRuleMemorized('${rule.id}')"
+          title="${isMem?'محفوظة':'اضغط للحفظ'}"
+          style="margin-left:4px;width:28px;height:28px;font-size:0.78rem;">
+          ${isMem ? '✅' : '📌'}
+        </button>
         <span class="rule-arrow">▼</span>
       </div>
       <div class="rule-body">
@@ -3929,8 +5087,24 @@ function renderRules(cat) {
           `).join('')}
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+
+  // Update rules progress
+  const ruleProgEl = document.getElementById('rules-progress');
+  if (ruleProgEl) {
+    const total = pronRules.length;
+    const memCount = pronRules.filter(r => memorized.includes(r.id)).length;
+    const pct = Math.round((memCount/total)*100);
+    ruleProgEl.innerHTML = `<strong style="color:var(--accent2)">${memCount}</strong> / ${total} قاعدة محفوظة (${pct}%)`;
+    const fill = document.getElementById('rules-progress-fill');
+    if (fill) fill.style.width = pct + '%';
+  }
+}
+function handleToggleRuleMemorized(id) {
+  toggleRuleMemorized(id);
+  renderRules(currentRuleFilter || 'all');
+  if (typeof renderSaved === 'function') renderSaved();
 }
 function toggleRule(id) {
   const card = document.getElementById('rule-' + id);
